@@ -31,5 +31,7 @@ export function rewardText(r: Reward): string {
       return `Чертёж: ${SLOT_NAMES[r.slot!].toLowerCase()} ×${r.amount}`
     case 'item':
       return ITEMS[r.item!.itemId].name
+    case 'water':
+      return `Живая вода +${r.amount}`
   }
 }

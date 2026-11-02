@@ -1,5 +1,6 @@
 import type { Ai, BossAttack, EnemyDef } from './data/bestiary'
 import { think } from './enemyAi'
+import type { RollPerk } from './data/heroes'
 import type { StatusEffect, WeaponDef } from './data/weapons'
 import type { OwnBonus } from './loadout'
 import { SpatialGrid } from './SpatialGrid'
@@ -153,12 +154,14 @@ export interface Beam {
   hit: boolean
 }
 
+// Poison (hurts the hero) or the hero's burning ground (hurts enemies).
 export interface Puddle {
   x: number
   y: number
   r: number
   dps: number
   life: number
+  fire?: boolean
 }
 
 export function beamAngle(b: Beam): number {
@@ -183,6 +186,9 @@ export class World {
   puddles: Puddle[] = []
   weapons: WeaponSlot[] = []
   roster: Record<string, EnemyDef> = {} // enemies of the current location, keyed by archetype
+  heroPerk: RollPerk | null = null
+  private buff: { kind: RollPerk['kind']; value: number; t: number } | null = null // after-roll bonus
+  private trailT = 0
   chest: Chest | null = null
   chestOpened = false // set when the ring fills; the game shows the reward and clears it
   stats: Stats = { ...BASE_STATS }
@@ -278,6 +284,8 @@ export class World {
     const len = Math.hypot(mx, my)
     if (p.rollT > 0) {
       p.rollT -= dt
+      this.duringRoll(dt)
+      if (p.rollT <= 0) this.afterRoll()
       const s = this.stats.moveSpeed * p.rollSpeed
       vx = p.rollDx * s
       vy = p.rollDy * s
@@ -290,7 +298,7 @@ export class World {
         p.fx = mx / Math.min(1, len)
         p.fy = my / Math.min(1, len)
       }
-      const speed = Math.max(60, this.stats.moveSpeed)
+      const speed = Math.max(60, this.stats.moveSpeed) * (1 + this.buffValue('speedAfter'))
       vx = mx * speed
       vy = my * speed
     }
@@ -298,12 +306,65 @@ export class World {
     p.y = clamp(p.y + vy * dt, -HALF_H + p.r, HALF_H - p.r)
     p.iframes -= dt
     p.hurt -= dt
+    if (this.buff && (this.buff.t -= dt) <= 0) this.buff = null
     if (p.hp <= 0) return
     let regen = this.stats.regen
     // "Meditation": heals while standing, drains a little while moving (never kills).
     if (this.standHeal) regen += this.stats.maxHp * (len > 0.1 ? -0.005 : 0.02) * this.standHeal
     p.hp = Math.min(this.stats.maxHp, p.hp + regen * dt)
     if (p.hp < 1 && regen < 0) p.hp = 1
+  }
+
+  // ---------- bogatyr roll perks ----------
+
+  private buffValue(kind: RollPerk['kind']): number {
+    return this.buff?.kind === kind ? this.buff.value : 0
+  }
+
+  private duringRoll(dt: number): void {
+    const perk = this.heroPerk
+    const p = this.player
+    if (perk?.kind === 'magnet') {
+      const r2 = (this.stats.pickupRadius * perk.mul) ** 2
+      for (const pk of this.pickups) if ((pk.x - p.x) ** 2 + (pk.y - p.y) ** 2 < r2) pk.magnet = true
+    }
+    if (perk?.kind === 'fireTrail' && (this.trailT -= dt) <= 0) {
+      this.trailT = 0.05
+      this.puddles.push({ x: p.x, y: p.y, r: 26, dps: perk.dps, life: 2.5, fire: true })
+    }
+  }
+
+  private afterRoll(): void {
+    const perk = this.heroPerk
+    const p = this.player
+    if (!perk) return
+    switch (perk.kind) {
+      case 'dodgeAfter':
+      case 'speedAfter':
+      case 'attackSpeedAfter':
+        this.buff = { kind: perk.kind, value: perk.value, t: perk.time }
+        break
+      case 'bomb': {
+        const x = p.x + p.fx * 130
+        const y = p.y + p.fy * 130
+        for (const e of this.enemies) {
+          if (e.hp > 0 && Math.hypot(e.x - x, e.y - y) - e.r < perk.radius) {
+            this.hitEnemy(e, perk.damage * (1 + this.stats.damagePct), 0, 0, null, 'burn')
+          }
+        }
+        this.swings.push({ x, y, angle: 0, range: perk.radius, t: 0, full: true })
+        break
+      }
+      case 'shockwave':
+        this.shockwave(perk.damage, perk.radius)
+        break
+      case 'medkit':
+        this.drop(p.x - p.fx * 30, p.y - p.fy * 30, 0, true)
+        break
+      case 'magnet':
+      case 'fireTrail':
+        break
+    }
   }
 
   private updateMarkers(dt: number): void {
@@ -397,6 +458,13 @@ export class World {
     const armor = 15 / (15 + Math.max(0, this.stats.armor))
     for (const pd of this.puddles) {
       pd.life -= dt
+      if (pd.fire) {
+        this.grid.forEachNear(pd.x, pd.y, pd.r + 30, (i) => {
+          const e = this.enemies[i]
+          if (e.hp > 0 && Math.hypot(e.x - pd.x, e.y - pd.y) < pd.r + e.r) this.hitEnemy(e, pd.dps * (1 + this.stats.damagePct) * dt, 0, 0, null, null, true)
+        })
+        continue
+      }
       if (p.hp > 0 && Math.hypot(p.x - pd.x, p.y - pd.y) < pd.r) {
         p.hp -= pd.dps * armor * dt
         p.hurt = 0.1
@@ -484,7 +552,7 @@ export class World {
   private hurtPlayer(dmg: number): void {
     const p = this.player
     if (p.iframes > 0 || p.rollT > 0 || p.hp <= 0) return
-    if (Math.random() < Math.min(0.6, this.stats.dodge)) {
+    if (Math.random() < Math.min(0.6, this.stats.dodge + this.buffValue('dodgeAfter'))) {
       p.iframes = 0.25
       return
     }
@@ -497,7 +565,7 @@ export class World {
   private attackSpeed(w: WeaponSlot): number {
     const p = this.player
     const rage = this.sets.has('hunter') && p.hp < this.stats.maxHp * 0.4 ? 0.2 : 0
-    return Math.max(0.2, 1 + this.stats.attackSpeed + this.attackBonus + rage + (w.own?.attackSpeed ?? 0))
+    return Math.max(0.2, 1 + this.stats.attackSpeed + this.attackBonus + rage + (w.own?.attackSpeed ?? 0) + this.buffValue('attackSpeedAfter'))
   }
 
   private updateWeapons(dt: number): void {

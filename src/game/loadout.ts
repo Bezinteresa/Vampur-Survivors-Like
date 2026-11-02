@@ -1,3 +1,4 @@
+import type { RollPerk } from './data/heroes'
 import type { Stats } from './stats'
 
 // What the lobby hands to a run, and what a run hands back. The game never reads the save directly.
@@ -22,6 +23,7 @@ export interface RunLoadout {
   own: Record<string, OwnBonus> // "собственные" bonuses by run weapon id
   abilities: AbilitySetup[]
   sets: string[] // active set bonuses
+  heroPerk: RollPerk | null // the chosen bogatyr's roll perk
 }
 
 export interface RunResult {
@@ -42,4 +44,5 @@ export const PLAIN_LOADOUT: RunLoadout = {
     { id: 'rapidFire', cooldownMul: 1, durationMul: 1 },
   ],
   sets: [],
+  heroPerk: null,
 }

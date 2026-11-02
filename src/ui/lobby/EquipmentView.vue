@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { heroDef } from '../../game/data/heroes'
 import { ITEMS, SETS, SLOT_NAMES, type GearSlot, type Slot } from '../../meta/content'
 import type { Meta, OwnedItem } from '../../meta/Meta'
 import Icon from '../Icon.vue'
@@ -49,7 +50,7 @@ function slotItem(slot: GearSlot) {
       </div>
       <div class="hero-figure">
         <div class="hero-body"></div>
-        <div class="hero-name">Богатырь</div>
+        <div class="hero-name">{{ heroDef(p.hero).name }}</div>
         <div class="hero-stats">
           <span>Урон +{{ Math.round(summary.damagePct * 100) }}%</span>
           <span><Icon name="heart" :size="14" /> {{ Math.round(summary.maxHp) }}</span>

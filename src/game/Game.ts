@@ -147,6 +147,7 @@ export class Game {
     this.world.reset(this.stats)
     this.world.sets = new Set(loadout.sets)
     this.world.bossMul = loadout.enemyMul
+    this.world.heroPerk = loadout.heroPerk
     this.world.roster = locationRoster(loadout.level)
     this.ui.location = LOCATIONS[loadout.level]?.name ?? ''
     this.renderer.setGround(LOCATIONS[loadout.level]?.ground ?? '#56644d')

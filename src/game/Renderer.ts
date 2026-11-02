@@ -13,7 +13,7 @@ const MAX_SWINGS = 12
 const MAX_MECH = 64
 const MAX_HOSTILES = 600
 const MAX_BEAMS = 40
-const MAX_PUDDLES = 60
+const MAX_PUDDLES = 200
 const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
 
@@ -63,7 +63,7 @@ export class Renderer {
 
     this.ground = this.makeGround()
     this.scene.add(this.ground)
-    this.puddles = this.instanced(new THREE.CircleGeometry(1, 28), MAX_PUDDLES, 0x7ac943, false)
+    this.puddles = this.instanced(new THREE.CircleGeometry(1, 28), MAX_PUDDLES, 0xffffff, true)
     ;(this.puddles.material as THREE.MeshBasicMaterial).transparent = true
     ;(this.puddles.material as THREE.MeshBasicMaterial).opacity = 0.35
     this.hostiles = this.instanced(new THREE.CircleGeometry(1, 12), MAX_HOSTILES, 0xffffff, true)
@@ -294,8 +294,13 @@ export class Renderer {
 
   private drawHazards(world: World): void {
     let n = 0
-    for (const pd of world.puddles) this.place(this.puddles, n++, pd.x, pd.y, pd.r, Z.pickup - 0.5)
+    for (const pd of world.puddles) {
+      if (n >= MAX_PUDDLES) break
+      this.place(this.puddles, n, pd.x, pd.y, pd.r, Z.pickup - 0.5)
+      this.puddles.setColorAt(n++, this.c.setHex(pd.fire ? 0xff8a2a : 0x7ac943))
+    }
     this.finish(this.puddles, n)
+    if (this.puddles.instanceColor) this.puddles.instanceColor.needsUpdate = true
 
     n = 0
     for (const h of world.hostiles) {

@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { HERO_MAX_LEVEL, HEROES, heroDamage, heroDef, heroHp, heroUpgradeGold, heroUpgradeWater } from '../game/data/heroes'
 import type { OwnBonus, RunLoadout, RunResult } from '../game/loadout'
 import { BASE_STATS, type Stats } from '../game/stats'
 import {
@@ -30,11 +31,14 @@ export interface Profile {
   cleared: boolean[] // boss beaten per map level
   selectedLevel: number
   freeChestAt: number // ms timestamp when the free small chest is ready
+  heroes: Record<string, number> // unlocked bogatyrs and their levels
+  hero: string // chosen bogatyr
+  water: number // living water: upgrades bogatyrs
   nextUid: number
 }
 
 export interface Reward {
-  kind: 'gold' | 'gems' | 'blueprint' | 'item'
+  kind: 'gold' | 'gems' | 'blueprint' | 'item' | 'water'
   amount: number
   slot?: Slot
   item?: OwnedItem
@@ -56,6 +60,9 @@ function defaultProfile(): Profile {
     cleared: MAP_LEVELS.map(() => false),
     selectedLevel: 0,
     freeChestAt: 0,
+    heroes: { ivan: 1 },
+    hero: 'ivan',
+    water: 5,
     nextUid: 1,
   }
   const give = (itemId: string) => {
@@ -88,6 +95,7 @@ export class Meta {
         ...data,
         blueprints: { ...d.blueprints, ...data.blueprints },
         equipped: { ...d.equipped, ...data.equipped },
+        heroes: { ...d.heroes, ...data.heroes },
         best: MAP_LEVELS.map((_, i) => data.best?.[i] ?? 0),
         cleared: MAP_LEVELS.map((_, i) => data.cleared?.[i] ?? false),
         items: (data.items ?? []).filter((it) => ITEMS[it.itemId]),
@@ -192,8 +200,13 @@ export class Meta {
         return { id: def.ability!, cooldownMul: Math.max(0.3, cooldownMul), durationMul }
       })
 
+    const hero = heroDef(this.p.hero)
+    const heroLevel = this.p.heroes[hero.id] ?? 1
+    add('damagePct', heroDamage(hero, heroLevel))
+    add('maxHp', heroHp(hero, heroLevel))
+
     const level = this.p.selectedLevel
-    return { level, enemyMul: MAP_LEVELS[level].enemyMul, stats, startWeapon, own, abilities, sets: this.activeSets() }
+    return { level, enemyMul: MAP_LEVELS[level].enemyMul, stats, startWeapon, own, abilities, sets: this.activeSets(), heroPerk: hero.perk }
   }
 
   heroSummary(): { damagePct: number; maxHp: number } {
@@ -293,6 +306,37 @@ export class Meta {
     }
   }
 
+  // ---------- bogatyrs ----------
+
+  selectHero(id: string): void {
+    if (this.p.heroes[id] == null) return
+    this.p.hero = id
+    this.save()
+  }
+
+  unlockHero(id: string): void {
+    const h = HEROES.find((x) => x.id === id)
+    if (!h || this.p.heroes[id] != null || this.p.gems < h.gems) return
+    this.p.gems -= h.gems
+    this.p.heroes[id] = 1
+    this.p.hero = id
+    this.save()
+  }
+
+  canUpgradeHero(id: string): boolean {
+    const lvl = this.p.heroes[id]
+    return lvl != null && lvl < HERO_MAX_LEVEL && this.p.gold >= heroUpgradeGold(lvl) && this.p.water >= heroUpgradeWater(lvl)
+  }
+
+  upgradeHero(id: string): void {
+    if (!this.canUpgradeHero(id)) return
+    const lvl = this.p.heroes[id]
+    this.p.gold -= heroUpgradeGold(lvl)
+    this.p.water -= heroUpgradeWater(lvl)
+    this.p.heroes[id] = lvl + 1
+    this.save()
+  }
+
   // ---------- talents ----------
 
   upgradeTalent(id: string): void {
@@ -326,6 +370,7 @@ export class Meta {
     const rewards: Reward[] = []
     for (let i = 0; i < chest.count; i++) rewards.push(this.giveItem(rollRarity(chest.odds)))
     rewards.push(...this.giveBlueprints(chest.blueprints))
+    if (chest.water) rewards.push(this.giveWater(chest.water))
     this.save()
     return rewards
   }
@@ -335,6 +380,11 @@ export class Meta {
     const item = { uid: this.p.nextUid++, itemId, rarity, level: 1 }
     this.p.items.push(item)
     return { kind: 'item', amount: 1, item }
+  }
+
+  private giveWater(amount: number): Reward {
+    this.p.water += amount
+    return { kind: 'water', amount }
   }
 
   private giveBlueprints(count: number): Reward[] {
@@ -379,6 +429,8 @@ export class Meta {
     const odds = [0.75 - 0.05 * lvl, 0.2 + 0.03 * lvl, 0.05 + 0.02 * lvl]
     for (let i = 0; i < items; i++) rewards.push(this.giveItem(rollRarity(odds)))
     rewards.push(...this.giveBlueprints(r.wavesCleared + (r.victory ? 3 : 0)))
+    const water = Math.floor(r.wavesCleared / 3) + (r.victory ? 3 : 0)
+    if (water > 0) rewards.push(this.giveWater(water))
     this.save()
     return rewards
   }

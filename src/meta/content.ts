@@ -206,12 +206,13 @@ export interface ChestDef {
   gold?: number // price in gold
   gems?: number // price in gems
   freeEveryHours?: number
+  water?: number // living water for bogatyrs
 }
 
 export const CHESTS: ChestDef[] = [
   { id: 'small', name: 'Малый сундук', count: 1, odds: [0.78, 0.2, 0.02], blueprints: 2, gold: 600, freeEveryHours: 4 },
-  { id: 'medium', name: 'Средний сундук', count: 1, odds: [0, 0.6, 0.33, 0.07], blueprints: 5, gems: 120 },
-  { id: 'big', name: 'Большой сундук', count: 10, odds: [0.3, 0.45, 0.2, 0.05], blueprints: 30, gems: 1000 },
+  { id: 'medium', name: 'Средний сундук', count: 1, odds: [0, 0.6, 0.33, 0.07], blueprints: 5, water: 3, gems: 120 },
+  { id: 'big', name: 'Большой сундук', count: 10, odds: [0.3, 0.45, 0.2, 0.05], blueprints: 30, water: 20, gems: 1000 },
 ]
 
 export function rollRarity(odds: number[]): number {

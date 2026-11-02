@@ -1177,3 +1177,61 @@ button {
   font-weight: 900;
   color: #e8c170;
 }
+
+/* bogatyrs */
+.heroes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hero-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #2a3340;
+  border: 3px solid var(--rar);
+  border-radius: 14px;
+  padding: 12px;
+}
+.hero-portrait {
+  width: 96px;
+  height: 120px;
+  flex: none;
+  border-radius: 12px;
+  background: linear-gradient(#3a2e26, #241c17);
+  display: grid;
+  place-items: center;
+}
+.hero-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.level-progress.wide {
+  width: 100%;
+}
+.hero-line {
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.plus {
+  color: #9be86b;
+  font-size: 12px;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.hero-cell.selected {
+  box-shadow: 0 0 0 2px #fff;
+}
+.hero-cell.locked {
+  opacity: 0.6;
+}
+.lock-badge {
+  background: #39424d;
+}

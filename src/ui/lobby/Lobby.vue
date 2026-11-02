@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import type { Meta } from '../../meta/Meta'
 import Icon from '../Icon.vue'
 import EquipmentView from './EquipmentView.vue'
+import HeroesView from './HeroesView.vue'
 import MapTab from './MapTab.vue'
 import ShopTab from './ShopTab.vue'
 import TalentsView from './TalentsView.vue'
@@ -11,7 +12,7 @@ defineProps<{ meta: Meta }>()
 const emit = defineEmits<{ start: [] }>()
 type Tab = 'shop' | 'hero' | 'map' | 'modes' | 'rank'
 const tab = ref<Tab>('map')
-const heroTab = ref<'gear' | 'talents'>('gear')
+const heroTab = ref<'gear' | 'heroes' | 'talents'>('gear')
 const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
   { id: 'shop', icon: 'shop', name: 'Магазин' },
   { id: 'hero', icon: 'hero', name: 'Герой' },
@@ -34,9 +35,11 @@ const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
       <template v-else-if="tab === 'hero'">
         <div class="subtabs">
           <button class="chip-btn" :class="{ on: heroTab === 'gear' }" @click="heroTab = 'gear'">Экипировка</button>
+          <button class="chip-btn" :class="{ on: heroTab === 'heroes' }" @click="heroTab = 'heroes'">Богатыри</button>
           <button class="chip-btn" :class="{ on: heroTab === 'talents' }" @click="heroTab = 'talents'">Таланты</button>
         </div>
         <EquipmentView v-if="heroTab === 'gear'" :meta="meta" />
+        <HeroesView v-else-if="heroTab === 'heroes'" :meta="meta" />
         <TalentsView v-else :meta="meta" />
       </template>
       <ShopTab v-else-if="tab === 'shop'" :meta="meta" />

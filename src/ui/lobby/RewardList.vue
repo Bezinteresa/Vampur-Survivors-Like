@@ -5,7 +5,7 @@ import type { Reward } from '../../meta/Meta'
 import Icon from '../Icon.vue'
 
 defineProps<{ rewards: Reward[] }>()
-const ICON = { gold: 'coin', gems: 'gem', blueprint: 'scroll', item: 'chest' }
+const ICON = { gold: 'coin', gems: 'gem', blueprint: 'scroll', item: 'chest', water: 'drop' }
 </script>
 
 <template>

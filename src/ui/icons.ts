@@ -25,5 +25,6 @@ export const ICONS: Record<string, { d: string; fill?: boolean }> = {
   chest: { d: 'M3 10h18v10H3zM3 10a4 4 0 0 1 4-5h10a4 4 0 0 1 4 5M10 13h4v3h-4z' },
   left: { d: 'M15 5l-7 7 7 7' },
   right: { d: 'M9 5l7 7-7 7' },
+  drop: { d: 'M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z' },
   skull: { d: 'M12 3a8 8 0 0 0-5 14.2V20h10v-2.8A8 8 0 0 0 12 3zM9 11h.01M15 11h.01M10 20v-2M14 20v-2' },
 }
