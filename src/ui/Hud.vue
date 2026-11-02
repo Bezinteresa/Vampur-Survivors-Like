@@ -37,7 +37,10 @@ function cdStyle(cd: number, max: number) {
     </div>
 
     <div class="hud-row">
-      <div class="chip"><Icon name="coin" :size="16" /> {{ ui.coins }}</div>
+      <div class="money">
+        <div class="chip"><Icon name="coin" :size="16" /> {{ ui.coins }}</div>
+        <div v-if="ui.bank > 0" class="chip bank" title="Копилка: каждая поднятая монета даёт ещё +1 отсюда"><Icon name="jar" :size="16" /> {{ ui.bank }}</div>
+      </div>
       <div class="wave-box">
         <div class="wave-label">Волна {{ ui.wave }}/{{ ui.waveCount }}</div>
         <div v-if="!ui.bossWave" class="wave-time">{{ time }}</div>

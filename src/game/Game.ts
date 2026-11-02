@@ -91,6 +91,7 @@ export class Game {
     xp: 0,
     xpNext: 1,
     coins: 0,
+    bank: 0, // coins left on the field at the end of a wave, paid out later
     pendingLevels: 0,
     wave: 0,
     waveCount: WAVE_COUNT,
@@ -161,6 +162,7 @@ export class Game {
     this.ui.xp = 0
     this.ui.coins = 0
     this.ui.pendingLevels = 0
+    this.ui.bank = 0
     this.ui.offers = []
     this.victory = false
     this.syncWeapons()
@@ -197,13 +199,13 @@ export class Game {
     this.ui.screen = 'waveEnd'
     this.endTimer = WAVE_END_TIME
     this.world.clearWave()
-    this.world.magnetAll()
+    // Coins nobody picked up go to the bank (medkits are lost).
+    for (const pk of this.world.pickups) this.ui.bank += pk.value
+    this.world.pickups = []
     this.showBanner(this.victory ? 'Босс повержен!' : 'Волна завершена!')
   }
 
   private afterWave(): void {
-    for (const pk of this.world.pickups) this.world.collected += pk.value
-    this.world.pickups = []
     this.drainCoins()
     if (this.victory) {
       this.finishRun('victory')
@@ -646,10 +648,14 @@ export class Game {
   }
 
   // Coins are both money for the shop and experience; spending never lowers the level.
+  // Every coin picked up also pays one coin from the bank, until the bank is empty.
   private drainCoins(): void {
-    const v = this.world.collected
+    let v = this.world.collected
     if (!v) return
     this.world.collected = 0
+    const fromBank = Math.min(this.ui.bank, v)
+    this.ui.bank -= fromBank
+    v += fromBank
     this.ui.coins += v
     this.ui.xp += v * (1 + this.stats.xpGain)
     while (this.ui.xp >= xpNext(this.ui.level)) {

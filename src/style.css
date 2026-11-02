@@ -1282,3 +1282,13 @@ button {
 .lobby-body {
   touch-action: pan-y;
 }
+
+.money {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+.chip.bank {
+  color: #c8e07a;
+}

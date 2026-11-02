@@ -252,10 +252,6 @@ export class World {
     this.chest = { x, y, progress: 0 }
   }
 
-  magnetAll(): void {
-    for (const pk of this.pickups) pk.magnet = true
-  }
-
   startRoll(speedMul: number, duration: number, mx: number, my: number): void {
     const p = this.player
     const len = Math.hypot(mx, my)
