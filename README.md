@@ -44,6 +44,17 @@ npm run build    # проверка типов и сборка в dist/
 
 Баланс: в dev-режиме `__balance.series('P1', 0, 6)` — бот играет забеги с профилем прокачки P0–P3 на выбранной локации и выдаёт сводку (победы, волны, покупки, время боя с боссом, золото, источники урона). Цели и последние замеры — [docs/GDD.md](docs/GDD.md), раздел 13.
 
+## Графика
+
+По пайплайну `H:/Html AI/ART_PIPELINE_PROMPT.md`:
+- `art/generation-prompts.json` — список всех картинок игры (181 шт.): путь, размер, описание, правила кадра, общий стиль.
+- `node art/art_todo.mjs` — собирает `art/ART_TODO.md`: только то, чего ещё нет (или размер не тот, или стоит `redo`).
+- `python art/save_generated_asset.py <исходник> <файл> <ширина> <высота>` — кладёт картинку в `public/sprites/<файл>` нужного размера.
+- `python art/compress_sprites.py` — сжимает тяжёлые PNG (оригиналы в `art/originals`).
+- `python art/verify_generated_assets.py` — проверка размеров и прозрачности, превью-листы в `art/generated-previews`.
+
+Порядок: сначала `hero/ivan.png` — он же образец стиля (`References/style.png`), потом остальное с этим образцом.
+
 ## Устройство кода
 
 | Путь | Что |
