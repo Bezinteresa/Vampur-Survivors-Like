@@ -6,8 +6,9 @@ export interface Stats {
   dodge: number // chance 0..0.6
   damagePct: number
   meleeDmg: number
-  rangedDmg: number
-  elementDmg: number
+  bulletDmg: number
+  magicDmg: number
+  mechDmg: number // turrets, drones
   attackSpeed: number
   critChance: number
   critMult: number
@@ -28,8 +29,9 @@ export const BASE_STATS: Stats = {
   dodge: 0,
   damagePct: 0,
   meleeDmg: 0,
-  rangedDmg: 0,
-  elementDmg: 0,
+  bulletDmg: 0,
+  magicDmg: 0,
+  mechDmg: 0,
   attackSpeed: 0,
   critChance: 0.05,
   critMult: 1.5,
@@ -50,8 +52,9 @@ export const STAT_LABELS: Record<keyof Stats, string> = {
   dodge: 'Уклонение',
   damagePct: 'Урон',
   meleeDmg: 'Ближний урон',
-  rangedDmg: 'Дальний урон',
-  elementDmg: 'Стихийный урон',
+  bulletDmg: 'Урон пулями',
+  magicDmg: 'Магический урон',
+  mechDmg: 'Механический урон',
   attackSpeed: 'Скорость атаки',
   critChance: 'Крит. шанс',
   critMult: 'Сила крита',

@@ -511,9 +511,44 @@ button {
   padding: 2px;
   overflow: hidden;
 }
+.slot {
+  position: relative;
+}
 .slot.empty {
   border-color: #39424d;
   opacity: 0.6;
+}
+.slot.selected {
+  box-shadow: 0 0 0 2px #fff;
+}
+.merge-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+}
+.weapon-panel {
+  width: 100%;
+  background: var(--panel-dark);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.weapon-title {
+  font-weight: 800;
+  font-size: 14px;
+}
+.weapon-actions {
+  display: flex;
+  gap: 8px;
 }
 .slot-name {
   font-size: 9px;

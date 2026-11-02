@@ -10,6 +10,7 @@ const MAX_PROJECTILES = 1500
 const MAX_PICKUPS = 500
 const MAX_MARKERS = 300
 const MAX_SWINGS = 12
+const MAX_MECH = 64
 const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
 
@@ -30,6 +31,8 @@ export class Renderer {
   private readonly projectiles: THREE.InstancedMesh
   private readonly pickups: THREE.InstancedMesh
   private readonly markers: THREE.InstancedMesh
+  private readonly mechOutline: THREE.InstancedMesh
+  private readonly mechBody: THREE.InstancedMesh
   private readonly player = new THREE.Group()
   private readonly playerBody: THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>
   private readonly playerGun: THREE.Mesh
@@ -50,6 +53,9 @@ export class Renderer {
     this.projectiles = this.instanced(new THREE.CircleGeometry(1, 10), MAX_PROJECTILES, 0xffe066, false)
     this.pickups = this.instanced(new THREE.CircleGeometry(1, 4), MAX_PICKUPS, 0x9ad14f, false)
     this.markers = this.instanced(new THREE.RingGeometry(0.6, 1, 20), MAX_MARKERS, 0xe04848, false)
+    const square = new THREE.PlaneGeometry(2, 2)
+    this.mechOutline = this.instanced(square, MAX_MECH, 0x15181a, false)
+    this.mechBody = this.instanced(square, MAX_MECH, 0xffffff, true)
     ;(this.markers.material as THREE.MeshBasicMaterial).transparent = true
     ;(this.markers.material as THREE.MeshBasicMaterial).opacity = 0.75
 
@@ -111,6 +117,7 @@ export class Renderer {
     this.playerGun.position.y = Math.sin(fa) * 16
 
     this.drawEnemies(world, time)
+    this.drawMech(world)
 
     let n = 0
     for (const pr of world.projectiles) {
@@ -173,6 +180,23 @@ export class Renderer {
     this.finish(this.enemyOutline, n)
     this.finish(this.enemyBody, n)
     if (this.enemyBody.instanceColor) this.enemyBody.instanceColor.needsUpdate = true
+  }
+
+  // Drones (small, light blue) and turrets (bigger, grey): placeholders for mechanical weapons.
+  private drawMech(world: World): void {
+    let n = 0
+    const add = (x: number, y: number, size: number, color: number) => {
+      if (n >= MAX_MECH) return
+      this.place(this.mechOutline, n, x, y, size + 3, Z.player - 0.1)
+      this.place(this.mechBody, n, x, y, size, Z.player - 0.05)
+      this.mechBody.setColorAt(n, this.c.setHex(color))
+      n++
+    }
+    for (const t of world.turrets) add(t.x, t.y, 12, 0x9aa1a8)
+    for (const w of world.weapons) if (w.orbit) add(w.orbit.x, w.orbit.y, 8, 0x6fc3d8)
+    this.finish(this.mechOutline, n)
+    this.finish(this.mechBody, n)
+    if (this.mechBody.instanceColor) this.mechBody.instanceColor.needsUpdate = true
   }
 
   private place(mesh: THREE.InstancedMesh, i: number, x: number, y: number, scale: number, z: number): void {

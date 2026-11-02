@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { Game } from '../game/Game'
 import { TIER_NAMES } from '../game/data/weapons'
 import Icon from './Icon.vue'
@@ -7,6 +7,13 @@ import Icon from './Icon.vue'
 const props = defineProps<{ game: Game }>()
 const ui = props.game.ui
 const showStats = ref(false)
+const selected = ref(-1)
+const current = computed(() => ui.weapons[selected.value])
+
+function sell() {
+  props.game.sellWeapon(selected.value)
+  selected.value = -1
+}
 </script>
 
 <template>
@@ -40,14 +47,35 @@ const showStats = ref(false)
 
     <div class="section-title">Оружие</div>
     <div class="slots">
-      <div v-for="n in 6" :key="n" class="slot" :class="ui.weapons[n - 1] ? `tier-${ui.weapons[n - 1].tier}` : 'empty'">
+      <button
+        v-for="n in 6"
+        :key="n"
+        class="slot"
+        :class="[ui.weapons[n - 1] ? `tier-${ui.weapons[n - 1].tier}` : 'empty', { selected: selected === n - 1 }]"
+        :disabled="!ui.weapons[n - 1]"
+        @click="selected = selected === n - 1 ? -1 : n - 1"
+      >
         <template v-if="ui.weapons[n - 1]">
           <div class="slot-name">{{ ui.weapons[n - 1].name }}</div>
           <div class="tier">{{ TIER_NAMES[ui.weapons[n - 1].tier] }}</div>
+          <div v-if="ui.weapons[n - 1].canMerge" class="merge-badge"><Icon name="up" :size="12" /></div>
         </template>
-      </div>
+      </button>
     </div>
-    <div class="hint">Два одинаковых оружия одного тира сливаются в следующий тир.</div>
+
+    <div v-if="current" class="weapon-panel">
+      <div class="weapon-title">{{ current.name }} {{ TIER_NAMES[current.tier] }} · <span class="tier">{{ current.kind }}</span></div>
+      <div class="weapon-actions">
+        <button class="btn btn-green small" :disabled="!current.canMerge" @click="game.mergeWeapon(selected)">
+          <Icon name="up" :size="16" /> Объединить
+        </button>
+        <button class="btn btn-blue small" :disabled="ui.weapons.length <= 1" @click="sell">
+          Продать · <Icon name="coin" :size="14" /> {{ current.sellPrice }}
+        </button>
+      </div>
+      <div v-if="!current.canMerge" class="hint">Для объединения нужно второе такое же оружие того же тира.</div>
+    </div>
+    <div v-else class="hint">Нажмите на оружие: два одинаковых одного тира объединяются в следующий тир.</div>
 
     <div v-if="showStats" class="stats-panel">
       <div v-for="s in ui.stats" :key="s.name" class="stat-row"><span>{{ s.name }}</span><b>{{ s.value }}</b></div>

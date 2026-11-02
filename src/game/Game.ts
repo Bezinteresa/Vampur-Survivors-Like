@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 import { ABILITIES, DEFAULT_LOADOUT, type AbilityDef } from './data/abilities'
 import { CARD_TIER_MUL, UPGRADES } from './data/upgrades'
 import { WAVE_COUNT, enemyScale, waveDef, type WaveDef } from './data/waves'
-import { WEAPONS, WEAPON_IDS, weaponDesc, weaponPrice } from './data/weapons'
+import { KIND_NAMES, WEAPONS, WEAPON_IDS, weaponDesc, weaponPrice } from './data/weapons'
 import { Input } from './Input'
 import { Renderer } from './Renderer'
 import { BASE_STATS, STAT_LABELS, formatStat, isPercentStat, type Stats } from './stats'
@@ -86,7 +86,7 @@ export class Game {
     cardRerollCost: 0,
     offers: [] as Offer[],
     shopRerollCost: 0,
-    weapons: [] as { id: string; name: string; tier: number }[],
+    weapons: [] as { id: string; name: string; kind: string; tier: number; canMerge: boolean; sellPrice: number }[],
     stats: [] as { name: string; value: string }[],
   })
 
@@ -304,18 +304,40 @@ export class Game {
     this.ui.shopRerollCost = this.rerollCost(this.shopRerolls)
   }
 
-  // Two copies of the same weapon and tier merge into the next tier (chains if that creates another pair).
+  // A bought weapon takes a free slot. Only when all slots are full does a duplicate merge straight away.
   private addWeapon(id: string, tier: number): void {
     const list = this.world.weapons
-    let t = tier
-    for (;;) {
-      const i = list.findIndex((w) => w.def.id === id && w.tier === t && t < MAX_TIER)
-      if (i < 0) break
-      list.splice(i, 1)
-      t++
+    if (list.length < MAX_WEAPONS) {
+      list.push({ def: WEAPONS[id], tier, cd: 0.3 })
+    } else {
+      const twin = list.find((w) => w.def.id === id && w.tier === tier && tier < MAX_TIER)
+      if (twin) twin.tier++
     }
-    list.push({ def: WEAPONS[id], tier: t, cd: 0.3 })
     this.syncWeapons()
+  }
+
+  // Two copies of the same weapon and tier → one copy of the next tier (kept in the tapped slot).
+  mergeWeapon(index: number): void {
+    const list = this.world.weapons
+    const w = list[index]
+    if (this.ui.screen !== 'shop' || !w || w.tier >= MAX_TIER) return
+    const j = list.findIndex((o, k) => k !== index && o.def.id === w.def.id && o.tier === w.tier)
+    if (j < 0) return
+    list.splice(j, 1)
+    w.tier++
+    this.syncWeapons()
+  }
+
+  sellWeapon(index: number): void {
+    const list = this.world.weapons
+    if (this.ui.screen !== 'shop' || list.length <= 1 || !list[index]) return
+    this.ui.coins += this.sellPrice(list[index].def.id, list[index].tier)
+    list.splice(index, 1)
+    this.syncWeapons()
+  }
+
+  private sellPrice(id: string, tier: number): number {
+    return Math.floor(weaponPrice(WEAPONS[id], tier, this.wave.n) * 0.5)
   }
 
   private rerollCost(count: number): number {
@@ -461,7 +483,15 @@ export class Game {
   }
 
   private syncWeapons(): void {
-    this.ui.weapons = this.world.weapons.map((w) => ({ id: w.def.id, name: w.def.name, tier: w.tier }))
+    const list = this.world.weapons
+    this.ui.weapons = list.map((w, i) => ({
+      id: w.def.id,
+      name: w.def.name,
+      kind: KIND_NAMES[w.def.kind],
+      tier: w.tier,
+      canMerge: w.tier < MAX_TIER && list.some((o, k) => k !== i && o.def.id === w.def.id && o.tier === w.tier),
+      sellPrice: this.sellPrice(w.def.id, w.tier),
+    }))
   }
 
   private syncStats(): void {

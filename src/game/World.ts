@@ -13,6 +13,7 @@ const MAX_ENEMIES = 1000
 const MAX_PICKUPS = 500
 const PICKUP_SPEED = 700
 const CHAIN_JUMP_RANGE = 170
+const DRONE_ORBIT = 60
 
 export interface Enemy {
   id: number
@@ -77,6 +78,15 @@ export interface WeaponSlot {
   def: WeaponDef
   tier: number // 0..3
   cd: number
+  orbit?: { x: number; y: number } // drone position
+}
+
+export interface Turret {
+  x: number
+  y: number
+  life: number
+  cd: number
+  slot: WeaponSlot
 }
 
 export const SWING_LIFE = 0.18
@@ -90,6 +100,7 @@ export class World {
   markers: SpawnMarker[] = []
   swings: Swing[] = []
   bolts: Bolt[] = []
+  turrets: Turret[] = []
   weapons: WeaponSlot[] = []
   stats: Stats = { ...BASE_STATS }
   hpMul = 1
@@ -101,6 +112,7 @@ export class World {
   bossKilled = false
   private readonly grid = new SpatialGrid(ARENA_W, ARENA_H, 80, MAX_ENEMIES)
   private nextId = 1
+  private orbitT = 0
 
   reset(stats: Stats): void {
     this.stats = stats
@@ -122,6 +134,7 @@ export class World {
     this.markers = []
     this.swings = []
     this.bolts = []
+    this.turrets = []
     this.boss = null
     this.bossKilled = false
   }
@@ -150,6 +163,7 @@ export class World {
     this.updateEnemies(dt)
     this.rebuildGrid()
     this.updateWeapons(dt)
+    this.updateTurrets(dt)
     this.updateProjectiles(dt)
     this.removeDead()
     this.updatePickups(dt)
@@ -286,6 +300,13 @@ export class World {
 
   private updateWeapons(dt: number): void {
     const speed = 1 + this.stats.attackSpeed + this.attackBonus
+    // Drones circle the hero, spread evenly.
+    const drones = this.weapons.filter((w) => w.def.behavior === 'drone')
+    this.orbitT += dt * 1.8
+    drones.forEach((w, k) => {
+      const a = this.orbitT + (k * Math.PI * 2) / drones.length
+      w.orbit = { x: this.player.x + Math.cos(a) * DRONE_ORBIT, y: this.player.y + Math.sin(a) * DRONE_ORBIT }
+    })
     for (const w of this.weapons) {
       w.cd -= dt * speed
       if (w.cd > 0) continue
@@ -298,19 +319,13 @@ export class World {
     const def = w.def
     const range = def.range + this.stats.range
     switch (def.behavior) {
-      case 'shot': {
-        const t = this.nearest(p.x, p.y, range)
-        if (!t) return false
-        const angle = Math.atan2(t.y - p.y, t.x - p.x)
-        for (let k = 0; k < def.count; k++) {
-          const a = angle + (k - (def.count - 1) / 2) * def.spread + (Math.random() - 0.5) * (def.count > 1 ? 0.05 : def.spread)
-          this.projectiles.push({
-            x: p.x, y: p.y, vx: Math.cos(a) * def.projSpeed, vy: Math.sin(a) * def.projSpeed,
-            r: 5, dmg: this.damage(w), pierce: def.pierce, life: range / def.projSpeed, hits: [],
-          })
-        }
+      case 'shot':
+        return this.shoot(w, p.x, p.y, range)
+      case 'drone':
+        return !!w.orbit && this.shoot(w, w.orbit.x, w.orbit.y, range)
+      case 'turret':
+        this.turrets.push({ x: p.x, y: p.y, life: def.duration, cd: 0.3, slot: w })
         return true
-      }
       case 'swing': {
         const t = this.nearest(p.x, p.y, range + 30)
         if (!t) return false
@@ -350,9 +365,35 @@ export class World {
     }
   }
 
+  private shoot(w: WeaponSlot, x: number, y: number, range: number): boolean {
+    const def = w.def
+    const t = this.nearest(x, y, range)
+    if (!t) return false
+    const angle = Math.atan2(t.y - y, t.x - x)
+    for (let k = 0; k < def.count; k++) {
+      const a = angle + (k - (def.count - 1) / 2) * def.spread + (Math.random() - 0.5) * (def.count > 1 ? 0.05 : def.spread)
+      this.projectiles.push({
+        x, y, vx: Math.cos(a) * def.projSpeed, vy: Math.sin(a) * def.projSpeed,
+        r: 5, dmg: this.damage(w), pierce: def.pierce, life: range / def.projSpeed, hits: [],
+      })
+    }
+    return true
+  }
+
+  private updateTurrets(dt: number): void {
+    const speed = 1 + this.stats.attackSpeed + this.attackBonus
+    for (const t of this.turrets) {
+      t.life -= dt
+      t.cd -= dt * speed
+      if (t.cd > 0) continue
+      t.cd = this.shoot(t.slot, t.x, t.y, t.slot.def.range + this.stats.range) ? t.slot.def.fireRate : 0
+    }
+    this.turrets = this.turrets.filter((t) => t.life > 0)
+  }
+
   private damage(w: WeaponSlot): number {
     const s = this.stats
-    const flat = w.def.kind === 'melee' ? s.meleeDmg : w.def.kind === 'ranged' ? s.rangedDmg : s.elementDmg
+    const flat = { melee: s.meleeDmg, bullet: s.bulletDmg, magic: s.magicDmg, mech: s.mechDmg }[w.def.kind]
     let dmg = (w.def.damage[w.tier] + flat) * (1 + s.damagePct)
     if (Math.random() < s.critChance) dmg *= s.critMult
     return Math.max(1, dmg)
