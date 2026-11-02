@@ -69,7 +69,7 @@ const knob = computed(() => {
       <Shop v-if="screen === 'shop'" :game="game" />
       <ChestPick v-if="screen === 'chest'" :game="game" />
 
-      <div v-if="screen === 'paused'" class="screen pause">
+      <div v-if="screen === 'paused'" v-drag-scroll class="screen pause">
         <div class="ribbon">Пауза</div>
         <Loadout :game="game" />
         <div v-if="showStats" class="stats-panel">
@@ -82,7 +82,7 @@ const knob = computed(() => {
         <button class="btn" @click="game.surrender()">Сдаться</button>
       </div>
 
-      <div v-if="screen === 'gameover' || screen === 'victory'" class="screen dim">
+      <div v-if="screen === 'gameover' || screen === 'victory'" v-drag-scroll class="screen dim">
         <div class="ribbon" :class="{ red: screen === 'gameover' }">{{ screen === 'victory' ? 'Победа!' : 'Поражение' }}</div>
         <div class="result">
           <div>Волна: <b>{{ game.ui.wave }}/{{ game.ui.waveCount }}</b></div>

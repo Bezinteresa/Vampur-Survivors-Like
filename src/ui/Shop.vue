@@ -11,7 +11,7 @@ const showStats = ref(false)
 </script>
 
 <template>
-  <div class="screen shop">
+  <div v-drag-scroll class="screen shop">
     <div class="shop-head">
       <div class="chip"><Icon name="coin" :size="16" /> {{ ui.coins }}</div>
       <div class="title">Приготовьтесь к волне {{ ui.wave + 1 }}</div>

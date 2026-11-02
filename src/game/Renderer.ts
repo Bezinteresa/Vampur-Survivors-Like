@@ -1,8 +1,10 @@
 import * as THREE from 'three'
-import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type World } from './World'
+import { SPRITE, hasSprite, spriteTexture } from '../sprites'
+import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type Enemy, type World } from './World'
 
 // Placeholder look: flat circles with a dark outline, drawn as instanced meshes (one draw call per kind).
-// Sprites from the art pipeline will replace these materials later.
+// When the art pipeline has a picture for something (public/sprites), it is drawn instead of the placeholder:
+// one instanced quad per picture, tinted the same way the circles are.
 
 const VIEW_W = 560 // world units visible across the screen width
 const MAX_ENEMIES = 1000
@@ -16,6 +18,7 @@ const MAX_BEAMS = 40
 const MAX_PUDDLES = 200
 const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
+const SPRITE_SCALE = 2.6 // picture size relative to the enemy radius (pictures have margins)
 
 const Z = { ground: 0, pickup: 1, marker: 1.5, outline: 2, enemy: 2.1, player: 3, projectile: 4, fx: 5 }
 
@@ -54,6 +57,13 @@ export class Renderer {
   private readonly beams: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>[] = []
   private readonly ground: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
   private readonly chestRing: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>
+  private readonly chestBox = new THREE.Group()
+  private readonly chestSprite: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+  private readonly playerShape = new THREE.Group()
+  private readonly heroSprite: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+  private readonly batches = new Map<string, { mesh: THREE.InstancedMesh; n: number }>()
+  private readonly mobFiles = new Map<string, string | null>()
+  private locationId = ''
 
   constructor(host: HTMLElement) {
     this.gl = new THREE.WebGLRenderer({ antialias: true })
@@ -93,7 +103,12 @@ export class Renderer {
     this.playerBody.position.z = 0.01
     this.playerGun = new THREE.Mesh(new THREE.PlaneGeometry(16, 7), new THREE.MeshBasicMaterial({ color: 0x2b2f33 }))
     this.playerGun.position.z = 0.02
-    this.player.add(outline, this.playerBody, this.playerGun)
+    this.playerShape.add(outline, this.playerBody)
+    this.heroSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }))
+    this.heroSprite.scale.set(52, 52, 1)
+    this.heroSprite.position.set(0, 6, 0.03)
+    this.heroSprite.visible = false
+    this.player.add(this.playerShape, this.playerGun, this.heroSprite)
     this.player.position.z = Z.player
     this.scene.add(this.player)
 
@@ -120,7 +135,14 @@ export class Renderer {
     box.position.z = 0.02
     const band = new THREE.Mesh(new THREE.PlaneGeometry(34, 4), new THREE.MeshBasicMaterial({ color: 0xe8c170 }))
     band.position.z = 0.03
-    this.chest.add(track, this.chestRing, lid, box, band)
+    this.chestBox.add(lid, box, band)
+    this.chestSprite = new THREE.Mesh(new THREE.PlaneGeometry(56, 56), new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1 }))
+    this.chestSprite.position.z = 0.04
+    const chestTex = spriteTexture(SPRITE.supplyChest)
+    if (chestTex) this.chestSprite.material.map = chestTex
+    this.chestSprite.visible = !!chestTex
+    this.chestBox.visible = !chestTex
+    this.chest.add(track, this.chestRing, this.chestBox, this.chestSprite)
     this.chest.position.z = Z.marker
     this.chest.visible = false
     this.scene.add(this.chest)
@@ -153,6 +175,13 @@ export class Renderer {
     this.player.position.y = p.y
     this.playerBody.material.opacity = p.rollT > 0 ? 0.45 : 1
     this.playerBody.material.color.setHex(p.hurt > 0 ? 0xff6b6b : 0xe8c170)
+    if (this.heroSprite.visible) {
+      // Hero pictures face right; turn with the movement.
+      if (Math.abs(p.fx) > 0.2) this.heroSprite.scale.x = Math.abs(this.heroSprite.scale.x) * Math.sign(p.fx)
+      this.heroSprite.material.opacity = p.rollT > 0 ? 0.55 : 1
+      this.heroSprite.material.color.setHex(p.hurt > 0 ? 0xff8080 : 0xffffff)
+      this.heroSprite.rotation.z = p.rollT > 0 ? -Math.sign(p.fx || 1) * (1 - p.rollT / 0.3) * Math.PI * 2 : 0
+    }
     const fa = Math.atan2(p.fy, p.fx)
     this.playerGun.rotation.z = fa
     this.playerGun.position.x = Math.cos(fa) * 16
@@ -173,11 +202,15 @@ export class Renderer {
 
     n = 0
     for (const pk of world.pickups) {
-      this.place(this.pickups, n, pk.x, pk.y, pk.medkit ? 13 : pk.value > 2 ? 10 : 7, Z.pickup)
+      const file = pk.medkit ? SPRITE.medkit : SPRITE.coin
+      const size = pk.medkit ? 13 : pk.value > 2 ? 10 : 7
+      if (this.drawSprite(file, pk.x, pk.y, size * 2.4, false, Z.pickup)) continue
+      this.place(this.pickups, n, pk.x, pk.y, size, Z.pickup)
       this.pickups.setColorAt(n++, this.c.setHex(pk.medkit ? 0xe8484f : 0x9ad14f))
     }
     this.finish(this.pickups, n)
     if (this.pickups.instanceColor) this.pickups.instanceColor.needsUpdate = true
+    this.finishSprites()
 
     const chest = world.chest
     this.chest.visible = !!chest
@@ -223,27 +256,115 @@ export class Renderer {
     this.gl.render(this.scene, this.camera)
   }
 
+  // ---------- pictures ----------
+
+  setHero(id: string): void {
+    const tex = spriteTexture(SPRITE.hero(id))
+    this.heroSprite.visible = !!tex
+    this.playerShape.visible = !tex
+    this.playerGun.visible = !tex
+    if (tex) {
+      this.heroSprite.material.map = tex
+      this.heroSprite.material.needsUpdate = true
+    }
+  }
+
+  // Floor of the location: the terrain picture when there is one, else a generated placeholder in its colour.
+  setLocation(id: string, groundColor: string): void {
+    this.locationId = id
+    this.mobFiles.clear()
+    const old = this.ground.material.map
+    const tex = spriteTexture(SPRITE.terrain(id))
+    if (tex) {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping
+      tex.repeat.set(ARENA_W / 256, ARENA_H / 256)
+      this.ground.material.map = tex
+    } else {
+      this.ground.material.map = this.groundTexture(groundColor)
+    }
+    this.ground.material.needsUpdate = true
+    // Generated placeholder floors are ours to free; picture textures stay cached in sprites.ts.
+    if (old instanceof THREE.CanvasTexture) old.dispose()
+  }
+
+  private mobFile(e: Enemy): string | null {
+    let file = this.mobFiles.get(e.def.id)
+    if (file === undefined) {
+      const candidate = e.boss ? SPRITE.boss(this.locationId) : SPRITE.mob(e.def.id)
+      file = hasSprite(candidate) ? candidate : null
+      this.mobFiles.set(e.def.id, file)
+    }
+    return file
+  }
+
+  // Adds one picture instance this frame; false when that picture does not exist (draw the placeholder).
+  private drawSprite(file: string, x: number, y: number, size: number, flip: boolean, z: number, tint?: THREE.Color): boolean {
+    let b = this.batches.get(file)
+    if (!b) {
+      const tex = spriteTexture(file)
+      if (!tex) return false
+      const mesh = new THREE.InstancedMesh(
+        new THREE.PlaneGeometry(1, 1),
+        new THREE.MeshBasicMaterial({ map: tex, transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }),
+        MAX_ENEMIES,
+      )
+      mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
+      mesh.frustumCulled = false
+      mesh.setColorAt(0, this.white)
+      mesh.count = 0
+      this.scene.add(mesh)
+      b = { mesh, n: 0 }
+      this.batches.set(file, b)
+    }
+    if (b.n >= MAX_ENEMIES) return true
+    this.m.makeScale(flip ? -size : size, size, 1)
+    this.m.setPosition(x, y, z)
+    b.mesh.setMatrixAt(b.n, this.m)
+    b.mesh.setColorAt(b.n, tint ?? this.white)
+    b.n++
+    return true
+  }
+
+  private finishSprites(): void {
+    for (const b of this.batches.values()) {
+      b.mesh.count = b.n
+      b.mesh.instanceMatrix.needsUpdate = true
+      if (b.mesh.instanceColor) b.mesh.instanceColor.needsUpdate = true
+      b.n = 0
+    }
+  }
+
   private drawEnemies(world: World, time: number): void {
     let n = 0
+    const p = world.player
     for (const e of world.enemies) {
       if (e.hp <= 0) continue
+      const file = this.mobFile(e)
+      // Pictures start white (their own colours); placeholders start from the minion's colour.
+      this.c.setHex(file ? 0xffffff : e.def.color)
+      this.tintEnemy(e, time, !!file)
+      // Pictures face left; turn toward the hero.
+      if (file && this.drawSprite(file, e.x, e.y, e.r * SPRITE_SCALE, p.x > e.x, Z.enemy + (e.boss ? 0.05 : 0), this.c)) continue
       this.place(this.enemyOutline, n, e.x, e.y, e.r + 3, Z.outline)
       this.place(this.enemyBody, n, e.x, e.y, e.r, Z.enemy)
-      this.c.setHex(e.def.color)
-      // Charging an attack: the colour shifts to bright yellow; the boss also pulses red.
-      if (e.charge > 0) this.c.lerp(this.chargeColor, Math.min(1, e.charge) * 0.8)
-      if (e.boss && e.state === 'windup') this.c.lerp(this.red, 0.3 + 0.3 * Math.sin(time * 30))
-      if (e.invulnerable) this.c.lerp(this.shieldColor, 0.5 + 0.2 * Math.sin(time * 8))
-      if (e.freezeT > 0) this.c.lerp(this.freezeColor, 0.6)
-      else if (e.burnT > 0) this.c.lerp(this.burnColor, 0.45)
-      else if (e.bleedT > 0) this.c.lerp(this.bleedColor, 0.35)
-      if (e.flash > 0) this.c.lerp(this.white, 0.75)
       this.enemyBody.setColorAt(n, this.c)
       n++
     }
     this.finish(this.enemyOutline, n)
     this.finish(this.enemyBody, n)
     if (this.enemyBody.instanceColor) this.enemyBody.instanceColor.needsUpdate = true
+  }
+
+  private tintEnemy(e: Enemy, time: number, picture: boolean): void {
+    // Charging an attack: the colour shifts to bright yellow; the boss also pulses red.
+    if (e.charge > 0) this.c.lerp(this.chargeColor, Math.min(1, e.charge) * 0.8)
+    if (e.boss && e.state === 'windup') this.c.lerp(this.red, 0.3 + 0.3 * Math.sin(time * 30))
+    if (e.invulnerable) this.c.lerp(this.shieldColor, 0.5 + 0.2 * Math.sin(time * 8))
+    if (e.freezeT > 0) this.c.lerp(this.freezeColor, 0.6)
+    else if (e.burnT > 0) this.c.lerp(this.burnColor, 0.45)
+    else if (e.bleedT > 0) this.c.lerp(this.bleedColor, 0.35)
+    // A hit flashes a circle white; a picture (already white-based) flashes red.
+    if (e.flash > 0) this.c.lerp(picture ? this.red : this.white, picture ? 0.5 : 0.75)
   }
 
   // Drones (small, light blue) and turrets (bigger, grey): placeholders for mechanical weapons.
@@ -282,14 +403,6 @@ export class Renderer {
     mesh.count = 0
     this.scene.add(mesh)
     return mesh
-  }
-
-  // Each location has its own floor colour (placeholder until the art pipeline gives real tiles).
-  setGround(color: string): void {
-    const old = this.ground.material.map
-    this.ground.material.map = this.groundTexture(color)
-    this.ground.material.needsUpdate = true
-    old?.dispose()
   }
 
   private drawHazards(world: World): void {

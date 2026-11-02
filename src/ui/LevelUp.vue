@@ -8,7 +8,7 @@ const TIER_CLASS = ['tier-0', 'tier-1', 'tier-2', 'tier-3']
 </script>
 
 <template>
-  <div class="screen">
+  <div v-drag-scroll class="screen">
     <div class="ribbon">Уровень повышен</div>
     <div class="sub">Осталось выборов: {{ ui.pendingLevels }}</div>
 

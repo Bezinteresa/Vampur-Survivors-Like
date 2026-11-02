@@ -150,7 +150,9 @@ export class Game {
     this.world.heroPerk = loadout.heroPerk
     this.world.roster = locationRoster(loadout.level)
     this.ui.location = LOCATIONS[loadout.level]?.name ?? ''
-    this.renderer.setGround(LOCATIONS[loadout.level]?.ground ?? '#56644d')
+    const loc = LOCATIONS[loadout.level] ?? LOCATIONS[0]
+    this.renderer.setLocation(loc.id, loc.ground)
+    this.renderer.setHero(loadout.heroId)
     this.world.weapons.push(this.newSlot(WEAPONS[loadout.startWeapon] ?? WEAPONS.pistol, 0))
     this.items = new Map()
     this.abilities = loadout.abilities.map((a) => ({ def: ABILITIES[a.id], cd: 0, active: 0, cooldownMul: a.cooldownMul, durationMul: a.durationMul }))

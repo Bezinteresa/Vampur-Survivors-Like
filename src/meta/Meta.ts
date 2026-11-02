@@ -206,7 +206,7 @@ export class Meta {
     add('maxHp', heroHp(hero, heroLevel))
 
     const level = this.p.selectedLevel
-    return { level, enemyMul: MAP_LEVELS[level].enemyMul, stats, startWeapon, own, abilities, sets: this.activeSets(), heroPerk: hero.perk }
+    return { level, enemyMul: MAP_LEVELS[level].enemyMul, stats, startWeapon, own, abilities, sets: this.activeSets(), heroPerk: hero.perk, heroId: hero.id }
   }
 
   heroSummary(): { damagePct: number; maxHp: number } {

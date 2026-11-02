@@ -9,7 +9,7 @@ const ICON = { gold: 'coin', gems: 'gem', blueprint: 'scroll', item: 'chest', wa
 </script>
 
 <template>
-  <div class="rewards">
+  <div v-drag-scroll class="rewards">
     <div v-for="(r, i) in rewards" :key="i" class="reward" :class="r.item ? `rar-${r.item.rarity}` : ''">
       <Icon :name="ICON[r.kind]" :size="18" />
       <span>{{ rewardText(r) }}</span>

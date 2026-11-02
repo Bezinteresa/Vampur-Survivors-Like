@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Offer } from '../game/Game'
 import { TIER_NAMES } from '../game/data/weapons'
+import { SPRITE } from '../sprites'
 import Icon from './Icon.vue'
+import SpriteIcon from './SpriteIcon.vue'
 
 // One shop or chest card. Without `lockable` the button just says "Взять" (free chest pick).
 defineProps<{ offer: Offer; enabled: boolean; lockable?: boolean }>()
@@ -10,6 +12,7 @@ defineEmits<{ take: []; lock: [] }>()
 
 <template>
   <div class="offer" :class="[`tier-${offer.tier}`, { sold: offer.sold }]">
+    <div class="offer-pic"><SpriteIcon :file="offer.type === 'weapon' ? SPRITE.weapon(offer.id) : SPRITE.item(offer.id)" /></div>
     <div class="offer-name">{{ offer.name }}</div>
     <div class="tier">{{ offer.type === 'weapon' ? `Оружие ${TIER_NAMES[offer.tier]}` : 'Предмет' }}</div>
     <div class="offer-desc">

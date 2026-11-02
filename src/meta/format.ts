@@ -4,8 +4,15 @@ import {
 } from './content'
 import type { OwnedItem, Reward } from './Meta'
 import { ITEMS } from './content'
+import { SPRITE } from '../sprites'
 
 // Text for lobby cards: perks, main bonus, rewards.
+
+// Picture slot of a lobby item: weapons and abilities share their run pictures, clothing has its own.
+export function itemSprite(itemId: string): string {
+  const d = ITEMS[itemId]
+  return d.runWeapon ? SPRITE.weapon(d.runWeapon) : d.ability ? SPRITE.ability(d.ability) : SPRITE.gear(itemId)
+}
 
 export function perkText(perk: Perk): string {
   const name = PERK_NAMES[perk.stat] ?? STAT_LABELS[perk.stat as keyof Stats]

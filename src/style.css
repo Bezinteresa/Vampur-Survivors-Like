@@ -1235,3 +1235,50 @@ button {
 .lock-badge {
   background: #39424d;
 }
+
+/* pictures from the art pipeline */
+.sprite-icon {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.inv-cell .sprite-icon,
+.gear-slot .sprite-icon,
+.slot .sprite-icon,
+.shelf-item .sprite-icon {
+  flex: 1;
+  min-height: 0;
+}
+.hero-figure .sprite-icon.hero-pic {
+  width: 96px;
+  height: 96px;
+}
+.hero-portrait .sprite-icon {
+  width: 100%;
+  height: 100%;
+}
+.sprite-icon.island-pic {
+  width: 240px;
+  height: 180px;
+}
+.offer-pic {
+  height: 56px;
+  display: flex;
+  justify-content: center;
+}
+.offer-pic:empty {
+  display: none;
+}
+.item-icon .sprite-icon {
+  width: 100%;
+  height: 100%;
+}
+
+/* swipeable areas: let the browser keep vertical scrolling, give horizontal moves to the swipe */
+.level-carousel,
+.lobby-body {
+  touch-action: pan-y;
+}

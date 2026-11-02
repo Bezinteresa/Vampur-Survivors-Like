@@ -13,6 +13,11 @@ const emit = defineEmits<{ start: [] }>()
 type Tab = 'shop' | 'hero' | 'map' | 'modes' | 'rank'
 const tab = ref<Tab>('map')
 const heroTab = ref<'gear' | 'heroes' | 'talents'>('gear')
+// Swiping the lobby moves to the neighbouring bottom tab.
+function switchTab(d: number) {
+  const i = TABS.findIndex((t) => t.id === tab.value)
+  tab.value = TABS[Math.max(0, Math.min(TABS.length - 1, i + d))].id
+}
 const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
   { id: 'shop', icon: 'shop', name: 'Магазин' },
   { id: 'hero', icon: 'hero', name: 'Герой' },
@@ -30,7 +35,7 @@ const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
       <div class="chip gems"><Icon name="gem" :size="16" /> {{ meta.p.gems }}</div>
     </div>
 
-    <div class="lobby-body">
+    <div v-swipe="{ left: () => switchTab(1), right: () => switchTab(-1) }" v-drag-scroll class="lobby-body">
       <MapTab v-if="tab === 'map'" :meta="meta" @start="emit('start')" />
       <template v-else-if="tab === 'hero'">
         <div class="subtabs">

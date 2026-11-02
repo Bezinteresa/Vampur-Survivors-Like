@@ -2,7 +2,9 @@
 import { onBeforeUnmount, ref } from 'vue'
 import { CHESTS, RARITY_NAMES } from '../../meta/content'
 import type { Meta, Reward } from '../../meta/Meta'
+import { SPRITE } from '../../sprites'
 import Icon from '../Icon.vue'
+import SpriteIcon from '../SpriteIcon.vue'
 import RewardList from './RewardList.vue'
 
 const props = defineProps<{ meta: Meta }>()
@@ -35,7 +37,7 @@ function odds(list: number[]): string {
   <div class="shop-tab">
     <div class="section-title">Сундуки</div>
     <div v-for="c in CHESTS" :key="c.id" class="chest-card">
-      <div class="chest-art"><Icon name="chest" :size="40" /></div>
+      <div class="chest-art"><SpriteIcon :file="SPRITE.chest(c.id)"><Icon name="chest" :size="40" /></SpriteIcon></div>
       <div class="chest-info">
         <div class="chest-name">{{ c.name }}</div>
         <div class="hint left">{{ c.count > 1 ? `${c.count} предметов` : '1 предмет' }}, чертежи ×{{ c.blueprints }}</div>

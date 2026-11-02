@@ -3,7 +3,9 @@ import { computed, ref } from 'vue'
 import { HERO_MAX_LEVEL, HEROES, heroDamage, heroHp, heroUpgradeGold, heroUpgradeWater } from '../../game/data/heroes'
 import { RARITY_NAMES } from '../../meta/content'
 import type { Meta } from '../../meta/Meta'
+import { SPRITE } from '../../sprites'
 import Icon from '../Icon.vue'
+import SpriteIcon from '../SpriteIcon.vue'
 
 const props = defineProps<{ meta: Meta }>()
 const p = props.meta.p
@@ -17,7 +19,7 @@ const shown = computed(() => level.value ?? 1)
 <template>
   <div class="heroes">
     <div class="hero-card" :class="`rar-${hero.rarity}`">
-      <div class="hero-portrait"><div class="hero-body"></div></div>
+      <div class="hero-portrait"><SpriteIcon :file="SPRITE.hero(hero.id)"><div class="hero-body"></div></SpriteIcon></div>
       <div class="hero-info">
         <div class="item-name">{{ hero.name }}</div>
         <div class="hint left">{{ hero.title }} · <span :class="`rar-text-${hero.rarity}`">{{ RARITY_NAMES[hero.rarity] }}</span></div>
@@ -57,7 +59,7 @@ const shown = computed(() => level.value ?? 1)
         :class="[`rar-${h.rarity}`, { selected: viewed === h.id, locked: p.heroes[h.id] == null }]"
         @click="viewed = h.id"
       >
-        <span class="cell-name">{{ h.name }}</span>
+        <SpriteIcon :file="SPRITE.hero(h.id)"><span class="cell-name">{{ h.name }}</span></SpriteIcon>
         <span class="cell-level">{{ p.heroes[h.id] != null ? `${p.heroes[h.id]}/${HERO_MAX_LEVEL}` : '' }}</span>
         <span v-if="p.hero === h.id" class="cell-badge equipped"><Icon name="check" :size="10" /></span>
         <span v-else-if="p.heroes[h.id] == null" class="cell-badge lock-badge"><Icon name="lock" :size="10" /></span>

@@ -5,7 +5,9 @@ import { EFFECT_NAMES, KIND_NAMES, WEAPONS } from '../../game/data/weapons'
 import { RARITY_NAMES, SETS, SET_PIECES_NEEDED, SLOT_NAMES, sellGold, upgradeBlueprints, upgradeGold } from '../../meta/content'
 import { mainBonusText, perkText } from '../../meta/format'
 import type { Meta } from '../../meta/Meta'
+import { itemSprite } from '../../meta/format'
 import Icon from '../Icon.vue'
+import SpriteIcon from '../SpriteIcon.vue'
 
 const props = defineProps<{ meta: Meta; uid: number }>()
 const emit = defineEmits<{ close: [] }>()
@@ -34,10 +36,10 @@ function merge() {
 
 <template>
   <div class="modal-back" @click.self="emit('close')">
-    <div v-if="it && def" class="modal item-modal">
+    <div v-if="it && def" v-drag-scroll class="modal item-modal">
       <button class="modal-close" @click="emit('close')"><Icon name="close" /></button>
       <div class="item-head">
-        <div class="item-icon" :class="`rar-${it.rarity}`">{{ SLOT_NAMES[def.slot] }}</div>
+        <div class="item-icon" :class="`rar-${it.rarity}`"><SpriteIcon :file="itemSprite(it.itemId)">{{ SLOT_NAMES[def.slot] }}</SpriteIcon></div>
         <div>
           <div class="rarity-name" :class="`rar-text-${it.rarity}`">{{ RARITY_NAMES[it.rarity] }}</div>
           <div class="item-name">{{ def.name }}</div>

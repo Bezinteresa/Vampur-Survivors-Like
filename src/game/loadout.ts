@@ -24,6 +24,7 @@ export interface RunLoadout {
   abilities: AbilitySetup[]
   sets: string[] // active set bonuses
   heroPerk: RollPerk | null // the chosen bogatyr's roll perk
+  heroId: string
 }
 
 export interface RunResult {
@@ -45,4 +46,5 @@ export const PLAIN_LOADOUT: RunLoadout = {
   ],
   sets: [],
   heroPerk: null,
+  heroId: 'ivan',
 }

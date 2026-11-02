@@ -3,7 +3,10 @@ import { computed } from 'vue'
 import { WAVE_COUNT } from '../../game/data/waves'
 import { MAP_LEVELS } from '../../meta/content'
 import type { Meta } from '../../meta/Meta'
+import { LOCATIONS } from '../../game/data/bestiary'
+import { SPRITE } from '../../sprites'
 import Icon from '../Icon.vue'
+import SpriteIcon from '../SpriteIcon.vue'
 
 const props = defineProps<{ meta: Meta }>()
 const emit = defineEmits<{ start: [] }>()
@@ -18,12 +21,14 @@ function step(d: number) {
 
 <template>
   <div class="map-tab">
-    <div class="level-carousel">
+    <div v-swipe="{ left: () => step(1), right: () => step(-1) }" class="level-carousel">
       <button class="round-nav" :disabled="i === 0" @click="step(-1)"><Icon name="left" /></button>
       <div class="level-card">
-        <div class="level-island" :class="{ cleared: p.cleared[i] }">
-          <Icon name="skull" :size="56" />
-        </div>
+        <SpriteIcon class="island-pic" :file="SPRITE.location(LOCATIONS[i].id)">
+          <div class="level-island" :class="{ cleared: p.cleared[i] }">
+            <Icon name="skull" :size="56" />
+          </div>
+        </SpriteIcon>
         <div class="level-name">{{ i + 1 }}. {{ level.name }}</div>
         <div class="level-boss">Хозяин: <b>{{ level.boss }}</b> — {{ level.bossTitle }}</div>
         <div class="level-progress">

@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue'
 import type { Game } from '../game/Game'
 import { TIER_NAMES } from '../game/data/weapons'
+import { SPRITE } from '../sprites'
 import Icon from './Icon.vue'
+import SpriteIcon from './SpriteIcon.vue'
 
 // Weapon slots and the run-item shelf. In the shop (`editable`) a tapped weapon can be merged or sold.
 const props = defineProps<{ game: Game; editable?: boolean }>()
@@ -41,7 +43,7 @@ function sell() {
         @click="pickWeapon(n - 1)"
       >
         <template v-if="ui.weapons[n - 1]">
-          <div class="slot-name">{{ ui.weapons[n - 1].name }}</div>
+          <SpriteIcon :file="SPRITE.weapon(ui.weapons[n - 1].id)"><div class="slot-name">{{ ui.weapons[n - 1].name }}</div></SpriteIcon>
           <div class="tier">{{ TIER_NAMES[ui.weapons[n - 1].tier] }}</div>
           <div v-if="editable && ui.weapons[n - 1].canMerge" class="merge-badge"><Icon name="up" :size="12" /></div>
         </template>
@@ -77,7 +79,7 @@ function sell() {
           :class="[`tier-${it.tier}`, { selected: selectedItem === it.id }]"
           @click="pickItem(it.id)"
         >
-          <span class="slot-name">{{ it.name }}</span>
+          <SpriteIcon :file="SPRITE.item(it.id)"><span class="slot-name">{{ it.name }}</span></SpriteIcon>
           <span class="stack">{{ it.count >= it.max ? 'Max' : `×${it.count}` }}</span>
         </button>
       </div>

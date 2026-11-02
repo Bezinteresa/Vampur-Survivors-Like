@@ -7,7 +7,7 @@ const ui = props.game.ui
 </script>
 
 <template>
-  <div class="screen">
+  <div v-drag-scroll class="screen">
     <div class="ribbon">Сундук снабжения</div>
     <div class="sub">Выберите одно оружие бесплатно</div>
     <div class="offers">

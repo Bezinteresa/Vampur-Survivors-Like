@@ -1,6 +1,6 @@
 # Что сгенерировать сейчас
 
-Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 18:39:00). Генерируй **только** картинки из этого списка — остальные уже готовы.
+Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 18:46:36). Генерируй **только** картинки из этого списка — остальные уже готовы.
 
 Стиль: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions
 Референс: References/style.png (сделать первым: богатырь Иван — hero/ivan.png — и утвердить стиль)
