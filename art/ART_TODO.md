@@ -1,6 +1,6 @@
 # Что сгенерировать сейчас
 
-Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 22:45:37). Генерируй **только** картинки из этого списка — остальные уже готовы.
+Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 23:01:08). Генерируй **только** картинки из этого списка — остальные уже готовы.
 
 Стиль: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions
 Референс: References/style.png (сделать первым: богатырь Иван — hero/ivan.png — и утвердить стиль)
@@ -11,97 +11,13 @@
 Потом сожми тяжёлые картинки: `python art/compress_sprites.py` (оригиналы останутся в art/originals).
 После этого снова запусти `node art/art_todo.mjs` — сделанное пропадёт из списка.
 
-Осталось: **367**
+Осталось: **348**
 
 ## mob/forest_shotgun.png — 256×256
 
 - Почему: переделать: гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок
 - Что: angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location "Dark enchanted Russian forest"
 - Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## terrain/forest.png — 256×256
-
-- Почему: переделать: слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)
-- Что: calm mossy green forest floor
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
-
-## decor/forest_1.png — 128×128
-
-- Почему: новая картинка
-- Что: small mossy pebble, location "Dark enchanted Russian forest"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## decor/forest_2.png — 128×128
-
-- Почему: новая картинка
-- Что: a few blue cornflowers, location "Dark enchanted Russian forest"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## decor/forest_3.png — 128×128
-
-- Почему: новая картинка
-- Что: small fern sprout, location "Dark enchanted Russian forest"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## border/forest_1.png — 256×256
-
-- Почему: новая картинка
-- Что: tall dark fir tree, location "Dark enchanted Russian forest"
-- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
-
-## border/forest_2.png — 256×256
-
-- Почему: новая картинка
-- Что: old gnarled oak tree, location "Dark enchanted Russian forest"
-- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
-
-## terrain/swamp.png — 256×256
-
-- Почему: переделать: слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)
-- Что: calm murky olive-green bog ground
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
-
-## decor/swamp_1.png — 128×128
-
-- Почему: новая картинка
-- Что: small tuft of reeds, location "Deadly bog"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## decor/swamp_2.png — 128×128
-
-- Почему: новая картинка
-- Что: white water lily flower, location "Deadly bog"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## decor/swamp_3.png — 128×128
-
-- Почему: новая картинка
-- Что: small mossy stone, location "Deadly bog"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## border/swamp_1.png — 256×256
-
-- Почему: новая картинка
-- Что: dead twisted swamp tree with hanging moss, location "Deadly bog"
-- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
-
-## border/swamp_2.png — 256×256
-
-- Почему: новая картинка
-- Что: tall clump of reeds and cattails, location "Deadly bog"
-- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
-
-## decor/pool_1.png — 128×128
-
-- Почему: новая картинка
-- Что: few smooth river pebbles, location "Dark whirlpool by an old mill"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## decor/pool_2.png — 128×128
-
-- Почему: новая картинка
-- Что: small river shell, location "Dark whirlpool by an old mill"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
 ## decor/pool_3.png — 128×128
 
@@ -174,12 +90,6 @@
 - Почему: новая картинка
 - Что: Nightingale the Robber: a wild robber perched among nine oak branches, a huge lungful for his deadly whistle, feathers and rags
 - Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## terrain/road.png — 256×256
-
-- Почему: новая картинка
-- Что: calm dusty light-brown dirt
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/road.png — 512×384
 
@@ -283,12 +193,6 @@
 - Что: Likho One-Eyed: a towering gaunt cyclops crone with one huge eye in the middle of the forehead, rags, long grasping arms
 - Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
 
-## terrain/cave.png — 256×256
-
-- Почему: новая картинка
-- Что: calm grey cave floor stone
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
-
 ## location/cave.png — 512×384
 
 - Почему: новая картинка
@@ -390,12 +294,6 @@
 - Почему: новая картинка
 - Что: Baba Yaga: a bony old witch with a hooked nose, flying in a wooden mortar with a pestle and broom, iron teeth, a skull lantern
 - Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## terrain/hut.png — 256×256
-
-- Почему: новая картинка
-- Что: calm dark brown forest earth
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/hut.png — 512×384
 
@@ -499,12 +397,6 @@
 - Что: Zmey Gorynych: a green three-headed dragon with bat wings, each head breathing fire, spiked tail
 - Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
 
-## terrain/bridge.png — 256×256
-
-- Почему: новая картинка
-- Что: calm scorched dark red-brown earth
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
-
 ## location/bridge.png — 512×384
 
 - Почему: новая картинка
@@ -606,12 +498,6 @@
 - Почему: новая картинка
 - Что: Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape
 - Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## terrain/koschei.png — 256×256
-
-- Почему: новая картинка
-- Что: calm cold dark slate-grey stone
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/koschei.png — 512×384
 

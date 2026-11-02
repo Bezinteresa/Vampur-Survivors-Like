@@ -119,7 +119,7 @@ for loc, (place, ground, boss) in locs.items():
         size = 320 if ai in ('roller', 'splitter') else 192 if ai == 'small' else 256
         add(f'mob/{loc}_{ai}.png', size, size, f'{what}, minion of the location "{place}"', BIG if size == 320 else CHAR)
     add(f'boss/{loc}.png', 448, 448, boss, BOSS)
-    add(f'terrain/{loc}.png', 256, 256, ground, TILE)
+    # No ground tiles: the battlefield is a flat colour (src/game/data/bestiary.ts, `ground`).
     add(f'location/{loc}.png', 512, 384, f'{place}; {boss.split(":")[0]}', ISLAND)
     for i, what in enumerate(decor[loc], 1):
         add(f'decor/{loc}_{i}.png', 128, 128, f'{what}, location "{place}"', DECOR)
@@ -183,8 +183,6 @@ for k, v in {'gold': 'pile of gold coins', 'gems': 'blue gem crystal', 'water': 
 
 # ---------- pictures to redo ----------
 for a in assets:
-    if a['file'].startswith('terrain/'):
-        a['redo'] = 'слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)'
     if a['file'] == 'mob/forest_shotgun.png':
         a['redo'] = 'гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок'
 

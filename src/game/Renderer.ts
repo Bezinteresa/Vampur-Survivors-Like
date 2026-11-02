@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { SPRITE, hasSprite, spriteTexture, walkFrame } from '../sprites'
+import { VIEW } from './view'
 import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type Enemy, type World } from './World'
 
 // Life in a still picture: the feet stay put, the top stretches a little up and down ("breathing");
@@ -15,7 +16,6 @@ function bob(t: number, moving: boolean, phase: number): { stretch: number; lean
 // When the art pipeline has a picture for something (public/sprites), it is drawn instead of the placeholder:
 // one instanced quad per picture, tinted the same way the circles are.
 
-const VIEW_W = 560 // world units visible across the screen width
 const MAX_ENEMIES = 1000
 const MAX_PROJECTILES = 1500
 const MAX_PICKUPS = 500
@@ -29,7 +29,6 @@ const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
 const SPRITE_SCALE = 2.6 // picture size relative to the enemy radius (pictures have margins)
 const WEAPON_RING = 30 // weapons hover this far around the hero
-const HERO_SIZE = 52
 const DECOR_COUNT = 60 // sparse details on the calm ground
 const BORDER_ROWS = 3 // rows of trees/rocks around the arena
 const BORDER_STEP = 56
@@ -43,7 +42,13 @@ export class Renderer {
   private readonly gl: THREE.WebGLRenderer
   private readonly scene = new THREE.Scene()
   private readonly camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10)
+  private viewW = 520 // world units across the screen width; eases toward zoomTo
   private viewH = 1000
+  private aspect = 2 // height / width of the screen
+  private zoomFrom = 520
+  private zoomTo = 520
+  private zoomT = 1 // 0..1 progress of the current camera change
+  private lastTime = 0
   private readonly m = new THREE.Matrix4()
   private readonly c = new THREE.Color()
   private readonly white = new THREE.Color(0xffffff)
@@ -129,7 +134,7 @@ export class Renderer {
     this.playerBody.position.z = 0.01
     this.playerShape.add(outline, this.playerBody)
     this.heroSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }))
-    this.heroSprite.scale.set(HERO_SIZE, HERO_SIZE, 1)
+    this.heroSprite.scale.set(VIEW.heroSize, VIEW.heroSize, 1)
     this.heroSprite.position.set(0, HERO_LIFT, 0.03)
     this.heroSprite.visible = false
     this.player.add(this.playerShape, this.heroSprite)
@@ -174,9 +179,25 @@ export class Renderer {
 
   resize(width: number, height: number): void {
     this.gl.setSize(width, height, false)
-    this.viewH = (VIEW_W * height) / Math.max(1, width)
-    this.camera.left = -VIEW_W / 2
-    this.camera.right = VIEW_W / 2
+    this.aspect = height / Math.max(1, width)
+    this.applyView()
+  }
+
+  // Camera distance (world units across the screen). `instant` snaps, otherwise it eases over VIEW.zoomTime.
+  setZoom(viewW: number, instant = false): void {
+    this.zoomFrom = instant ? viewW : this.viewW
+    this.zoomTo = viewW
+    this.zoomT = instant ? 1 : 0
+    if (instant) {
+      this.viewW = viewW
+      this.applyView()
+    }
+  }
+
+  private applyView(): void {
+    this.viewH = this.viewW * this.aspect
+    this.camera.left = -this.viewW / 2
+    this.camera.right = this.viewW / 2
     this.camera.top = this.viewH / 2
     this.camera.bottom = -this.viewH / 2
     this.camera.updateProjectionMatrix()
@@ -189,8 +210,18 @@ export class Renderer {
 
   render(world: World, time: number): void {
     const p = world.player
+    // Camera changes run on real time, so they also play while the game is frozen (view panel).
+    const now = performance.now() / 1000
+    const dt = Math.max(0, Math.min(0.1, now - this.lastTime))
+    this.lastTime = now
+    if (this.zoomT < 1) {
+      this.zoomT = Math.min(1, this.zoomT + dt / Math.max(0.05, VIEW.zoomTime))
+      const k = this.zoomT * this.zoomT * (3 - 2 * this.zoomT) // smoothstep
+      this.viewW = this.zoomFrom + (this.zoomTo - this.zoomFrom) * k
+      this.applyView()
+    }
     this.camera.position.set(
-      followClamp(p.x, HALF_W, VIEW_W / 2),
+      followClamp(p.x, HALF_W, this.viewW / 2),
       followClamp(p.y, HALF_H, this.viewH / 2),
       5,
     )
@@ -206,18 +237,18 @@ export class Renderer {
         this.heroSprite.material.needsUpdate = true
       }
       // Hero pictures face right; turn with the movement.
-      if (Math.abs(p.fx) > 0.2) this.heroSprite.scale.x = HERO_SIZE * Math.sign(p.fx)
+      if (Math.abs(p.fx) > 0.2 || Math.abs(this.heroSprite.scale.x) !== VIEW.heroSize) this.heroSprite.scale.x = VIEW.heroSize * (Math.sign(p.fx) || 1)
       this.heroSprite.material.opacity = p.rollT > 0 ? 0.55 : 1
       this.heroSprite.material.color.setHex(p.hurt > 0 ? 0xff8080 : 0xffffff)
       if (p.rollT > 0) {
         this.heroSprite.rotation.z = -Math.sign(p.fx || 1) * (1 - p.rollT / 0.3) * Math.PI * 2
-        this.heroSprite.scale.y = HERO_SIZE
+        this.heroSprite.scale.y = VIEW.heroSize
         this.heroSprite.position.set(0, HERO_LIFT, 0.03)
       } else {
         // Stretch and lean around the feet (bottom edge of the picture).
         const { stretch, lean } = bob(time, p.moving, 0)
-        const h = HERO_SIZE * stretch
-        const footY = HERO_LIFT - HERO_SIZE / 2
+        const h = VIEW.heroSize * stretch
+        const footY = HERO_LIFT - VIEW.heroSize / 2
         this.heroSprite.rotation.z = lean
         this.heroSprite.scale.y = h
         this.heroSprite.position.set(-Math.sin(lean) * h * 0.5, footY + Math.cos(lean) * h * 0.5, 0.03)
@@ -307,22 +338,11 @@ export class Renderer {
     }
   }
 
-  // Floor of the location: the terrain picture when there is one, else a generated placeholder in its colour.
+  // The battlefield is one flat colour of the location; only sparse decor and the border wall sit on it.
   setLocation(id: string, groundColor: string): void {
     this.locationId = id
     this.mobFiles.clear()
-    const old = this.ground.material.map
-    const tex = spriteTexture(SPRITE.terrain(id))
-    if (tex) {
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping
-      tex.repeat.set(ARENA_W / 256, ARENA_H / 256)
-      this.ground.material.map = tex
-    } else {
-      this.ground.material.map = this.groundTexture(groundColor)
-    }
-    this.ground.material.needsUpdate = true
-    // Generated placeholder floors are ours to free; picture textures stay cached in sprites.ts.
-    if (old instanceof THREE.CanvasTexture) old.dispose()
+    this.ground.material.color.set(groundColor)
     this.buildScenery(id, groundColor)
   }
 
@@ -592,7 +612,7 @@ export class Renderer {
   }
 
   private makeGround(): THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial> {
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(ARENA_W, ARENA_H), new THREE.MeshBasicMaterial({ map: this.groundTexture('#56644d') }))
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(ARENA_W, ARENA_H), new THREE.MeshBasicMaterial({ color: 0x56644d }))
     ground.position.z = Z.ground
     const border = new THREE.LineLoop(
       new THREE.BufferGeometry().setFromPoints([
@@ -605,26 +625,6 @@ export class Renderer {
     )
     ground.add(border)
     return ground
-  }
-
-  private groundTexture(color: string): THREE.CanvasTexture {
-    const size = 256
-    const cv = document.createElement('canvas')
-    cv.width = cv.height = size
-    const g = cv.getContext('2d')!
-    g.fillStyle = color
-    g.fillRect(0, 0, size, size)
-    let seed = 7
-    const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
-    for (let i = 0; i < 120; i++) {
-      g.fillStyle = rnd() < 0.5 ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)'
-      g.fillRect(rnd() * size, rnd() * size, 2 + rnd() * 3, 2 + rnd() * 3)
-    }
-    const tex = new THREE.CanvasTexture(cv)
-    tex.wrapS = tex.wrapT = THREE.RepeatWrapping
-    tex.repeat.set(ARENA_W / size, ARENA_H / size)
-    tex.colorSpace = THREE.SRGBColorSpace
-    return tex
   }
 }
 

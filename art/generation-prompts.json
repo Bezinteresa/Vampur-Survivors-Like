@@ -139,14 +139,6 @@
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
-      "file": "terrain/forest.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm mossy green forest floor",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
-    },
-    {
       "file": "location/forest.png",
       "w": 512,
       "h": 384,
@@ -264,14 +256,6 @@
       "h": 448,
       "subject": "Kikimora of the bog: a gaunt swamp witch with tangled hair of weeds, long fingers, a spindle, frogs around her feet",
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
-    },
-    {
-      "file": "terrain/swamp.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm murky olive-green bog ground",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/swamp.png",
@@ -393,13 +377,6 @@
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
-      "file": "terrain/pool.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm dark wet riverbank silt, blue-grey",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable."
-    },
-    {
       "file": "location/pool.png",
       "w": 512,
       "h": 384,
@@ -517,14 +494,6 @@
       "h": 448,
       "subject": "Nightingale the Robber: a wild robber perched among nine oak branches, a huge lungful for his deadly whistle, feathers and rags",
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
-    },
-    {
-      "file": "terrain/road.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm dusty light-brown dirt",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/road.png",
@@ -646,14 +615,6 @@
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
-      "file": "terrain/cave.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm grey cave floor stone",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
-    },
-    {
       "file": "location/cave.png",
       "w": 512,
       "h": 384,
@@ -771,14 +732,6 @@
       "h": 448,
       "subject": "Baba Yaga: a bony old witch with a hooked nose, flying in a wooden mortar with a pestle and broom, iron teeth, a skull lantern",
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
-    },
-    {
-      "file": "terrain/hut.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm dark brown forest earth",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/hut.png",
@@ -900,14 +853,6 @@
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
-      "file": "terrain/bridge.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm scorched dark red-brown earth",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
-    },
-    {
       "file": "location/bridge.png",
       "w": 512,
       "h": 384,
@@ -1025,14 +970,6 @@
       "h": 448,
       "subject": "Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape",
       "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
-    },
-    {
-      "file": "terrain/koschei.png",
-      "w": 256,
-      "h": 256,
-      "subject": "calm cold dark slate-grey stone",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
-      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/koschei.png",

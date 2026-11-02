@@ -12,6 +12,8 @@ import Loadout from './ui/Loadout.vue'
 import Lobby from './ui/lobby/Lobby.vue'
 import RewardList from './ui/lobby/RewardList.vue'
 import Shop from './ui/Shop.vue'
+import ViewPanel from './ui/ViewPanel.vue'
+import { viewTuning } from './game/view'
 
 const host = ref<HTMLElement>()
 const showStats = ref(false)
@@ -57,6 +59,7 @@ const knob = computed(() => {
 
     <template v-if="game && loaded">
       <Hud v-if="inBattle" :game="game" />
+      <ViewPanel v-if="viewTuning && (screen === 'wave' || screen === 'waveEnd')" :game="game" />
 
       <template v-if="game.input.joy.active && screen === 'wave'">
         <div class="joy-base" :style="{ left: `${game.input.joy.ox}px`, top: `${game.input.joy.oy}px` }"></div>
