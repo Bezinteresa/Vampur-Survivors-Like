@@ -1,6 +1,6 @@
 # Что сгенерировать сейчас
 
-Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 22:26:37). Генерируй **только** картинки из этого списка — остальные уже готовы.
+Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 22:45:37). Генерируй **только** картинки из этого списка — остальные уже готовы.
 
 Стиль: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions
 Референс: References/style.png (сделать первым: богатырь Иван — hero/ivan.png — и утвердить стиль)
@@ -11,7 +11,7 @@
 Потом сожми тяжёлые картинки: `python art/compress_sprites.py` (оригиналы останутся в art/originals).
 После этого снова запусти `node art/art_todo.mjs` — сделанное пропадёт из списка.
 
-Осталось: **344**
+Осталось: **367**
 
 ## mob/forest_shotgun.png — 256×256
 
@@ -19,119 +19,107 @@
 - Что: angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location "Dark enchanted Russian forest"
 - Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
 
-## mob/swamp_coin.png — 256×256
+## terrain/forest.png — 256×256
+
+- Почему: переделать: слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)
+- Что: calm mossy green forest floor
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
+
+## decor/forest_1.png — 128×128
 
 - Почему: новая картинка
-- Что: greedy bittern bird with a coin in its beak, minion of the location "Deadly bog"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: small mossy pebble, location "Dark enchanted Russian forest"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
-## boss/swamp.png — 448×448
+## decor/forest_2.png — 128×128
 
 - Почему: новая картинка
-- Что: Kikimora of the bog: a gaunt swamp witch with tangled hair of weeds, long fingers, a spindle, frogs around her feet
-- Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: a few blue cornflowers, location "Dark enchanted Russian forest"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/forest_3.png — 128×128
+
+- Почему: новая картинка
+- Что: small fern sprout, location "Dark enchanted Russian forest"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/forest_1.png — 256×256
+
+- Почему: новая картинка
+- Что: tall dark fir tree, location "Dark enchanted Russian forest"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/forest_2.png — 256×256
+
+- Почему: новая картинка
+- Что: old gnarled oak tree, location "Dark enchanted Russian forest"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## terrain/swamp.png — 256×256
 
-- Почему: новая картинка
-- Что: murky bog ground with moss tufts, dark water spots and reeds stubble
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
+- Почему: переделать: слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)
+- Что: calm murky olive-green bog ground
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
-## location/swamp.png — 512×384
-
-- Почему: новая картинка
-- Что: Deadly bog; Kikimora of the bog
-- Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
-
-## mob/pool_chaser.png — 256×256
+## decor/swamp_1.png — 128×128
 
 - Почему: новая картинка
-- Что: drowned man, pale and dripping, weeds in his hair, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: small tuft of reeds, location "Deadly bog"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
-## mob/pool_roller.png — 320×320
-
-- Почему: новая картинка
-- Что: giant whiskered catfish flopping forward, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## mob/pool_shotgun.png — 256×256
+## decor/swamp_2.png — 128×128
 
 - Почему: новая картинка
-- Что: water maiden throwing splashes, long wet hair, modest dress, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: white water lily flower, location "Deadly bog"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
-## mob/pool_beam.png — 256×256
-
-- Почему: новая картинка
-- Что: pool spirit, a column of dark water with glowing eyes, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## mob/pool_twinBeam.png — 256×256
+## decor/swamp_3.png — 128×128
 
 - Почему: новая картинка
-- Что: whirlpool spirit spinning, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: small mossy stone, location "Deadly bog"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
-## mob/pool_splitter.png — 320×320
-
-- Почему: новая картинка
-- Что: big river shell creature, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## mob/pool_small.png — 192×192
+## border/swamp_1.png — 256×256
 
 - Почему: новая картинка
-- Что: little crayfish, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: dead twisted swamp tree with hanging moss, location "Deadly bog"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
-## mob/pool_rocket.png — 256×256
-
-- Почему: новая картинка
-- Что: toothy pike leaping, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## mob/pool_poison.png — 256×256
+## border/swamp_2.png — 256×256
 
 - Почему: новая картинка
-- Что: blob of green slime, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: tall clump of reeds and cattails, location "Deadly bog"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
-## mob/pool_coin.png — 256×256
-
-- Почему: новая картинка
-- Что: burbot fish carrying a treasure pouch, minion of the location "Dark whirlpool by an old mill"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## boss/pool.png — 448×448
+## decor/pool_1.png — 128×128
 
 - Почему: новая картинка
-- Что: Vodyanoy, the water grandfather: a fat old green-skinned water spirit with a long wet beard of weeds, fish tail feet, mill-wheel crown
-- Дополнительно: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: few smooth river pebbles, location "Dark whirlpool by an old mill"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
-## terrain/pool.png — 256×256
-
-- Почему: новая картинка
-- Что: wet riverbank pebbles and dark silt with patches of shallow water
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
-
-## location/pool.png — 512×384
+## decor/pool_2.png — 128×128
 
 - Почему: новая картинка
-- Что: Dark whirlpool by an old mill; Vodyanoy, the water grandfather
-- Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
+- Что: small river shell, location "Dark whirlpool by an old mill"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
 
-## mob/road_chaser.png — 256×256
-
-- Почему: новая картинка
-- Что: robber with a flail in a red shirt, minion of the location "Robbers' high road among old oaks"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## mob/road_roller.png — 320×320
+## decor/pool_3.png — 128×128
 
 - Почему: новая картинка
-- Что: big lad rolling a barrel, minion of the location "Robbers' high road among old oaks"
-- Дополнительно: Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: small tuft of sedge, location "Dark whirlpool by an old mill"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/pool_1.png — 256×256
+
+- Почему: новая картинка
+- Что: weeping willow tree, location "Dark whirlpool by an old mill"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/pool_2.png — 256×256
+
+- Почему: новая картинка
+- Что: tall reeds by the water, location "Dark whirlpool by an old mill"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## mob/road_shotgun.png — 256×256
 
@@ -190,14 +178,44 @@
 ## terrain/road.png — 256×256
 
 - Почему: новая картинка
-- Что: dusty old dirt road with wheel ruts, trampled grass at the edges
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
+- Что: calm dusty light-brown dirt
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/road.png — 512×384
 
 - Почему: новая картинка
 - Что: Robbers' high road among old oaks; Nightingale the Robber
 - Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
+
+## decor/road_1.png — 128×128
+
+- Почему: новая картинка
+- Что: small grey stone, location "Robbers' high road among old oaks"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/road_2.png — 128×128
+
+- Почему: новая картинка
+- Что: dry grass tuft, location "Robbers' high road among old oaks"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/road_3.png — 128×128
+
+- Почему: новая картинка
+- Что: lost rusty horseshoe, location "Robbers' high road among old oaks"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/road_1.png — 256×256
+
+- Почему: новая картинка
+- Что: big old oak tree, location "Robbers' high road among old oaks"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/road_2.png — 256×256
+
+- Почему: новая картинка
+- Что: wooden fence section with a cart wheel, location "Robbers' high road among old oaks"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## mob/cave_chaser.png — 256×256
 
@@ -268,14 +286,44 @@
 ## terrain/cave.png — 256×256
 
 - Почему: новая картинка
-- Что: rough grey cave floor with cracks, small stones and bones
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
+- Что: calm grey cave floor stone
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/cave.png — 512×384
 
 - Почему: новая картинка
 - Что: Cave of One-Eyed Likho; Likho One-Eyed
 - Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
+
+## decor/cave_1.png — 128×128
+
+- Почему: новая картинка
+- Что: small sharp rock, location "Cave of One-Eyed Likho"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/cave_2.png — 128×128
+
+- Почему: новая картинка
+- Что: old bone, location "Cave of One-Eyed Likho"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/cave_3.png — 128×128
+
+- Почему: новая картинка
+- Что: small glowing crystal, location "Cave of One-Eyed Likho"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/cave_1.png — 256×256
+
+- Почему: новая картинка
+- Что: tall cave rock wall boulder, location "Cave of One-Eyed Likho"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/cave_2.png — 256×256
+
+- Почему: новая картинка
+- Что: tall stalagmite, location "Cave of One-Eyed Likho"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## mob/hut_chaser.png — 256×256
 
@@ -346,14 +394,44 @@
 ## terrain/hut.png — 256×256
 
 - Почему: новая картинка
-- Что: dark forest clearing ground with bone fragments, mushrooms and black earth
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
+- Что: calm dark brown forest earth
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/hut.png — 512×384
 
 - Почему: новая картинка
 - Что: Baba Yaga's hut on chicken legs; Baba Yaga
 - Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
+
+## decor/hut_1.png — 128×128
+
+- Почему: новая картинка
+- Что: small red mushroom, location "Baba Yaga's hut on chicken legs"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/hut_2.png — 128×128
+
+- Почему: новая картинка
+- Что: small bone, location "Baba Yaga's hut on chicken legs"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/hut_3.png — 128×128
+
+- Почему: новая картинка
+- Что: black crow feather, location "Baba Yaga's hut on chicken legs"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/hut_1.png — 256×256
+
+- Почему: новая картинка
+- Что: dark spruce tree, location "Baba Yaga's hut on chicken legs"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/hut_2.png — 256×256
+
+- Почему: новая картинка
+- Что: fence of wooden stakes with skulls on top, location "Baba Yaga's hut on chicken legs"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## mob/bridge_chaser.png — 256×256
 
@@ -424,14 +502,44 @@
 ## terrain/bridge.png — 256×256
 
 - Почему: новая картинка
-- Что: scorched cracked earth and hot ashes with ember glints
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
+- Что: calm scorched dark red-brown earth
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/bridge.png — 512×384
 
 - Почему: новая картинка
 - Что: Kalinov bridge over the fiery river Smorodina; Zmey Gorynych
 - Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
+
+## decor/bridge_1.png — 128×128
+
+- Почему: новая картинка
+- Что: small smouldering ember stone, location "Kalinov bridge over the fiery river Smorodina"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/bridge_2.png — 128×128
+
+- Почему: новая картинка
+- Что: small pile of ash, location "Kalinov bridge over the fiery river Smorodina"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/bridge_3.png — 128×128
+
+- Почему: новая картинка
+- Что: charred pebble, location "Kalinov bridge over the fiery river Smorodina"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/bridge_1.png — 256×256
+
+- Почему: новая картинка
+- Что: jagged black lava rock, location "Kalinov bridge over the fiery river Smorodina"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/bridge_2.png — 256×256
+
+- Почему: новая картинка
+- Что: burnt dead tree, location "Kalinov bridge over the fiery river Smorodina"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## mob/koschei_chaser.png — 256×256
 
@@ -502,14 +610,44 @@
 ## terrain/koschei.png — 256×256
 
 - Почему: новая картинка
-- Что: cold dark stone tiles of an evil kingdom with frost and old bones between them
-- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.
+- Что: calm cold dark slate-grey stone
+- Дополнительно: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.
 
 ## location/koschei.png — 512×384
 
 - Почему: новая картинка
 - Что: Kingdom of Koschei the Deathless; Koschei the Deathless
 - Дополнительно: A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.
+
+## decor/koschei_1.png — 128×128
+
+- Почему: новая картинка
+- Что: small skull, location "Kingdom of Koschei the Deathless"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/koschei_2.png — 128×128
+
+- Почему: новая картинка
+- Что: scattered bones, location "Kingdom of Koschei the Deathless"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## decor/koschei_3.png — 128×128
+
+- Почему: новая картинка
+- Что: cracked stone, location "Kingdom of Koschei the Deathless"
+- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
+
+## border/koschei_1.png — 256×256
+
+- Почему: новая картинка
+- Что: black spiked rock spire, location "Kingdom of Koschei the Deathless"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
+
+## border/koschei_2.png — 256×256
+
+- Почему: новая картинка
+- Что: dead black tree, location "Kingdom of Koschei the Deathless"
+- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
 
 ## mob/egg.png — 192×192
 

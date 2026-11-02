@@ -30,6 +30,9 @@ const SWORD_ARC = 2.1
 const SPRITE_SCALE = 2.6 // picture size relative to the enemy radius (pictures have margins)
 const WEAPON_RING = 30 // weapons hover this far around the hero
 const HERO_SIZE = 52
+const DECOR_COUNT = 60 // sparse details on the calm ground
+const BORDER_ROWS = 3 // rows of trees/rocks around the arena
+const BORDER_STEP = 56
 const HERO_LIFT = 6 // hero picture centre above the body centre
 const WEAPON_SIZE = 30
 const KIND_COLOR = { melee: 0xd8dde3, bullet: 0x6a5a4a, magic: 0x9a6ad0, mech: 0xb08a4a }
@@ -84,6 +87,7 @@ export class Renderer {
   private readonly mobFiles = new Map<string, string | null>()
   private locationId = ''
   private heroFile = ''
+  private readonly scenery = new THREE.Group() // decor and the border wall of the current location
 
   constructor(host: HTMLElement) {
     this.gl = new THREE.WebGLRenderer({ antialias: true })
@@ -93,6 +97,7 @@ export class Renderer {
 
     this.ground = this.makeGround()
     this.scene.add(this.ground)
+    this.scene.add(this.scenery)
     this.puddles = this.instanced(new THREE.CircleGeometry(1, 28), MAX_PUDDLES, 0xffffff, true)
     ;(this.puddles.material as THREE.MeshBasicMaterial).transparent = true
     ;(this.puddles.material as THREE.MeshBasicMaterial).opacity = 0.35
@@ -318,6 +323,83 @@ export class Renderer {
     this.ground.material.needsUpdate = true
     // Generated placeholder floors are ours to free; picture textures stay cached in sprites.ts.
     if (old instanceof THREE.CanvasTexture) old.dispose()
+    this.buildScenery(id, groundColor)
+  }
+
+  // Static scenery, laid out once per location with a fixed seed: rare small details on the ground and
+  // a wall of the location's trees/rocks/reeds around the arena (dark blobs until the pictures exist).
+  private buildScenery(id: string, groundColor: string): void {
+    for (const child of [...this.scenery.children]) {
+      const mesh = child as THREE.InstancedMesh
+      mesh.geometry.dispose()
+      ;(mesh.material as THREE.Material).dispose()
+      this.scenery.remove(mesh)
+    }
+    let seed = [...id].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 2147483647, 7) || 7
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647
+    type Spot = { x: number; y: number; size: number; flip: boolean }
+
+    const decorFiles = [1, 2, 3].map((n) => SPRITE.decor(id, n)).filter(hasSprite)
+    const decor: Spot[] = []
+    for (let i = 0; i < DECOR_COUNT; i++) {
+      decor.push({ x: (rnd() - 0.5) * (ARENA_W - 80), y: (rnd() - 0.5) * (ARENA_H - 80), size: 22 + rnd() * 14, flip: rnd() < 0.5 })
+    }
+    if (decorFiles.length) this.addScenery(decorFiles, decor, Z.ground + 0.2, rnd)
+
+    const wall: Spot[] = []
+    for (let row = 0; row < BORDER_ROWS; row++) {
+      const out = 26 + row * 50 // distance outside the arena edge
+      const push = (x: number, y: number) => wall.push({ x: x + (rnd() - 0.5) * 22, y: y + (rnd() - 0.5) * 22, size: 92 + rnd() * 40, flip: rnd() < 0.5 })
+      for (let x = -HALF_W - out; x <= HALF_W + out; x += BORDER_STEP) {
+        push(x, HALF_H + out)
+        push(x, -HALF_H - out)
+      }
+      for (let y = -HALF_H - out + BORDER_STEP; y < HALF_H + out; y += BORDER_STEP) {
+        push(-HALF_W - out, y)
+        push(HALF_W + out, y)
+      }
+    }
+    // Lower on screen = closer to the camera = drawn on top.
+    wall.sort((a, b) => b.y - a.y)
+    const borderFiles = [1, 2].map((n) => SPRITE.border(id, n)).filter(hasSprite)
+    if (borderFiles.length) {
+      // Pictures stand on their base: lift each one by half its size.
+      this.addScenery(borderFiles, wall.map((s) => ({ ...s, y: s.y + s.size * 0.4 })), Z.ground + 0.4, rnd)
+    } else {
+      const blob = new THREE.InstancedMesh(new THREE.CircleGeometry(1, 20), new THREE.MeshBasicMaterial(), wall.length)
+      const dark = new THREE.Color(groundColor).multiplyScalar(0.75)
+      wall.forEach((s, i) => {
+        this.m.makeScale(s.size * 0.36, s.size * 0.36, 1)
+        this.m.setPosition(s.x, s.y, Z.ground + 0.4)
+        blob.setMatrixAt(i, this.m)
+        blob.setColorAt(i, this.c.copy(dark).multiplyScalar(0.85 + rnd() * 0.3))
+      })
+      blob.frustumCulled = false
+      this.scenery.add(blob)
+    }
+  }
+
+  private addScenery(files: string[], spots: { x: number; y: number; size: number; flip: boolean }[], z: number, rnd: () => number): void {
+    const byFile = new Map<string, typeof spots>()
+    for (const s of spots) {
+      const f = files[Math.floor(rnd() * files.length)]
+      if (!byFile.has(f)) byFile.set(f, [])
+      byFile.get(f)!.push(s)
+    }
+    for (const [file, list] of byFile) {
+      const mesh = new THREE.InstancedMesh(
+        new THREE.PlaneGeometry(1, 1),
+        new THREE.MeshBasicMaterial({ map: spriteTexture(file), transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }),
+        list.length,
+      )
+      list.forEach((s, i) => {
+        this.m.makeScale(s.flip ? -s.size : s.size, s.size, 1)
+        this.m.setPosition(s.x, s.y, z)
+        mesh.setMatrixAt(i, this.m)
+      })
+      mesh.frustumCulled = false
+      this.scenery.add(mesh)
+    }
   }
 
   private mobFile(e: Enemy): string | null {
@@ -534,21 +616,9 @@ export class Renderer {
     g.fillRect(0, 0, size, size)
     let seed = 7
     const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
-    for (let i = 0; i < 260; i++) {
-      g.fillStyle = rnd() < 0.5 ? 'rgba(0,0,0,0.09)' : 'rgba(255,255,255,0.05)'
+    for (let i = 0; i < 120; i++) {
+      g.fillStyle = rnd() < 0.5 ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)'
       g.fillRect(rnd() * size, rnd() * size, 2 + rnd() * 3, 2 + rnd() * 3)
-    }
-    g.strokeStyle = 'rgba(30,40,25,0.35)'
-    g.lineWidth = 2
-    for (let i = 0; i < 18; i++) {
-      const x = rnd() * size
-      const y = rnd() * size
-      g.beginPath()
-      g.moveTo(x, y)
-      g.lineTo(x - 3, y - 7)
-      g.moveTo(x + 3, y)
-      g.lineTo(x + 5, y - 6)
-      g.stroke()
     }
     const tex = new THREE.CanvasTexture(cv)
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping
@@ -558,8 +628,8 @@ export class Renderer {
   }
 }
 
-// Camera follows the hero and stops a little past the arena edge, so the border stays visible.
-const EDGE_MARGIN = 50
+// Camera follows the hero and stops past the arena edge, so the border wall stays in view.
+const EDGE_MARGIN = 130
 
 function followClamp(v: number, half: number, viewHalf: number): number {
   const limit = half + EDGE_MARGIN - viewHalf

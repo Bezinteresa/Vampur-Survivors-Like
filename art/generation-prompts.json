@@ -142,8 +142,9 @@
       "file": "terrain/forest.png",
       "w": 256,
       "h": 256,
-      "subject": "mossy green-brown forest floor with fallen needles, roots and small ferns",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm mossy green forest floor",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/forest.png",
@@ -151,6 +152,41 @@
       "h": 384,
       "subject": "Dark enchanted Russian forest; Leshy, the forest master",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/forest_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small mossy pebble, location \"Dark enchanted Russian forest\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/forest_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "a few blue cornflowers, location \"Dark enchanted Russian forest\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/forest_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small fern sprout, location \"Dark enchanted Russian forest\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/forest_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tall dark fir tree, location \"Dark enchanted Russian forest\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/forest_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "old gnarled oak tree, location \"Dark enchanted Russian forest\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/swamp_chaser.png",
@@ -233,8 +269,9 @@
       "file": "terrain/swamp.png",
       "w": 256,
       "h": 256,
-      "subject": "murky bog ground with moss tufts, dark water spots and reeds stubble",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm murky olive-green bog ground",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/swamp.png",
@@ -242,6 +279,41 @@
       "h": 384,
       "subject": "Deadly bog; Kikimora of the bog",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/swamp_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small tuft of reeds, location \"Deadly bog\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/swamp_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "white water lily flower, location \"Deadly bog\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/swamp_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small mossy stone, location \"Deadly bog\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/swamp_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "dead twisted swamp tree with hanging moss, location \"Deadly bog\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/swamp_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tall clump of reeds and cattails, location \"Deadly bog\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/pool_chaser.png",
@@ -324,8 +396,8 @@
       "file": "terrain/pool.png",
       "w": 256,
       "h": 256,
-      "subject": "wet riverbank pebbles and dark silt with patches of shallow water",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm dark wet riverbank silt, blue-grey",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable."
     },
     {
       "file": "location/pool.png",
@@ -333,6 +405,41 @@
       "h": 384,
       "subject": "Dark whirlpool by an old mill; Vodyanoy, the water grandfather",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/pool_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "few smooth river pebbles, location \"Dark whirlpool by an old mill\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/pool_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small river shell, location \"Dark whirlpool by an old mill\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/pool_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small tuft of sedge, location \"Dark whirlpool by an old mill\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/pool_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "weeping willow tree, location \"Dark whirlpool by an old mill\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/pool_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tall reeds by the water, location \"Dark whirlpool by an old mill\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/road_chaser.png",
@@ -415,8 +522,9 @@
       "file": "terrain/road.png",
       "w": 256,
       "h": 256,
-      "subject": "dusty old dirt road with wheel ruts, trampled grass at the edges",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm dusty light-brown dirt",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/road.png",
@@ -424,6 +532,41 @@
       "h": 384,
       "subject": "Robbers' high road among old oaks; Nightingale the Robber",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/road_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small grey stone, location \"Robbers' high road among old oaks\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/road_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "dry grass tuft, location \"Robbers' high road among old oaks\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/road_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "lost rusty horseshoe, location \"Robbers' high road among old oaks\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/road_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "big old oak tree, location \"Robbers' high road among old oaks\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/road_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "wooden fence section with a cart wheel, location \"Robbers' high road among old oaks\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/cave_chaser.png",
@@ -506,8 +649,9 @@
       "file": "terrain/cave.png",
       "w": 256,
       "h": 256,
-      "subject": "rough grey cave floor with cracks, small stones and bones",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm grey cave floor stone",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/cave.png",
@@ -515,6 +659,41 @@
       "h": 384,
       "subject": "Cave of One-Eyed Likho; Likho One-Eyed",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/cave_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small sharp rock, location \"Cave of One-Eyed Likho\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/cave_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "old bone, location \"Cave of One-Eyed Likho\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/cave_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small glowing crystal, location \"Cave of One-Eyed Likho\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/cave_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tall cave rock wall boulder, location \"Cave of One-Eyed Likho\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/cave_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tall stalagmite, location \"Cave of One-Eyed Likho\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/hut_chaser.png",
@@ -597,8 +776,9 @@
       "file": "terrain/hut.png",
       "w": 256,
       "h": 256,
-      "subject": "dark forest clearing ground with bone fragments, mushrooms and black earth",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm dark brown forest earth",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/hut.png",
@@ -606,6 +786,41 @@
       "h": 384,
       "subject": "Baba Yaga's hut on chicken legs; Baba Yaga",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/hut_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small red mushroom, location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/hut_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small bone, location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/hut_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "black crow feather, location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/hut_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "dark spruce tree, location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/hut_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fence of wooden stakes with skulls on top, location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/bridge_chaser.png",
@@ -688,8 +903,9 @@
       "file": "terrain/bridge.png",
       "w": 256,
       "h": 256,
-      "subject": "scorched cracked earth and hot ashes with ember glints",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm scorched dark red-brown earth",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/bridge.png",
@@ -697,6 +913,41 @@
       "h": 384,
       "subject": "Kalinov bridge over the fiery river Smorodina; Zmey Gorynych",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/bridge_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small smouldering ember stone, location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/bridge_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small pile of ash, location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/bridge_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "charred pebble, location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/bridge_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "jagged black lava rock, location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/bridge_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "burnt dead tree, location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/koschei_chaser.png",
@@ -779,8 +1030,9 @@
       "file": "terrain/koschei.png",
       "w": 256,
       "h": 256,
-      "subject": "cold dark stone tiles of an evil kingdom with frost and old bones between them",
-      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+      "subject": "calm cold dark slate-grey stone",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.",
+      "redo": "слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)"
     },
     {
       "file": "location/koschei.png",
@@ -788,6 +1040,41 @@
       "h": 384,
       "subject": "Kingdom of Koschei the Deathless; Koschei the Deathless",
       "extra": "A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text."
+    },
+    {
+      "file": "decor/koschei_1.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small skull, location \"Kingdom of Koschei the Deathless\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/koschei_2.png",
+      "w": 128,
+      "h": 128,
+      "subject": "scattered bones, location \"Kingdom of Koschei the Deathless\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "decor/koschei_3.png",
+      "w": 128,
+      "h": 128,
+      "subject": "cracked stone, location \"Kingdom of Koschei the Deathless\"",
+      "extra": "One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text."
+    },
+    {
+      "file": "border/koschei_1.png",
+      "w": 256,
+      "h": 256,
+      "subject": "black spiked rock spire, location \"Kingdom of Koschei the Deathless\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
+    },
+    {
+      "file": "border/koschei_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "dead black tree, location \"Kingdom of Koschei the Deathless\"",
+      "extra": "One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena."
     },
     {
       "file": "mob/egg.png",

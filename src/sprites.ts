@@ -58,6 +58,8 @@ export const SPRITE = {
   mob: (defId: string) => (defId === 'egg' ? 'mob/egg.png' : `mob/${defId}.png`),
   terrain: (location: string) => `terrain/${location}.png`,
   location: (location: string) => `location/${location}.png`,
+  decor: (location: string, n: number) => `decor/${location}_${n}.png`,
+  border: (location: string, n: number) => `border/${location}_${n}.png`,
   weapon: (id: string) => `weapon/${id}.png`,
   gear: (itemId: string) => `gear/${itemId}.png`,
   ability: (id: string) => `ability/${id}.png`,

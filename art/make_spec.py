@@ -10,7 +10,9 @@ BIG = 'Single large creature, full body, top-down 3/4 game camera, facing LEFT, 
 BOSS = 'Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.'
 HERO = 'Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.'
 ICON = 'One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.'
-TILE = 'SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.'
+TILE = 'SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly. ALMOST UNIFORM single colour with only a very soft, low-contrast fine texture; NO objects, NO roots, NO plants, NO stones, NO pattern that repeats visibly; no shadows, no border, no perspective, opaque background. Calm and quiet so characters stay readable.'
+DECOR = 'One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.'
+BORDER = 'One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.'
 ISLAND = 'A small floating island diorama seen from a 3/4 angle, the location in miniature with its master standing on it, transparent background around the island, no text.'
 
 assets = []
@@ -33,14 +35,35 @@ for k, v in heroes.items():
 
 # ---------- locations: minions, boss, ground, map island ----------
 locs = {
-    'forest': ('Dark enchanted Russian forest', 'mossy green-brown forest floor with fallen needles, roots and small ferns', 'Leshy, the forest master: a tall wild man of bark and moss with antler-like branches, glowing green eyes, leaf beard'),
-    'swamp': ('Deadly bog', 'murky bog ground with moss tufts, dark water spots and reeds stubble', 'Kikimora of the bog: a gaunt swamp witch with tangled hair of weeds, long fingers, a spindle, frogs around her feet'),
-    'pool': ('Dark whirlpool by an old mill', 'wet riverbank pebbles and dark silt with patches of shallow water', 'Vodyanoy, the water grandfather: a fat old green-skinned water spirit with a long wet beard of weeds, fish tail feet, mill-wheel crown'),
-    'road': ('Robbers\' high road among old oaks', 'dusty old dirt road with wheel ruts, trampled grass at the edges', 'Nightingale the Robber: a wild robber perched among nine oak branches, a huge lungful for his deadly whistle, feathers and rags'),
-    'cave': ('Cave of One-Eyed Likho', 'rough grey cave floor with cracks, small stones and bones', 'Likho One-Eyed: a towering gaunt cyclops crone with one huge eye in the middle of the forehead, rags, long grasping arms'),
-    'hut': ('Baba Yaga\'s hut on chicken legs', 'dark forest clearing ground with bone fragments, mushrooms and black earth', 'Baba Yaga: a bony old witch with a hooked nose, flying in a wooden mortar with a pestle and broom, iron teeth, a skull lantern'),
-    'bridge': ('Kalinov bridge over the fiery river Smorodina', 'scorched cracked earth and hot ashes with ember glints', 'Zmey Gorynych: a green three-headed dragon with bat wings, each head breathing fire, spiked tail'),
-    'koschei': ('Kingdom of Koschei the Deathless', 'cold dark stone tiles of an evil kingdom with frost and old bones between them', 'Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape'),
+    'forest': ('Dark enchanted Russian forest', 'calm mossy green forest floor', 'Leshy, the forest master: a tall wild man of bark and moss with antler-like branches, glowing green eyes, leaf beard'),
+    'swamp': ('Deadly bog', 'calm murky olive-green bog ground', 'Kikimora of the bog: a gaunt swamp witch with tangled hair of weeds, long fingers, a spindle, frogs around her feet'),
+    'pool': ('Dark whirlpool by an old mill', 'calm dark wet riverbank silt, blue-grey', 'Vodyanoy, the water grandfather: a fat old green-skinned water spirit with a long wet beard of weeds, fish tail feet, mill-wheel crown'),
+    'road': ('Robbers\' high road among old oaks', 'calm dusty light-brown dirt', 'Nightingale the Robber: a wild robber perched among nine oak branches, a huge lungful for his deadly whistle, feathers and rags'),
+    'cave': ('Cave of One-Eyed Likho', 'calm grey cave floor stone', 'Likho One-Eyed: a towering gaunt cyclops crone with one huge eye in the middle of the forehead, rags, long grasping arms'),
+    'hut': ('Baba Yaga\'s hut on chicken legs', 'calm dark brown forest earth', 'Baba Yaga: a bony old witch with a hooked nose, flying in a wooden mortar with a pestle and broom, iron teeth, a skull lantern'),
+    'bridge': ('Kalinov bridge over the fiery river Smorodina', 'calm scorched dark red-brown earth', 'Zmey Gorynych: a green three-headed dragon with bat wings, each head breathing fire, spiked tail'),
+    'koschei': ('Kingdom of Koschei the Deathless', 'calm cold dark slate-grey stone', 'Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape'),
+}
+# Sparse details scattered over the calm ground (3 kinds) and the wall of the arena (2 kinds), per location.
+decor = {
+    'forest': ['small mossy pebble', 'a few blue cornflowers', 'small fern sprout'],
+    'swamp': ['small tuft of reeds', 'white water lily flower', 'small mossy stone'],
+    'pool': ['few smooth river pebbles', 'small river shell', 'small tuft of sedge'],
+    'road': ['small grey stone', 'dry grass tuft', 'lost rusty horseshoe'],
+    'cave': ['small sharp rock', 'old bone', 'small glowing crystal'],
+    'hut': ['small red mushroom', 'small bone', 'black crow feather'],
+    'bridge': ['small smouldering ember stone', 'small pile of ash', 'charred pebble'],
+    'koschei': ['small skull', 'scattered bones', 'cracked stone'],
+}
+border = {
+    'forest': ['tall dark fir tree', 'old gnarled oak tree'],
+    'swamp': ['dead twisted swamp tree with hanging moss', 'tall clump of reeds and cattails'],
+    'pool': ['weeping willow tree', 'tall reeds by the water'],
+    'road': ['big old oak tree', 'wooden fence section with a cart wheel'],
+    'cave': ['tall cave rock wall boulder', 'tall stalagmite'],
+    'hut': ['dark spruce tree', 'fence of wooden stakes with skulls on top'],
+    'bridge': ['jagged black lava rock', 'burnt dead tree'],
+    'koschei': ['black spiked rock spire', 'dead black tree'],
 }
 minions = {
     'forest': {
@@ -98,6 +121,10 @@ for loc, (place, ground, boss) in locs.items():
     add(f'boss/{loc}.png', 448, 448, boss, BOSS)
     add(f'terrain/{loc}.png', 256, 256, ground, TILE)
     add(f'location/{loc}.png', 512, 384, f'{place}; {boss.split(":")[0]}', ISLAND)
+    for i, what in enumerate(decor[loc], 1):
+        add(f'decor/{loc}_{i}.png', 128, 128, f'{what}, location "{place}"', DECOR)
+    for i, what in enumerate(border[loc], 1):
+        add(f'border/{loc}_{i}.png', 256, 256, f'{what}, location "{place}"', BORDER)
 add('mob/egg.png', 192, 192, 'Koschei\'s egg: a white egg with a dark crack glowing, a needle visible inside, magical runes', ICON)
 
 # ---------- run weapons ----------
@@ -156,6 +183,8 @@ for k, v in {'gold': 'pile of gold coins', 'gems': 'blue gem crystal', 'water': 
 
 # ---------- pictures to redo ----------
 for a in assets:
+    if a['file'].startswith('terrain/'):
+        a['redo'] = 'слишком много деталей: нужен почти однородный цвет, мелочи и забор теперь отдельные картинки (decor/, border/)'
     if a['file'] == 'mob/forest_shotgun.png':
         a['redo'] = 'гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок'
 
