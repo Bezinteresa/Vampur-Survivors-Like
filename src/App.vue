@@ -2,25 +2,40 @@
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { Game } from './game/Game'
 import { JOY_RADIUS } from './game/Input'
+import { Meta, type Reward } from './meta/Meta'
+import { devStorage } from './meta/storage'
 import ChestPick from './ui/ChestPick.vue'
 import Hud from './ui/Hud.vue'
 import Icon from './ui/Icon.vue'
 import LevelUp from './ui/LevelUp.vue'
 import Loadout from './ui/Loadout.vue'
+import Lobby from './ui/lobby/Lobby.vue'
+import RewardList from './ui/lobby/RewardList.vue'
 import Shop from './ui/Shop.vue'
 
 const host = ref<HTMLElement>()
 const showStats = ref(false)
 const game = shallowRef<Game>()
+const meta = new Meta()
+const loaded = ref(false)
+const rewards = ref<Reward[]>([])
 
-onMounted(() => {
+onMounted(async () => {
   game.value = new Game(host.value!)
-  if (import.meta.env.DEV) (window as unknown as { __game: Game }).__game = game.value
+  game.value.onRunEnd = (result) => (rewards.value = meta.applyRun(result))
+  if (import.meta.env.DEV) Object.assign(window, { __game: game.value, __meta: meta })
+  await meta.load(devStorage)
+  loaded.value = true
 })
 onBeforeUnmount(() => game.value?.dispose())
 
 const screen = computed(() => game.value?.ui.screen)
 const inBattle = computed(() => screen.value === 'wave' || screen.value === 'waveEnd' || screen.value === 'paused')
+
+function startRun() {
+  rewards.value = []
+  game.value?.startRun(meta.loadout())
+}
 
 const knob = computed(() => {
   const j = game.value!.input.joy
@@ -36,7 +51,7 @@ const knob = computed(() => {
   <div class="stage" @contextmenu.prevent>
     <div ref="host" class="canvas-host"></div>
 
-    <template v-if="game">
+    <template v-if="game && loaded">
       <Hud v-if="inBattle" :game="game" />
 
       <template v-if="game.input.joy.active && screen === 'wave'">
@@ -44,15 +59,7 @@ const knob = computed(() => {
         <div class="joy-knob" :style="knob"></div>
       </template>
 
-      <div v-if="screen === 'menu'" class="screen menu">
-        <div class="logo">Vampur<br />Survivors</div>
-        <div class="sub">Прототип боя · графика-заглушки</div>
-        <button class="btn btn-green big" @click="game.startRun()"><Icon name="play" :size="26" /> Играть</button>
-        <div class="hint">
-          Движение — WASD / стрелки или палец в любом месте экрана.<br />
-          Пробел — кувырок, E — скорострельность, P — пауза.
-        </div>
-      </div>
+      <Lobby v-if="screen === 'menu'" :meta="meta" @start="startRun" />
 
       <LevelUp v-if="screen === 'levelup'" :game="game" />
       <Shop v-if="screen === 'shop'" :game="game" />
@@ -68,7 +75,7 @@ const knob = computed(() => {
           <button class="btn btn-blue square" @click="showStats = !showStats"><Icon name="stats" /></button>
           <button class="btn btn-green wide" @click="game.resume()"><Icon name="play" :size="24" /> Продолжить</button>
         </div>
-        <button class="btn" @click="game.toMenu()">В меню</button>
+        <button class="btn" @click="game.surrender()">Сдаться</button>
       </div>
 
       <div v-if="screen === 'gameover' || screen === 'victory'" class="screen dim">
@@ -78,8 +85,10 @@ const knob = computed(() => {
           <div>Уровень: <b>{{ game.ui.level }}</b></div>
           <div>Убито: <b>{{ game.ui.kills }}</b></div>
         </div>
-        <button class="btn btn-green big" @click="game.startRun()">Ещё раз</button>
-        <button class="btn btn-blue" @click="game.toMenu()">В меню</button>
+        <div class="section-title">Награды</div>
+        <RewardList :rewards="rewards" />
+        <button class="btn btn-green big" @click="startRun">Ещё раз</button>
+        <button class="btn btn-blue" @click="game.toMenu()">В лобби</button>
       </div>
     </template>
   </div>

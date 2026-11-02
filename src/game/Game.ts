@@ -1,10 +1,11 @@
 import { reactive } from 'vue'
-import { ABILITIES, DEFAULT_LOADOUT, type AbilityDef } from './data/abilities'
+import { ABILITIES, type AbilityDef } from './data/abilities'
 import { ITEMS, ITEM_IDS, type ItemDef } from './data/items'
 import { CARD_TIER_MUL, UPGRADES } from './data/upgrades'
 import { WAVE_COUNT, enemyScale, waveDef, type WaveDef } from './data/waves'
 import { KIND_NAMES, MAX_TIER, WEAPONS, WEAPON_IDS, type WeaponDef, wavePriceMul, weaponDesc, weaponPrice } from './data/weapons'
 import { Input } from './Input'
+import { PLAIN_LOADOUT, type RunLoadout, type RunResult } from './loadout'
 import { Renderer } from './Renderer'
 import { BASE_STATS, STAT_LABELS, formatStat, isPercentStat, type Stats } from './stats'
 import { HALF_H, HALF_W, World, type WeaponSlot } from './World'
@@ -44,6 +45,8 @@ interface AbilityState {
   def: AbilityDef
   cd: number
   active: number
+  cooldownMul: number
+  durationMul: number
 }
 
 const STEP = 1 / 60
@@ -65,6 +68,10 @@ export class Game {
   private chestSpawned = false
   private resumeTo: Screen = 'wave'
   private abilities: AbilityState[] = []
+  private loadout: RunLoadout = PLAIN_LOADOUT
+  private runEnded = false
+  // Called once when a run ends (death, victory or surrender); the lobby turns it into rewards.
+  onRunEnd: (result: RunResult) => void = () => {}
   private items = new Map<string, number>()
   private cardRerolls = 0
   private shopRerolls = 0
@@ -127,12 +134,17 @@ export class Game {
 
   // ---------- run flow ----------
 
-  startRun(): void {
+  startRun(loadout: RunLoadout = this.loadout): void {
+    this.loadout = loadout
+    this.runEnded = false
     this.stats = { ...BASE_STATS }
+    for (const [k, v] of Object.entries(loadout.stats) as [keyof Stats, number][]) this.stats[k] += v
     this.world.reset(this.stats)
-    this.world.weapons.push(newSlot(WEAPONS.pistol, 0))
+    this.world.sets = new Set(loadout.sets)
+    this.world.bossMul = loadout.enemyMul
+    this.world.weapons.push(this.newSlot(WEAPONS[loadout.startWeapon] ?? WEAPONS.pistol, 0))
     this.items = new Map()
-    this.abilities = DEFAULT_LOADOUT.map((id) => ({ def: ABILITIES[id], cd: 0, active: 0 }))
+    this.abilities = loadout.abilities.map((a) => ({ def: ABILITIES[a.id], cd: 0, active: 0, cooldownMul: a.cooldownMul, durationMul: a.durationMul }))
     this.ui.abilities = this.abilities.map((a) => ({ id: a.def.id, name: a.def.name, icon: a.def.icon, cd: 0, cdMax: a.def.cooldown, active: false }))
     this.ui.level = 1
     this.ui.xp = 0
@@ -151,8 +163,8 @@ export class Game {
     this.spawnTimer = 0.6
     this.chestSpawned = false
     const scale = enemyScale(n)
-    this.world.hpMul = scale.hp
-    this.world.dmgMul = scale.dmg
+    this.world.hpMul = scale.hp * this.loadout.enemyMul
+    this.world.dmgMul = scale.dmg * Math.sqrt(this.loadout.enemyMul)
     this.world.clearWave()
     for (const w of this.world.weapons) w.dmgWave = 0
     const p = this.world.player
@@ -182,7 +194,7 @@ export class Game {
     this.world.pickups = []
     this.drainCoins()
     if (this.victory) {
-      this.ui.screen = 'victory'
+      this.finishRun('victory')
       return
     }
     this.cardRerolls = 0
@@ -218,16 +230,48 @@ export class Game {
     this.ui.screen = 'menu'
   }
 
+  // Leave the run from the pause screen: counts as a loss with the waves cleared so far.
+  surrender(): void {
+    if (this.ui.screen !== 'paused') return
+    this.finishRun('gameover')
+  }
+
+  private finishRun(screen: 'gameover' | 'victory'): void {
+    this.ui.screen = screen
+    if (this.runEnded) return
+    this.runEnded = true
+    const victory = screen === 'victory'
+    this.onRunEnd({ level: this.loadout.level, wavesCleared: victory ? WAVE_COUNT : this.wave.n - 1, victory, kills: this.world.kills })
+  }
+
   useAbility(index: number): void {
     if (this.ui.screen !== 'wave') return
     const a = this.abilities[index]
     if (!a || a.cd > 0) return
-    a.cd = a.def.cooldown * (1 - Math.min(0.6, this.stats.cooldownPct))
-    a.active = a.def.duration
-    if (a.def.effect === 'roll') {
-      const mv = this.input.move()
-      this.world.startRoll(a.def.power, a.def.duration, mv.x, mv.y)
+    a.cd = this.abilityCooldown(a)
+    a.active = a.def.duration * a.durationMul
+    switch (a.def.effect) {
+      case 'roll': {
+        const mv = this.input.move()
+        this.world.startRoll(a.def.power, a.active, mv.x, mv.y)
+        break
+      }
+      case 'heal':
+        this.world.healPlayer(a.def.power * a.durationMul)
+        break
+      case 'frostNova':
+        this.world.freezeAround(a.def.power, a.active)
+        break
+      case 'shockwave':
+        this.world.shockwave(a.def.power * a.durationMul, 190)
+        break
+      case 'rapidFire':
+        break
     }
+  }
+
+  private abilityCooldown(a: AbilityState): number {
+    return a.def.cooldown * a.cooldownMul * (1 - Math.min(0.6, this.stats.cooldownPct))
   }
 
   // ---------- level-up cards ----------
@@ -303,7 +347,7 @@ export class Game {
     const r = Math.random() - this.stats.luck * 0.2
     const tier = n >= 8 && r < 0.06 ? 3 : n >= 6 && r < 0.15 ? 2 : n >= 3 && r < 0.35 ? 1 : 0
     return {
-      type: 'weapon', id: def.id, name: def.name, tier, price: free ? 0 : weaponPrice(def, tier, n),
+      type: 'weapon', id: def.id, name: def.name, tier, price: free ? 0 : this.discount(weaponPrice(def, tier, n)),
       desc: this.weaponLines(def, tier), locked: false, sold: false,
     }
   }
@@ -321,9 +365,13 @@ export class Game {
       break
     }
     return {
-      type: 'item', id: def.id, name: def.name, tier: def.rarity, price: Math.round(def.price * wavePriceMul(n)),
+      type: 'item', id: def.id, name: def.name, tier: def.rarity, price: this.discount(Math.round(def.price * wavePriceMul(n))),
       desc: itemLines(def), locked: false, sold: false,
     }
+  }
+
+  private discount(price: number): number {
+    return this.world.sets.has('trader') ? Math.round(price * 0.9) : price
   }
 
   canBuy(o: Offer): boolean {
@@ -369,7 +417,7 @@ export class Game {
   private addWeapon(id: string, tier: number): void {
     const list = this.world.weapons
     if (list.length < MAX_WEAPONS) {
-      list.push(newSlot(WEAPONS[id], tier))
+      list.push(this.newSlot(WEAPONS[id], tier))
     } else {
       const twin = list.find((w) => w.def.id === id && w.tier === tier && tier < MAX_TIER)
       if (twin) twin.tier++
@@ -533,7 +581,7 @@ export class Game {
     this.drainCoins()
 
     if (this.world.player.hp <= 0) {
-      this.ui.screen = 'gameover'
+      this.finishRun('gameover')
       return
     }
     if (this.wave.boss && this.world.bossKilled) {
@@ -590,6 +638,10 @@ export class Game {
     this.bannerTime = 1.6
   }
 
+  private newSlot(def: WeaponDef, tier: number): WeaponSlot {
+    return { def, tier, cd: 0.3, dmgWave: 0, dmgTotal: 0, own: this.loadout.own[def.id] ?? null }
+  }
+
   private weaponLines(def: WeaponDef, tier: number): DescLine[] {
     return weaponDesc(def, tier, this.world.baseDamage(def, tier)).map((text) => ({ text }))
   }
@@ -608,7 +660,7 @@ export class Game {
       const a = this.abilities[i]
       const u = ui.abilities[i]
       u.cd = a.cd
-      u.cdMax = a.def.cooldown * (1 - Math.min(0.6, this.stats.cooldownPct))
+      u.cdMax = this.abilityCooldown(a)
       u.active = a.active > 0
     }
   }
@@ -644,9 +696,6 @@ export class Game {
   }
 }
 
-function newSlot(def: WeaponDef, tier: number): WeaponSlot {
-  return { def, tier, cd: 0.3, dmgWave: 0, dmgTotal: 0 }
-}
 
 // "+3 Броня", "−8 Скорость"; minuses are flagged so the UI can colour them red.
 function itemLines(def: ItemDef): DescLine[] {

@@ -1,5 +1,6 @@
 import { ENEMIES, type EnemyDef } from './data/enemies'
 import type { StatusEffect, WeaponDef } from './data/weapons'
+import type { OwnBonus } from './loadout'
 import { SpatialGrid } from './SpatialGrid'
 import { BASE_STATS, type Stats } from './stats'
 
@@ -82,6 +83,7 @@ export interface Swing {
   angle: number
   range: number
   t: number
+  full: boolean // shockwave: whole circle instead of an arc
 }
 
 export interface Bolt {
@@ -96,6 +98,7 @@ export interface WeaponSlot {
   orbit?: { x: number; y: number } // drone position
   dmgWave: number // damage dealt this wave
   dmgTotal: number // damage dealt this run
+  own: OwnBonus | null // lobby perks that touch only this weapon
 }
 
 export interface Turret {
@@ -131,6 +134,8 @@ export class World {
   stats: Stats = { ...BASE_STATS }
   hpMul = 1
   dmgMul = 1
+  bossMul = 1 // map level multiplier for the boss
+  sets = new Set<string>() // active lobby set bonuses
   attackBonus = 0 // from abilities
   standHeal = 0 // number of "heal while standing" items
   collectors = 0 // number of coin-collector helpers
@@ -254,10 +259,10 @@ export class World {
   private spawnEnemy(def: EnemyDef, x: number, y: number): void {
     if (this.enemies.length >= MAX_ENEMIES) return
     const boss = def.behavior === 'boss'
-    const hp = boss ? def.hp : def.hp * this.hpMul
+    const hp = boss ? def.hp * this.bossMul : def.hp * this.hpMul
     const e: Enemy = {
       id: this.nextId++, def, boss, x, y, kx: 0, ky: 0, r: def.radius,
-      hp, maxHp: hp, dmg: boss ? def.dmg : def.dmg * this.dmgMul, speed: def.speed * (0.9 + Math.random() * 0.2),
+      hp, maxHp: hp, dmg: boss ? def.dmg * Math.sqrt(this.bossMul) : def.dmg * this.dmgMul, speed: def.speed * (0.9 + Math.random() * 0.2),
       flash: 0, state: 'chase', stateT: 3, dx: 0, dy: 0,
       burnT: 0, burnDps: 0, burnSrc: null, bleedT: 0, bleedDps: 0, bleedSrc: null, freezeT: 0,
     }
@@ -371,13 +376,19 @@ export class World {
       p.iframes = 0.25
       return
     }
+    if (this.sets.has('guard') && Math.random() < 0.15) dmg *= 0.5
     p.hp -= dmg * (15 / (15 + Math.max(0, this.stats.armor)))
     p.iframes = 0.6
     p.hurt = 0.2
   }
 
+  private attackSpeed(w: WeaponSlot): number {
+    const p = this.player
+    const rage = this.sets.has('hunter') && p.hp < this.stats.maxHp * 0.4 ? 0.2 : 0
+    return Math.max(0.2, 1 + this.stats.attackSpeed + this.attackBonus + rage + (w.own?.attackSpeed ?? 0))
+  }
+
   private updateWeapons(dt: number): void {
-    const speed = Math.max(0.2, 1 + this.stats.attackSpeed + this.attackBonus)
     // Drones circle the hero, spread evenly.
     const drones = this.weapons.filter((w) => w.def.behavior === 'drone')
     this.orbitT += dt * 1.8
@@ -386,7 +397,7 @@ export class World {
       w.orbit = { x: this.player.x + Math.cos(a) * DRONE_ORBIT, y: this.player.y + Math.sin(a) * DRONE_ORBIT }
     })
     for (const w of this.weapons) {
-      w.cd -= dt * speed
+      w.cd -= dt * this.attackSpeed(w)
       if (w.cd > 0) continue
       w.cd = this.fire(w) ? w.def.cooldown : 0
     }
@@ -416,9 +427,9 @@ export class World {
           const d = Math.hypot(ex, ey)
           if (d - e.r > range) return
           if (Math.abs(angleDiff(Math.atan2(ey, ex), angle)) > def.arc / 2 && d > e.r) return
-          this.hitEnemy(e, dmg, (ex / (d || 1)) * 260, (ey / (d || 1)) * 260, w, def.effect)
+          this.hitEnemy(e, dmg, (ex / (d || 1)) * 260, (ey / (d || 1)) * 260, w, this.effectOf(w))
         })
-        this.swings.push({ x: p.x, y: p.y, angle, range, t: 0 })
+        this.swings.push({ x: p.x, y: p.y, angle, range, t: 0, full: false })
         return true
       }
       case 'chain': {
@@ -427,14 +438,14 @@ export class World {
         const dmg = this.damage(w)
         const hit = [first.id]
         const pts = [p.x, p.y, first.x, first.y]
-        this.hitEnemy(first, dmg, 0, 0, w, def.effect)
+        this.hitEnemy(first, dmg, 0, 0, w, this.effectOf(w))
         let cur = first
         for (let j = 0; j < def.jumps + w.tier; j++) {
           const next = this.nearest(cur.x, cur.y, CHAIN_JUMP_RANGE, hit)
           if (!next) break
           hit.push(next.id)
           pts.push(cur.x, cur.y, next.x, next.y)
-          this.hitEnemy(next, dmg, 0, 0, w, def.effect)
+          this.hitEnemy(next, dmg, 0, 0, w, this.effectOf(w))
           cur = next
         }
         this.bolts.push({ pts, t: 0 })
@@ -459,10 +470,9 @@ export class World {
   }
 
   private updateTurrets(dt: number): void {
-    const speed = Math.max(0.2, 1 + this.stats.attackSpeed + this.attackBonus)
     for (const t of this.turrets) {
       t.life -= dt
-      t.cd -= dt * speed
+      t.cd -= dt * this.attackSpeed(t.slot)
       if (t.cd > 0) continue
       t.cd = this.shoot(t.slot, t.x, t.y, t.slot.def.range + this.stats.range) ? t.slot.def.fireRate : 0
     }
@@ -477,9 +487,41 @@ export class World {
   }
 
   private damage(w: WeaponSlot): number {
-    let dmg = this.baseDamage(w.def, w.tier)
-    if (Math.random() < this.stats.critChance) dmg *= this.stats.critMult
+    let dmg = this.baseDamage(w.def, w.tier) * (1 + (w.own?.damage ?? 0))
+    if (w.def.kind === 'mech' && this.sets.has('mechanic')) dmg *= 1.2
+    if (Math.random() < this.stats.critChance + (w.own?.crit ?? 0)) dmg *= this.stats.critMult
     return dmg
+  }
+
+  // Status a weapon applies; the alchemist set makes every magic weapon burn.
+  private effectOf(w: WeaponSlot): StatusEffect | null {
+    return w.def.effect ?? (w.def.kind === 'magic' && this.sets.has('alchemist') ? 'burn' : null)
+  }
+
+  // ---------- active abilities ----------
+
+  healPlayer(share: number): void {
+    const p = this.player
+    if (p.hp > 0) p.hp = Math.min(this.stats.maxHp, p.hp + this.stats.maxHp * share)
+  }
+
+  freezeAround(radius: number, time: number): void {
+    const p = this.player
+    for (const e of this.enemies) {
+      if (e.hp > 0 && Math.hypot(e.x - p.x, e.y - p.y) < radius) e.freezeT = Math.max(e.freezeT, e.boss ? time * 0.4 : time)
+    }
+  }
+
+  shockwave(damage: number, radius: number): void {
+    const p = this.player
+    for (const e of this.enemies) {
+      const dx = e.x - p.x
+      const dy = e.y - p.y
+      const d = Math.hypot(dx, dy) || 1
+      if (e.hp <= 0 || d - e.r > radius) continue
+      this.hitEnemy(e, damage * (1 + this.stats.damagePct), (dx / d) * 900, (dy / d) * 900, null, null)
+    }
+    this.swings.push({ x: p.x, y: p.y, angle: 0, range: radius, t: 0, full: true })
   }
 
   private nearest(x: number, y: number, range: number, exclude?: number[]): Enemy | null {
@@ -510,7 +552,7 @@ export class World {
         const rr = pr.r + e.r
         if ((e.x - pr.x) ** 2 + (e.y - pr.y) ** 2 > rr * rr) return
         pr.hits.push(e.id)
-        this.hitEnemy(e, pr.dmg, pr.vx * 0.25, pr.vy * 0.25, pr.src, pr.src.def.effect)
+        this.hitEnemy(e, pr.dmg, pr.vx * 0.25, pr.vy * 0.25, pr.src, this.effectOf(pr.src))
         if (pr.pierce-- <= 0) pr.life = 0
       })
     }

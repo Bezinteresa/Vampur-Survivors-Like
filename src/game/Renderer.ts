@@ -40,6 +40,8 @@ export class Renderer {
   private readonly playerBody: THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>
   private readonly playerGun: THREE.Mesh
   private readonly swings: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>[] = []
+  private readonly arcGeo = new THREE.RingGeometry(0.45, 1, 20, 1, -SWORD_ARC / 2, SWORD_ARC)
+  private readonly circleGeo = new THREE.RingGeometry(0.85, 1, 40)
   private readonly bolts: THREE.LineSegments<THREE.BufferGeometry, THREE.LineBasicMaterial>
   private readonly chest = new THREE.Group()
   private readonly chestRing: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>
@@ -73,9 +75,8 @@ export class Renderer {
     this.player.position.z = Z.player
     this.scene.add(this.player)
 
-    const arc = new THREE.RingGeometry(0.45, 1, 20, 1, -SWORD_ARC / 2, SWORD_ARC)
     for (let i = 0; i < MAX_SWINGS; i++) {
-      const s = new THREE.Mesh(arc, new THREE.MeshBasicMaterial({ color: 0xf2f2f2, transparent: true }))
+      const s = new THREE.Mesh(this.arcGeo, new THREE.MeshBasicMaterial({ color: 0xf2f2f2, transparent: true }))
       s.position.z = Z.fx
       s.visible = false
       this.swings.push(s)
@@ -178,6 +179,7 @@ export class Renderer {
       if (!s) continue
       mesh.position.x = s.x
       mesh.position.y = s.y
+      mesh.geometry = s.full ? this.circleGeo : this.arcGeo
       mesh.rotation.z = s.angle
       mesh.scale.setScalar(s.range)
       mesh.material.opacity = 0.7 * (1 - s.t / SWING_LIFE)
