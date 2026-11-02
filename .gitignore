@@ -3,3 +3,6 @@ dist
 release
 *.log
 .DS_Store
+
+# Screenshots of other games: for local study only, never published
+reference
