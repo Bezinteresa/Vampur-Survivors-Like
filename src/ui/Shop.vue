@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import type { Game } from '../game/Game'
-import { TIER_NAMES } from '../game/data/weapons'
 import Icon from './Icon.vue'
+import Loadout from './Loadout.vue'
+import OfferCard from './OfferCard.vue'
 
 const props = defineProps<{ game: Game }>()
 const ui = props.game.ui
 const showStats = ref(false)
-const selected = ref(-1)
-const current = computed(() => ui.weapons[selected.value])
-
-function sell() {
-  props.game.sellWeapon(selected.value)
-  selected.value = -1
-}
 </script>
 
 <template>
@@ -24,58 +18,22 @@ function sell() {
     </div>
 
     <div class="offers">
-      <div v-for="(o, i) in ui.offers" :key="i" class="offer" :class="[`tier-${o.tier}`, { sold: o.sold }]">
-        <div class="offer-name">{{ o.name }} <span class="tier">{{ TIER_NAMES[o.tier] }}</span></div>
-        <div class="offer-desc">
-          <div v-for="line in o.desc" :key="line">{{ line }}</div>
-        </div>
-        <div class="offer-actions">
-          <button class="btn btn-green small" :disabled="!game.canBuy(o)" @click="game.buy(i)">
-            <template v-if="o.sold">Куплено</template>
-            <template v-else><Icon name="coin" :size="14" /> {{ o.price }}</template>
-          </button>
-          <button class="btn small lock" :class="{ on: o.locked }" :disabled="o.sold" @click="game.toggleLock(i)">
-            <Icon :name="o.locked ? 'lock' : 'unlock'" :size="16" />
-          </button>
-        </div>
-      </div>
+      <OfferCard
+        v-for="(o, i) in ui.offers"
+        :key="i"
+        :offer="o"
+        :enabled="game.canBuy(o)"
+        lockable
+        @take="game.buy(i)"
+        @lock="game.toggleLock(i)"
+      />
     </div>
 
     <button class="btn btn-blue" :disabled="ui.coins < ui.shopRerollCost" @click="game.rerollShop()">
       <Icon name="reroll" :size="18" /> Обновить · <Icon name="coin" :size="16" /> {{ ui.shopRerollCost }}
     </button>
 
-    <div class="section-title">Оружие</div>
-    <div class="slots">
-      <button
-        v-for="n in 6"
-        :key="n"
-        class="slot"
-        :class="[ui.weapons[n - 1] ? `tier-${ui.weapons[n - 1].tier}` : 'empty', { selected: selected === n - 1 }]"
-        :disabled="!ui.weapons[n - 1]"
-        @click="selected = selected === n - 1 ? -1 : n - 1"
-      >
-        <template v-if="ui.weapons[n - 1]">
-          <div class="slot-name">{{ ui.weapons[n - 1].name }}</div>
-          <div class="tier">{{ TIER_NAMES[ui.weapons[n - 1].tier] }}</div>
-          <div v-if="ui.weapons[n - 1].canMerge" class="merge-badge"><Icon name="up" :size="12" /></div>
-        </template>
-      </button>
-    </div>
-
-    <div v-if="current" class="weapon-panel">
-      <div class="weapon-title">{{ current.name }} {{ TIER_NAMES[current.tier] }} · <span class="tier">{{ current.kind }}</span></div>
-      <div class="weapon-actions">
-        <button class="btn btn-green small" :disabled="!current.canMerge" @click="game.mergeWeapon(selected)">
-          <Icon name="up" :size="16" /> Объединить
-        </button>
-        <button class="btn btn-blue small" :disabled="ui.weapons.length <= 1" @click="sell">
-          Продать · <Icon name="coin" :size="14" /> {{ current.sellPrice }}
-        </button>
-      </div>
-      <div v-if="!current.canMerge" class="hint">Для объединения нужно второе такое же оружие того же тира.</div>
-    </div>
-    <div v-else class="hint">Нажмите на оружие: два одинаковых одного тира объединяются в следующий тир.</div>
+    <Loadout :game="game" editable />
 
     <div v-if="showStats" class="stats-panel">
       <div v-for="s in ui.stats" :key="s.name" class="stat-row"><span>{{ s.name }}</span><b>{{ s.value }}</b></div>

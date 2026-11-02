@@ -4,7 +4,7 @@ import Icon from './Icon.vue'
 
 const props = defineProps<{ game: Game }>()
 const ui = props.game.ui
-const TIER_CLASS = ['tier-0', 'tier-1', 'tier-2']
+const TIER_CLASS = ['tier-0', 'tier-1', 'tier-2', 'tier-3']
 </script>
 
 <template>

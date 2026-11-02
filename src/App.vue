@@ -2,12 +2,15 @@
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { Game } from './game/Game'
 import { JOY_RADIUS } from './game/Input'
+import ChestPick from './ui/ChestPick.vue'
 import Hud from './ui/Hud.vue'
 import Icon from './ui/Icon.vue'
 import LevelUp from './ui/LevelUp.vue'
+import Loadout from './ui/Loadout.vue'
 import Shop from './ui/Shop.vue'
 
 const host = ref<HTMLElement>()
+const showStats = ref(false)
 const game = shallowRef<Game>()
 
 onMounted(() => {
@@ -53,11 +56,19 @@ const knob = computed(() => {
 
       <LevelUp v-if="screen === 'levelup'" :game="game" />
       <Shop v-if="screen === 'shop'" :game="game" />
+      <ChestPick v-if="screen === 'chest'" :game="game" />
 
-      <div v-if="screen === 'paused'" class="screen dim">
+      <div v-if="screen === 'paused'" class="screen pause">
         <div class="ribbon">Пауза</div>
-        <button class="btn btn-green big" @click="game.resume()"><Icon name="play" :size="24" /> Продолжить</button>
-        <button class="btn btn-blue" @click="game.toMenu()">В меню</button>
+        <Loadout :game="game" />
+        <div v-if="showStats" class="stats-panel">
+          <div v-for="s in game.ui.stats" :key="s.name" class="stat-row"><span>{{ s.name }}</span><b>{{ s.value }}</b></div>
+        </div>
+        <div class="shop-foot">
+          <button class="btn btn-blue square" @click="showStats = !showStats"><Icon name="stats" /></button>
+          <button class="btn btn-green wide" @click="game.resume()"><Icon name="play" :size="24" /> Продолжить</button>
+        </div>
+        <button class="btn" @click="game.toMenu()">В меню</button>
       </div>
 
       <div v-if="screen === 'gameover' || screen === 'victory'" class="screen dim">

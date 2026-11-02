@@ -20,7 +20,7 @@ export function waveDef(n: number): WaveDef {
     boss,
     duration: boss ? Infinity : Math.min(40 + 10 * (n - 1), 90),
     spawnInterval: Math.max(0.45, 1.3 - 0.09 * n) * (boss ? 1.6 : 1),
-    batch: 1 + Math.floor(n * 0.8),
+    batch: 1 + Math.floor((n - 1) * 0.6),
     maxAlive: boss ? 120 : 25 + n * 30,
     mix,
   }

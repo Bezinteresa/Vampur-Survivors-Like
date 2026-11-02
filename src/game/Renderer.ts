@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { ARENA_H, ARENA_W, BOLT_LIFE, HALF_H, HALF_W, SWING_LIFE, type World } from './World'
+import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, type World } from './World'
 
 // Placeholder look: flat circles with a dark outline, drawn as instanced meshes (one draw call per kind).
 // Sprites from the art pipeline will replace these materials later.
@@ -25,6 +25,9 @@ export class Renderer {
   private readonly c = new THREE.Color()
   private readonly white = new THREE.Color(0xffffff)
   private readonly red = new THREE.Color(0xff5050)
+  private readonly burnColor = new THREE.Color(0xff8a3d)
+  private readonly freezeColor = new THREE.Color(0x9fdcff)
+  private readonly bleedColor = new THREE.Color(0xb0203a)
 
   private readonly enemyOutline: THREE.InstancedMesh
   private readonly enemyBody: THREE.InstancedMesh
@@ -38,6 +41,8 @@ export class Renderer {
   private readonly playerGun: THREE.Mesh
   private readonly swings: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>[] = []
   private readonly bolts: THREE.LineSegments<THREE.BufferGeometry, THREE.LineBasicMaterial>
+  private readonly chest = new THREE.Group()
+  private readonly chestRing: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>
 
   constructor(host: HTMLElement) {
     this.gl = new THREE.WebGLRenderer({ antialias: true })
@@ -50,8 +55,8 @@ export class Renderer {
     const circle = new THREE.CircleGeometry(1, 24)
     this.enemyOutline = this.instanced(circle, MAX_ENEMIES, 0x15181a, false)
     this.enemyBody = this.instanced(circle, MAX_ENEMIES, 0xffffff, true)
-    this.projectiles = this.instanced(new THREE.CircleGeometry(1, 10), MAX_PROJECTILES, 0xffe066, false)
-    this.pickups = this.instanced(new THREE.CircleGeometry(1, 4), MAX_PICKUPS, 0x9ad14f, false)
+    this.projectiles = this.instanced(new THREE.CircleGeometry(1, 10), MAX_PROJECTILES, 0xffffff, true)
+    this.pickups = this.instanced(new THREE.CircleGeometry(1, 4), MAX_PICKUPS, 0xffffff, true)
     this.markers = this.instanced(new THREE.RingGeometry(0.6, 1, 20), MAX_MARKERS, 0xe04848, false)
     const square = new THREE.PlaneGeometry(2, 2)
     this.mechOutline = this.instanced(square, MAX_MECH, 0x15181a, false)
@@ -82,6 +87,20 @@ export class Renderer {
     this.bolts = new THREE.LineSegments(boltGeo, new THREE.LineBasicMaterial({ color: 0x9fd8ff, transparent: true }))
     this.bolts.frustumCulled = false
     this.scene.add(this.bolts)
+
+    // Supply chest: a box with a ring that fills while the hero stands inside.
+    const track = new THREE.Mesh(new THREE.RingGeometry(CHEST_RADIUS - 6, CHEST_RADIUS, 48), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18 }))
+    this.chestRing = new THREE.Mesh(new THREE.RingGeometry(CHEST_RADIUS - 6, CHEST_RADIUS, 48, 1, Math.PI / 2, Math.PI * 2), new THREE.MeshBasicMaterial({ color: 0x7cd44a }))
+    this.chestRing.position.z = 0.01
+    const lid = new THREE.Mesh(new THREE.PlaneGeometry(40, 30), new THREE.MeshBasicMaterial({ color: 0x15181a }))
+    const box = new THREE.Mesh(new THREE.PlaneGeometry(34, 24), new THREE.MeshBasicMaterial({ color: 0xb07a3a }))
+    box.position.z = 0.02
+    const band = new THREE.Mesh(new THREE.PlaneGeometry(34, 4), new THREE.MeshBasicMaterial({ color: 0xe8c170 }))
+    band.position.z = 0.03
+    this.chest.add(track, this.chestRing, lid, box, band)
+    this.chest.position.z = Z.marker
+    this.chest.visible = false
+    this.scene.add(this.chest)
   }
 
   resize(width: number, height: number): void {
@@ -121,15 +140,29 @@ export class Renderer {
 
     let n = 0
     for (const pr of world.projectiles) {
-      this.place(this.projectiles, n++, pr.x, pr.y, pr.r, Z.projectile)
+      this.place(this.projectiles, n, pr.x, pr.y, pr.r, Z.projectile)
+      const fx = pr.src.def.effect
+      this.projectiles.setColorAt(n++, this.c.setHex(fx === 'burn' ? 0xff8a3d : fx === 'freeze' ? 0x9fdcff : fx === 'bleed' ? 0xe0405a : 0xffe066))
     }
     this.finish(this.projectiles, n)
+    if (this.projectiles.instanceColor) this.projectiles.instanceColor.needsUpdate = true
 
     n = 0
     for (const pk of world.pickups) {
-      this.place(this.pickups, n++, pk.x, pk.y, pk.value > 2 ? 10 : 7, Z.pickup)
+      this.place(this.pickups, n, pk.x, pk.y, pk.medkit ? 13 : pk.value > 2 ? 10 : 7, Z.pickup)
+      this.pickups.setColorAt(n++, this.c.setHex(pk.medkit ? 0xe8484f : 0x9ad14f))
     }
     this.finish(this.pickups, n)
+    if (this.pickups.instanceColor) this.pickups.instanceColor.needsUpdate = true
+
+    const chest = world.chest
+    this.chest.visible = !!chest
+    if (chest) {
+      this.chest.position.x = chest.x
+      this.chest.position.y = chest.y
+      // The ring geometry is built in segment order, so drawing a prefix of its indices shows the progress arc.
+      this.chestRing.geometry.setDrawRange(0, 6 * Math.round(48 * Math.min(1, chest.progress)))
+    }
 
     n = 0
     for (const mk of world.markers) {
@@ -173,6 +206,9 @@ export class Renderer {
       this.place(this.enemyBody, n, e.x, e.y, e.r, Z.enemy)
       this.c.setHex(e.def.color)
       if (e.state === 'windup') this.c.lerp(this.red, 0.5 + 0.5 * Math.sin(time * 30))
+      if (e.freezeT > 0) this.c.lerp(this.freezeColor, 0.6)
+      else if (e.burnT > 0) this.c.lerp(this.burnColor, 0.45)
+      else if (e.bleedT > 0) this.c.lerp(this.bleedColor, 0.35)
       if (e.flash > 0) this.c.lerp(this.white, 0.75)
       this.enemyBody.setColorAt(n, this.c)
       n++

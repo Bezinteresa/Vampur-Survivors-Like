@@ -1,16 +1,17 @@
 import { reactive } from 'vue'
 import { ABILITIES, DEFAULT_LOADOUT, type AbilityDef } from './data/abilities'
+import { ITEMS, ITEM_IDS, type ItemDef } from './data/items'
 import { CARD_TIER_MUL, UPGRADES } from './data/upgrades'
 import { WAVE_COUNT, enemyScale, waveDef, type WaveDef } from './data/waves'
-import { KIND_NAMES, WEAPONS, WEAPON_IDS, weaponDesc, weaponPrice } from './data/weapons'
+import { KIND_NAMES, MAX_TIER, WEAPONS, WEAPON_IDS, type WeaponDef, wavePriceMul, weaponDesc, weaponPrice } from './data/weapons'
 import { Input } from './Input'
 import { Renderer } from './Renderer'
 import { BASE_STATS, STAT_LABELS, formatStat, isPercentStat, type Stats } from './stats'
-import { HALF_H, HALF_W, World } from './World'
+import { HALF_H, HALF_W, World, type WeaponSlot } from './World'
 
-// Run flow: waves, timer, spawning, coins (= experience), level-up cards, shop. Owns the loop.
+// Run flow: waves, timer, spawning, coins (= experience), level-up cards, shop, supply chest. Owns the loop.
 
-export type Screen = 'menu' | 'wave' | 'waveEnd' | 'levelup' | 'shop' | 'paused' | 'gameover' | 'victory'
+export type Screen = 'menu' | 'wave' | 'waveEnd' | 'levelup' | 'shop' | 'chest' | 'paused' | 'gameover' | 'victory'
 
 export interface Card {
   stat: keyof Stats
@@ -22,12 +23,19 @@ export interface Card {
   after: string
 }
 
+export interface DescLine {
+  text: string
+  bad?: boolean
+}
+
+// A shop or chest offer: either a weapon (tier) or a run item (rarity in `tier`).
 export interface Offer {
-  weaponId: string
+  type: 'weapon' | 'item'
+  id: string
   name: string
   tier: number
   price: number
-  desc: string[]
+  desc: DescLine[]
   locked: boolean
   sold: boolean
 }
@@ -40,8 +48,8 @@ interface AbilityState {
 
 const STEP = 1 / 60
 const MAX_WEAPONS = 6
-const MAX_TIER = 3
 const WAVE_END_TIME = 1.4
+const ITEM_MIN_WAVE = [1, 2, 4, 6] // first wave an item of this rarity may appear in the shop
 
 export class Game {
   readonly world = new World()
@@ -54,8 +62,10 @@ export class Game {
   private endTimer = 0
   private bannerTime = 0
   private victory = false
+  private chestSpawned = false
   private resumeTo: Screen = 'wave'
   private abilities: AbilityState[] = []
+  private items = new Map<string, number>()
   private cardRerolls = 0
   private shopRerolls = 0
   private raf = 0
@@ -86,7 +96,12 @@ export class Game {
     cardRerollCost: 0,
     offers: [] as Offer[],
     shopRerollCost: 0,
-    weapons: [] as { id: string; name: string; kind: string; tier: number; canMerge: boolean; sellPrice: number }[],
+    chestOffers: [] as Offer[],
+    weapons: [] as {
+      id: string; name: string; kind: string; tier: number; canMerge: boolean; sellPrice: number
+      desc: DescLine[]; dmgWave: number; dmgTotal: number
+    }[],
+    items: [] as { id: string; name: string; tier: number; count: number; max: number; desc: DescLine[] }[],
     stats: [] as { name: string; value: string }[],
   })
 
@@ -115,7 +130,8 @@ export class Game {
   startRun(): void {
     this.stats = { ...BASE_STATS }
     this.world.reset(this.stats)
-    this.world.weapons.push({ def: WEAPONS.pistol, tier: 0, cd: 0.5 })
+    this.world.weapons.push(newSlot(WEAPONS.pistol, 0))
+    this.items = new Map()
     this.abilities = DEFAULT_LOADOUT.map((id) => ({ def: ABILITIES[id], cd: 0, active: 0 }))
     this.ui.abilities = this.abilities.map((a) => ({ id: a.def.id, name: a.def.name, icon: a.def.icon, cd: 0, cdMax: a.def.cooldown, active: false }))
     this.ui.level = 1
@@ -125,6 +141,7 @@ export class Game {
     this.ui.offers = []
     this.victory = false
     this.syncWeapons()
+    this.syncItems()
     this.startWave(1)
   }
 
@@ -132,10 +149,12 @@ export class Game {
     this.wave = waveDef(n)
     this.waveTime = this.wave.duration
     this.spawnTimer = 0.6
+    this.chestSpawned = false
     const scale = enemyScale(n)
     this.world.hpMul = scale.hp
     this.world.dmgMul = scale.dmg
     this.world.clearWave()
+    for (const w of this.world.weapons) w.dmgWave = 0
     const p = this.world.player
     p.x = 0
     p.y = 0
@@ -168,6 +187,7 @@ export class Game {
     }
     this.cardRerolls = 0
     this.shopRerolls = 0
+    this.syncWeapons()
     if (this.ui.pendingLevels > 0) this.openLevelUp()
     else this.openShop()
   }
@@ -181,6 +201,8 @@ export class Game {
     const s = this.ui.screen
     if (s !== 'wave' && s !== 'waveEnd') return
     this.resumeTo = s
+    this.syncWeapons()
+    this.syncStats()
     this.ui.screen = 'paused'
     this.input.clear()
   }
@@ -239,11 +261,11 @@ export class Game {
   private rollCards(): Card[] {
     const pool = shuffle([...UPGRADES]).slice(0, 3)
     const lvl = this.ui.level
-    const epic = 0.03 + lvl * 0.008 + this.stats.luck * 0.1
-    const rare = 0.15 + lvl * 0.015 + this.stats.luck * 0.2
+    const luck = this.stats.luck
+    const chances = [0.01 + lvl * 0.003 + luck * 0.05, 0.04 + lvl * 0.008 + luck * 0.1, 0.15 + lvl * 0.015 + luck * 0.2] // purple, blue, green
     return pool.map((u) => {
       const r = Math.random()
-      const tier = r < epic ? 2 : r < epic + rare ? 1 : 0
+      const tier = r < chances[0] ? 3 : r < chances[0] + chances[1] ? 2 : r < chances[0] + chances[1] + chances[2] ? 1 : 0
       const amount = u.amount * CARD_TIER_MUL[tier]
       const cur = this.stats[u.stat]
       return {
@@ -269,16 +291,49 @@ export class Game {
   }
 
   private makeOffer(): Offer {
+    // Early on the hero needs firepower more than trinkets.
+    const n = this.world.weapons.length
+    const weaponChance = n < 3 ? 0.75 : n < MAX_WEAPONS ? 0.5 : 0.35
+    return Math.random() < weaponChance ? this.weaponOffer() : this.itemOffer()
+  }
+
+  private weaponOffer(free = false): Offer {
     const def = WEAPONS[WEAPON_IDS[Math.floor(Math.random() * WEAPON_IDS.length)]]
     const n = this.wave.n
     const r = Math.random() - this.stats.luck * 0.2
-    const tier = n >= 7 && r < 0.12 ? 2 : n >= 3 && r < 0.3 ? 1 : 0
-    return { weaponId: def.id, name: def.name, tier, price: weaponPrice(def, tier, n), desc: weaponDesc(def, tier), locked: false, sold: false }
+    const tier = n >= 8 && r < 0.06 ? 3 : n >= 6 && r < 0.15 ? 2 : n >= 3 && r < 0.35 ? 1 : 0
+    return {
+      type: 'weapon', id: def.id, name: def.name, tier, price: free ? 0 : weaponPrice(def, tier, n),
+      desc: this.weaponLines(def, tier), locked: false, sold: false,
+    }
+  }
+
+  private itemOffer(): Offer {
+    const n = this.wave.n
+    const pool = ITEM_IDS.map((id) => ITEMS[id]).filter((it) => n >= ITEM_MIN_WAVE[it.rarity] && (this.items.get(it.id) ?? 0) < it.max)
+    if (!pool.length) return this.weaponOffer()
+    // Rarer items show up less often.
+    const weights = pool.map((it) => [8, 4, 2, 1][it.rarity])
+    let r = Math.random() * weights.reduce((a, b) => a + b, 0)
+    let def = pool[0]
+    for (let i = 0; i < pool.length; i++) if ((r -= weights[i]) <= 0) {
+      def = pool[i]
+      break
+    }
+    return {
+      type: 'item', id: def.id, name: def.name, tier: def.rarity, price: Math.round(def.price * wavePriceMul(n)),
+      desc: itemLines(def), locked: false, sold: false,
+    }
   }
 
   canBuy(o: Offer): boolean {
     if (o.sold || this.ui.coins < o.price) return false
-    return this.ui.weapons.length < MAX_WEAPONS || this.ui.weapons.some((w) => w.id === o.weaponId && w.tier === o.tier && w.tier < MAX_TIER)
+    return this.canTake(o)
+  }
+
+  private canTake(o: Offer): boolean {
+    if (o.type === 'item') return (this.items.get(o.id) ?? 0) < ITEMS[o.id].max
+    return this.world.weapons.length < MAX_WEAPONS || this.world.weapons.some((w) => w.def.id === o.id && w.tier === o.tier && w.tier < MAX_TIER)
   }
 
   buy(index: number): void {
@@ -287,7 +342,13 @@ export class Game {
     this.ui.coins -= o.price
     o.sold = true
     o.locked = false
-    this.addWeapon(o.weaponId, o.tier)
+    this.take(o)
+  }
+
+  private take(o: Offer): void {
+    if (o.type === 'weapon') this.addWeapon(o.id, o.tier)
+    else this.addItem(o.id)
+    this.syncStats()
   }
 
   toggleLock(index: number): void {
@@ -308,12 +369,24 @@ export class Game {
   private addWeapon(id: string, tier: number): void {
     const list = this.world.weapons
     if (list.length < MAX_WEAPONS) {
-      list.push({ def: WEAPONS[id], tier, cd: 0.3 })
+      list.push(newSlot(WEAPONS[id], tier))
     } else {
       const twin = list.find((w) => w.def.id === id && w.tier === tier && tier < MAX_TIER)
       if (twin) twin.tier++
     }
     this.syncWeapons()
+  }
+
+  private addItem(id: string): void {
+    const def = ITEMS[id]
+    this.items.set(id, (this.items.get(id) ?? 0) + 1)
+    for (const [k, v] of Object.entries(def.mods) as [keyof Stats, number][]) {
+      this.stats[k] += v
+      if (k === 'maxHp') this.world.player.hp = Math.max(1, this.world.player.hp + v)
+    }
+    if (def.special === 'standHeal') this.world.standHeal++
+    if (def.special === 'collector') this.world.collectors++
+    this.syncItems()
   }
 
   // Two copies of the same weapon and tier → one copy of the next tier (kept in the tapped slot).
@@ -323,6 +396,7 @@ export class Game {
     if (this.ui.screen !== 'shop' || !w || w.tier >= MAX_TIER) return
     const j = list.findIndex((o, k) => k !== index && o.def.id === w.def.id && o.tier === w.tier)
     if (j < 0) return
+    w.dmgTotal += list[j].dmgTotal
     list.splice(j, 1)
     w.tier++
     this.syncWeapons()
@@ -337,11 +411,61 @@ export class Game {
   }
 
   private sellPrice(id: string, tier: number): number {
-    return Math.floor(weaponPrice(WEAPONS[id], tier, this.wave.n) * 0.5)
+    return Math.floor(weaponPrice(WEAPONS[id], tier, this.wave.n) * 0.4)
   }
 
+  // As in the reference: 2 × finished wave (at least 4), doubling with each reroll in the same break.
   private rerollCost(count: number): number {
-    return 2 * this.wave.n * 2 ** count
+    return Math.max(4, 2 * this.wave.n) * 2 ** count
+  }
+
+  // ---------- supply chest ----------
+
+  // Mid-wave on waves 2–9: a chest appears near the hero; standing in its ring opens a free pick of three weapons.
+  private maybePlaceChest(): void {
+    if (this.chestSpawned || this.wave.boss || this.wave.n < 2 || this.waveTime > this.wave.duration * 0.6) return
+    this.chestSpawned = true
+    const p = this.world.player
+    for (let tries = 0; tries < 10; tries++) {
+      const a = Math.random() * Math.PI * 2
+      const d = 200 + Math.random() * 180
+      const x = Math.max(-HALF_W + 80, Math.min(HALF_W - 80, p.x + Math.cos(a) * d))
+      const y = Math.max(-HALF_H + 80, Math.min(HALF_H - 80, p.y + Math.sin(a) * d))
+      if (Math.hypot(x - p.x, y - p.y) < 150) continue
+      this.world.placeChest(x, y)
+      this.showBanner('Сундук снабжения!')
+      return
+    }
+  }
+
+  private openChest(): void {
+    this.world.chestOpened = false
+    const offers: Offer[] = []
+    for (let tries = 0; offers.length < 3 && tries < 30; tries++) {
+      const o = this.weaponOffer(true)
+      if (!offers.some((x) => x.id === o.id)) offers.push(o)
+    }
+    this.ui.chestOffers = offers
+    this.input.clear()
+    this.ui.screen = 'chest'
+  }
+
+  canTakeChest(o: Offer): boolean {
+    return this.canTake(o)
+  }
+
+  pickChest(index: number): void {
+    const o = this.ui.chestOffers[index]
+    if (this.ui.screen !== 'chest' || !o || !this.canTake(o)) return
+    this.take(o)
+    this.closeChest()
+  }
+
+  closeChest(): void {
+    if (this.ui.screen !== 'chest') return
+    this.ui.chestOffers = []
+    this.ui.screen = 'wave'
+    this.acc = 0
   }
 
   // ---------- loop ----------
@@ -403,6 +527,7 @@ export class Game {
       this.spawnTimer = this.wave.spawnInterval
       if (this.world.enemies.length + this.world.markers.length < this.wave.maxAlive) this.spawnBatch()
     }
+    this.maybePlaceChest()
 
     this.world.step(dt, mv.x, mv.y)
     this.drainCoins()
@@ -416,6 +541,8 @@ export class Game {
       this.endWave()
     } else if (this.waveTime <= 0) {
       this.endWave()
+    } else if (this.world.chestOpened) {
+      this.openChest()
     }
   }
 
@@ -450,7 +577,7 @@ export class Game {
     if (!v) return
     this.world.collected = 0
     this.ui.coins += v
-    this.ui.xp += v
+    this.ui.xp += v * (1 + this.stats.xpGain)
     while (this.ui.xp >= xpNext(this.ui.level)) {
       this.ui.xp -= xpNext(this.ui.level)
       this.ui.level++
@@ -461,6 +588,10 @@ export class Game {
   private showBanner(text: string): void {
     this.ui.banner = text
     this.bannerTime = 1.6
+  }
+
+  private weaponLines(def: WeaponDef, tier: number): DescLine[] {
+    return weaponDesc(def, tier, this.world.baseDamage(def, tier)).map((text) => ({ text }))
   }
 
   private syncHud(): void {
@@ -491,7 +622,17 @@ export class Game {
       tier: w.tier,
       canMerge: w.tier < MAX_TIER && list.some((o, k) => k !== i && o.def.id === w.def.id && o.tier === w.tier),
       sellPrice: this.sellPrice(w.def.id, w.tier),
+      desc: this.weaponLines(w.def, w.tier),
+      dmgWave: Math.round(w.dmgWave),
+      dmgTotal: Math.round(w.dmgTotal),
     }))
+  }
+
+  private syncItems(): void {
+    this.ui.items = [...this.items].map(([id, count]) => {
+      const def = ITEMS[id]
+      return { id, name: def.name, tier: def.rarity, count, max: def.max, desc: itemLines(def) }
+    })
   }
 
   private syncStats(): void {
@@ -501,6 +642,20 @@ export class Game {
   private onVisibility = (): void => {
     if (document.hidden) this.pause()
   }
+}
+
+function newSlot(def: WeaponDef, tier: number): WeaponSlot {
+  return { def, tier, cd: 0.3, dmgWave: 0, dmgTotal: 0 }
+}
+
+// "+3 Броня", "−8 Скорость"; minuses are flagged so the UI can colour them red.
+function itemLines(def: ItemDef): DescLine[] {
+  const lines: DescLine[] = (Object.entries(def.mods) as [keyof Stats, number][]).map(([k, v]) => {
+    const amount = isPercentStat(k) ? `${Math.round(Math.abs(v) * 100)}%` : `${Math.abs(v)}`
+    return { text: `${v < 0 ? '−' : '+'}${amount} ${STAT_LABELS[k]}`, bad: v < 0 }
+  })
+  if (def.text) lines.push({ text: def.text })
+  return lines
 }
 
 export function xpNext(level: number): number {

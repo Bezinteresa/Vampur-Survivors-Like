@@ -20,6 +20,9 @@ export interface Stats {
   luck: number
   cooldownPct: number // ability cooldown reduction, capped at 60%
   bossDmg: number
+  lifesteal: number // share of dealt damage healed
+  xpGain: number
+  medkitHeal: number // bonus to medkit healing
 }
 
 export const BASE_STATS: Stats = {
@@ -43,6 +46,9 @@ export const BASE_STATS: Stats = {
   luck: 0,
   cooldownPct: 0,
   bossDmg: 0,
+  lifesteal: 0,
+  xpGain: 0,
+  medkitHeal: 0,
 }
 
 export const STAT_LABELS: Record<keyof Stats, string> = {
@@ -66,10 +72,13 @@ export const STAT_LABELS: Record<keyof Stats, string> = {
   luck: 'Удача',
   cooldownPct: 'Перезарядка',
   bossDmg: 'Урон по боссам',
+  lifesteal: 'Кража жизни',
+  xpGain: 'Получение опыта',
+  medkitHeal: 'Лечение аптечкой',
 }
 
 const PERCENT_STATS = new Set<keyof Stats>([
-  'dodge', 'damagePct', 'attackSpeed', 'critChance', 'knockback', 'profit', 'luck', 'cooldownPct', 'bossDmg',
+  'dodge', 'damagePct', 'attackSpeed', 'critChance', 'knockback', 'profit', 'luck', 'cooldownPct', 'bossDmg', 'lifesteal', 'xpGain', 'medkitHeal',
 ])
 
 export function isPercentStat(key: keyof Stats): boolean {
