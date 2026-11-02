@@ -41,43 +41,43 @@ const base = { projSpeed: 0, pierce: 0, count: 1, spread: 0, arc: 0, jumps: 0, d
 
 export const WEAPONS: Record<string, WeaponDef> = {
   pistol: {
-    ...base, id: 'pistol', name: 'Пистолет', kind: 'bullet', behavior: 'shot',
+    ...base, id: 'pistol', name: 'Ручница', kind: 'bullet', behavior: 'shot',
     damage: [12, 18, 28, 44, 70], cooldown: 0.6, range: 380, projSpeed: 720, spread: 0.04, price: 14,
   },
   smg: {
-    ...base, id: 'smg', name: 'Пистолет-пулемёт', kind: 'bullet', behavior: 'shot',
+    ...base, id: 'smg', name: 'Скорострельная пищаль', kind: 'bullet', behavior: 'shot',
     damage: [4, 6, 10, 16, 25], cooldown: 0.22, range: 300, projSpeed: 760, spread: 0.22, price: 20,
   },
   shotgun: {
-    ...base, id: 'shotgun', name: 'Дробовик', kind: 'bullet', behavior: 'shot',
+    ...base, id: 'shotgun', name: 'Дробовая пищаль', kind: 'bullet', behavior: 'shot',
     damage: [6, 9, 14, 22, 35], cooldown: 1.1, range: 230, projSpeed: 680, count: 4, spread: 0.12, price: 22,
   },
   crossbow: {
-    ...base, id: 'crossbow', name: 'Арбалет', kind: 'bullet', behavior: 'shot',
+    ...base, id: 'crossbow', name: 'Самострел', kind: 'bullet', behavior: 'shot',
     damage: [16, 26, 40, 64, 100], cooldown: 1.3, range: 460, projSpeed: 820, pierce: 2, effect: 'bleed', price: 24,
   },
   sword: {
-    ...base, id: 'sword', name: 'Меч', kind: 'melee', behavior: 'swing',
+    ...base, id: 'sword', name: 'Меч-кладенец', kind: 'melee', behavior: 'swing',
     damage: [14, 22, 36, 58, 90], cooldown: 1.0, range: 105, arc: 2.1, price: 16,
   },
   lightning: {
-    ...base, id: 'lightning', name: 'Цепная молния', kind: 'magic', behavior: 'chain',
+    ...base, id: 'lightning', name: 'Посох Перуна', kind: 'magic', behavior: 'chain',
     damage: [9, 14, 22, 36, 56], cooldown: 1.4, range: 320, jumps: 2, price: 28,
   },
   fireWand: {
-    ...base, id: 'fireWand', name: 'Огненный жезл', kind: 'magic', behavior: 'shot',
+    ...base, id: 'fireWand', name: 'Перо Жар-птицы', kind: 'magic', behavior: 'shot',
     damage: [10, 15, 24, 38, 60], cooldown: 1.2, range: 360, projSpeed: 520, effect: 'burn', price: 22,
   },
   frostStaff: {
-    ...base, id: 'frostStaff', name: 'Ледяной посох', kind: 'magic', behavior: 'shot',
+    ...base, id: 'frostStaff', name: 'Посох Морозко', kind: 'magic', behavior: 'shot',
     damage: [9, 14, 22, 35, 55], cooldown: 1.6, range: 360, projSpeed: 480, pierce: 1, effect: 'freeze', price: 24,
   },
   drone: {
-    ...base, id: 'drone', name: 'Дрон', kind: 'mech', behavior: 'drone',
+    ...base, id: 'drone', name: 'Медный сокол', kind: 'mech', behavior: 'drone',
     damage: [6, 9, 15, 24, 38], cooldown: 0.7, range: 300, projSpeed: 650, price: 22,
   },
   turret: {
-    ...base, id: 'turret', name: 'Турель', kind: 'mech', behavior: 'turret',
+    ...base, id: 'turret', name: 'Сторожевая башенка', kind: 'mech', behavior: 'turret',
     damage: [8, 12, 19, 30, 48], cooldown: 7, range: 340, projSpeed: 700, duration: 8, fireRate: 0.5, price: 26,
   },
 }

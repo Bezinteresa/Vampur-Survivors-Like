@@ -1172,3 +1172,8 @@ button {
 .level-boss b {
   color: #f0c74a;
 }
+
+.hero-name {
+  font-weight: 900;
+  color: #e8c170;
+}

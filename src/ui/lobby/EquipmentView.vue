@@ -49,6 +49,7 @@ function slotItem(slot: GearSlot) {
       </div>
       <div class="hero-figure">
         <div class="hero-body"></div>
+        <div class="hero-name">Богатырь</div>
         <div class="hero-stats">
           <span>Урон +{{ Math.round(summary.damagePct * 100) }}%</span>
           <span><Icon name="heart" :size="14" /> {{ Math.round(summary.maxHp) }}</span>

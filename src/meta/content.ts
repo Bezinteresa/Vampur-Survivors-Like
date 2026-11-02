@@ -16,10 +16,10 @@ export const GEAR_SLOTS: GearSlot[] = ['weapon', 'hat', 'glasses', 'shirt', 'bac
 export const ALL_SLOTS: Slot[] = [...GEAR_SLOTS, 'ability']
 export const SLOT_NAMES: Record<Slot, string> = {
   weapon: 'Оружие',
-  hat: 'Шляпа',
-  glasses: 'Очки',
-  shirt: 'Куртка',
-  backpack: 'Рюкзак',
+  hat: 'Шлем',
+  glasses: 'Оберег',
+  shirt: 'Кольчуга',
+  backpack: 'Котомка',
   boots: 'Сапоги',
   ability: 'Способность',
 }
@@ -44,7 +44,7 @@ export type SetId = 'hunter' | 'guard' | 'alchemist' | 'mechanic' | 'trader'
 export interface SetDef {
   id: SetId
   name: string
-  owner: string // genitive for item names: «Шляпа охотника»
+  owner: string // genitive for item names: «Шлем охотника»
   bonus: string
   perks: Perk[] // pool, rotated per slot
 }
@@ -57,19 +57,19 @@ export const SETS: Record<SetId, SetDef> = {
     perks: [{ stat: 'critChance', value: 0.03 }, { stat: 'bulletDmg', value: 2 }, { stat: 'attackSpeed', value: 0.05 }, { stat: 'critMult', value: 0.1 }, { stat: 'range', value: 20 }],
   },
   guard: {
-    id: 'guard', name: 'Страж', owner: 'стража', bonus: '15% шанс заблокировать половину урона',
+    id: 'guard', name: 'Дружинник', owner: 'дружинника', bonus: '15% шанс заблокировать половину урона',
     perks: [{ stat: 'maxHp', value: 10 }, { stat: 'armor', value: 2 }, { stat: 'regen', value: 0.5 }, { stat: 'dodge', value: 0.03 }, { stat: 'medkitHeal', value: 0.1 }],
   },
   alchemist: {
-    id: 'alchemist', name: 'Алхимик', owner: 'алхимика', bonus: 'Магическое оружие поджигает врагов',
+    id: 'alchemist', name: 'Волхв', owner: 'волхва', bonus: 'Магическое оружие поджигает врагов',
     perks: [{ stat: 'magicDmg', value: 2 }, { stat: 'cooldownPct', value: 0.04 }, { stat: 'xpGain', value: 0.05 }, { stat: 'lifesteal', value: 0.01 }, { stat: 'damagePct', value: 0.05 }],
   },
   mechanic: {
-    id: 'mechanic', name: 'Механик', owner: 'механика', bonus: 'Механическое оружие наносит на 20% больше урона',
+    id: 'mechanic', name: 'Кузнец', owner: 'кузнеца', bonus: 'Механическое оружие наносит на 20% больше урона',
     perks: [{ stat: 'mechDmg', value: 2 }, { stat: 'attackSpeed', value: 0.04 }, { stat: 'range', value: 20 }, { stat: 'damagePct', value: 0.05 }, { stat: 'armor', value: 1 }],
   },
   trader: {
-    id: 'trader', name: 'Торговец', owner: 'торговца', bonus: 'Скидка 10% в магазине забега',
+    id: 'trader', name: 'Купец', owner: 'купца', bonus: 'Скидка 10% в магазине забега',
     perks: [{ stat: 'profit', value: 0.05 }, { stat: 'pickupRadius', value: 20 }, { stat: 'luck', value: 0.05 }, { stat: 'moveSpeed', value: 8 }, { stat: 'xpGain', value: 0.05 }],
   },
 }
