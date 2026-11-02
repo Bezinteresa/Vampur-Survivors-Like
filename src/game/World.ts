@@ -110,6 +110,7 @@ export interface WeaponSlot {
   dmgWave: number // damage dealt this wave
   dmgTotal: number // damage dealt this run
   own: OwnBonus | null // lobby perks that touch only this weapon
+  aim: number // direction of the last attack, radians (the weapon picture turns to it)
 }
 
 export interface Turret {
@@ -605,6 +606,7 @@ export class World {
         const t = this.nearest(p.x, p.y, range + 30)
         if (!t) return false
         const angle = Math.atan2(t.y - p.y, t.x - p.x)
+        w.aim = angle
         const dmg = this.damage(w)
         this.grid.forEachNear(p.x, p.y, range + 70, (i) => {
           const e = this.enemies[i]
@@ -621,6 +623,7 @@ export class World {
       case 'chain': {
         const first = this.nearest(p.x, p.y, range)
         if (!first) return false
+        w.aim = Math.atan2(first.y - p.y, first.x - p.x)
         const dmg = this.damage(w)
         const hit = [first.id]
         const pts = [p.x, p.y, first.x, first.y]
@@ -645,6 +648,7 @@ export class World {
     const t = this.nearest(x, y, range)
     if (!t) return false
     const angle = Math.atan2(t.y - y, t.x - x)
+    w.aim = angle
     for (let k = 0; k < def.count; k++) {
       const a = angle + (k - (def.count - 1) / 2) * def.spread + (Math.random() - 0.5) * (def.count > 1 ? 0.05 : def.spread)
       this.projectiles.push({

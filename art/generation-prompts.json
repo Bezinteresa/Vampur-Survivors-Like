@@ -8,57 +8,58 @@
       "file": "hero/ivan.png",
       "w": 256,
       "h": 256,
-      "subject": "Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, a short sword, cheerful and brave",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, cheerful and brave",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "redo": "в руке меч: у богатырей руки пустые, оружие игра рисует отдельно поверх; стиль и одежду сохранить как есть"
     },
     {
       "file": "hero/alyosha.png",
       "w": 256,
       "h": 256,
-      "subject": "Alyosha Popovich, young slim cunning bogatyr, light chainmail, pointed helmet, bow on his back, a sly grin",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Alyosha Popovich, young slim cunning bogatyr, light chainmail, pointed helmet, a sly grin",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/dobrynya.png",
       "w": 256,
       "h": 256,
-      "subject": "Dobrynya Nikitich, strong dragon-slayer bogatyr, scale armour, round red shield, long sword, brown beard",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Dobrynya Nikitich, strong dragon-slayer bogatyr, scale armour, red cloak, brown beard",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/buslaev.png",
       "w": 256,
       "h": 256,
-      "subject": "Vasily Buslaev, rowdy Novgorod hero, red kaftan open at the chest, iron-bound club, clay pot of fire potion on his belt",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Vasily Buslaev, rowdy Novgorod hero, red kaftan open at the chest, wide belt, broad grin",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/mikula.png",
       "w": 256,
       "h": 256,
-      "subject": "Mikula Selyaninovich, mighty ploughman bogatyr, peasant clothes, enormous build, carrying a wooden plough on his shoulder",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Mikula Selyaninovich, mighty ploughman bogatyr, peasant clothes, enormous build, straw hat, calm smile",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/volga.png",
       "w": 256,
       "h": 256,
-      "subject": "Volga Svyatoslavich, shapeshifter prince-bogatyr, falcon feathers on his cloak and helmet, falcon on his arm",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Volga Svyatoslavich, shapeshifter prince-bogatyr, falcon feathers on his cloak and helmet",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/marya.png",
       "w": 256,
       "h": 256,
-      "subject": "Marya Morevna, warrior princess, ornate kokoshnik helmet, silver mail, sabre, a flask of living water at her belt",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Marya Morevna, warrior princess, ornate kokoshnik helmet, silver mail, long braid, proud look",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/ilya.png",
       "w": 256,
       "h": 256,
-      "subject": "Ilya Muromets, the eldest and greatest bogatyr, grey beard, heavy chainmail, pointed helmet, huge mace, calm and mighty",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "Ilya Muromets, the eldest and greatest bogatyr, grey beard, heavy chainmail, pointed helmet, calm and mighty",
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "mob/forest_chaser.png",
@@ -800,70 +801,70 @@
       "w": 128,
       "h": 128,
       "subject": "old Russian hand cannon (ruchnitsa), short iron barrel on a wooden stock",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/smg.png",
       "w": 128,
       "h": 128,
       "subject": "rapid-fire multi-barrel matchlock arquebus (pishchal)",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/shotgun.png",
       "w": 128,
       "h": 128,
       "subject": "wide-mouthed scatter arquebus loaded with shot",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/crossbow.png",
       "w": 128,
       "h": 128,
       "subject": "old Russian crossbow (samostrel)",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/sword.png",
       "w": 128,
       "h": 128,
       "subject": "Kladenets, the magic sword of Russian tales, glowing blade",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/lightning.png",
       "w": 128,
       "h": 128,
       "subject": "staff of Perun crackling with lightning",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/fireWand.png",
       "w": 128,
       "h": 128,
       "subject": "feather of the Firebird, glowing golden-red",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/frostStaff.png",
       "w": 128,
       "h": 128,
       "subject": "staff of Morozko, Father Frost, icy blue with frost crystals",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/drone.png",
       "w": 128,
       "h": 128,
       "subject": "copper mechanical falcon automaton",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "weapon/turret.png",
       "w": 128,
       "h": 128,
       "subject": "small wooden watchtower with a crossbow on top",
-      "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text."
     },
     {
       "file": "gear/hat_hunter.png",

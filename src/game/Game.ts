@@ -665,7 +665,7 @@ export class Game {
   }
 
   private newSlot(def: WeaponDef, tier: number): WeaponSlot {
-    return { def, tier, cd: 0.3, dmgWave: 0, dmgTotal: 0, own: this.loadout.own[def.id] ?? null }
+    return { def, tier, cd: 0.3, dmgWave: 0, dmgTotal: 0, own: this.loadout.own[def.id] ?? null, aim: 0 }
   }
 
   private weaponLines(def: WeaponDef, tier: number): DescLine[] {

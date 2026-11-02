@@ -19,6 +19,9 @@ const MAX_PUDDLES = 200
 const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
 const SPRITE_SCALE = 2.6 // picture size relative to the enemy radius (pictures have margins)
+const WEAPON_RING = 30 // weapons hover this far around the hero
+const WEAPON_SIZE = 30
+const KIND_COLOR = { melee: 0xd8dde3, bullet: 0x6a5a4a, magic: 0x9a6ad0, mech: 0xb08a4a }
 
 const Z = { ground: 0, pickup: 1, marker: 1.5, outline: 2, enemy: 2.1, player: 3, projectile: 4, fx: 5 }
 
@@ -46,7 +49,12 @@ export class Renderer {
   private readonly mechBody: THREE.InstancedMesh
   private readonly player = new THREE.Group()
   private readonly playerBody: THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>
-  private readonly playerGun: THREE.Mesh
+  private readonly weaponBars: THREE.InstancedMesh // placeholder weapons until their pictures exist
+  private readonly q = new THREE.Quaternion()
+  private readonly zAxis = new THREE.Vector3(0, 0, 1)
+  private readonly v = new THREE.Vector3()
+  private readonly sv = new THREE.Vector3()
+  private readonly weaponAim: number[] = [] // smoothed aim per slot
   private readonly swings: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>[] = []
   private readonly arcGeo = new THREE.RingGeometry(0.45, 1, 20, 1, -SWORD_ARC / 2, SWORD_ARC)
   private readonly circleGeo = new THREE.RingGeometry(0.85, 1, 40)
@@ -95,20 +103,19 @@ export class Renderer {
     const square = new THREE.PlaneGeometry(2, 2)
     this.mechOutline = this.instanced(square, MAX_MECH, 0x15181a, false)
     this.mechBody = this.instanced(square, MAX_MECH, 0xffffff, true)
+    this.weaponBars = this.instanced(new THREE.PlaneGeometry(1, 1), 8, 0xffffff, true)
     ;(this.markers.material as THREE.MeshBasicMaterial).transparent = true
     ;(this.markers.material as THREE.MeshBasicMaterial).opacity = 0.75
 
     const outline = new THREE.Mesh(new THREE.CircleGeometry(19, 28), new THREE.MeshBasicMaterial({ color: 0x15181a }))
     this.playerBody = new THREE.Mesh(new THREE.CircleGeometry(16, 28), new THREE.MeshBasicMaterial({ color: 0xe8c170, transparent: true }))
     this.playerBody.position.z = 0.01
-    this.playerGun = new THREE.Mesh(new THREE.PlaneGeometry(16, 7), new THREE.MeshBasicMaterial({ color: 0x2b2f33 }))
-    this.playerGun.position.z = 0.02
     this.playerShape.add(outline, this.playerBody)
     this.heroSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }))
     this.heroSprite.scale.set(52, 52, 1)
     this.heroSprite.position.set(0, 6, 0.03)
     this.heroSprite.visible = false
-    this.player.add(this.playerShape, this.playerGun, this.heroSprite)
+    this.player.add(this.playerShape, this.heroSprite)
     this.player.position.z = Z.player
     this.scene.add(this.player)
 
@@ -182,12 +189,9 @@ export class Renderer {
       this.heroSprite.material.color.setHex(p.hurt > 0 ? 0xff8080 : 0xffffff)
       this.heroSprite.rotation.z = p.rollT > 0 ? -Math.sign(p.fx || 1) * (1 - p.rollT / 0.3) * Math.PI * 2 : 0
     }
-    const fa = Math.atan2(p.fy, p.fx)
-    this.playerGun.rotation.z = fa
-    this.playerGun.position.x = Math.cos(fa) * 16
-    this.playerGun.position.y = Math.sin(fa) * 16
 
     this.drawEnemies(world, time)
+    this.drawWeapons(world)
     this.drawMech(world)
     this.drawHazards(world)
 
@@ -262,7 +266,6 @@ export class Renderer {
     const tex = spriteTexture(SPRITE.hero(id))
     this.heroSprite.visible = !!tex
     this.playerShape.visible = !tex
-    this.playerGun.visible = !tex
     if (tex) {
       this.heroSprite.material.map = tex
       this.heroSprite.material.needsUpdate = true
@@ -298,7 +301,7 @@ export class Renderer {
   }
 
   // Adds one picture instance this frame; false when that picture does not exist (draw the placeholder).
-  private drawSprite(file: string, x: number, y: number, size: number, flip: boolean, z: number, tint?: THREE.Color): boolean {
+  private drawSprite(file: string, x: number, y: number, size: number, flip: boolean, z: number, tint?: THREE.Color, angle = 0, flipY = false): boolean {
     let b = this.batches.get(file)
     if (!b) {
       const tex = spriteTexture(file)
@@ -317,8 +320,8 @@ export class Renderer {
       this.batches.set(file, b)
     }
     if (b.n >= MAX_ENEMIES) return true
-    this.m.makeScale(flip ? -size : size, size, 1)
-    this.m.setPosition(x, y, z)
+    this.q.setFromAxisAngle(this.zAxis, angle)
+    this.m.compose(this.v.set(x, y, z), this.q, this.sv.set(flip ? -size : size, flipY ? -size : size, 1))
     b.mesh.setMatrixAt(b.n, this.m)
     b.mesh.setColorAt(b.n, tint ?? this.white)
     b.n++
@@ -353,6 +356,33 @@ export class Renderer {
     this.finish(this.enemyOutline, n)
     this.finish(this.enemyBody, n)
     if (this.enemyBody.instanceColor) this.enemyBody.instanceColor.needsUpdate = true
+  }
+
+  // Weapons hover in a ring around the hero, each turned toward its last target (pictures point right).
+  // Drones and turrets have their own bodies on the field, so they are not in the ring.
+  private drawWeapons(world: World): void {
+    const p = world.player
+    const ring = world.weapons.filter((w) => w.def.behavior !== 'drone' && w.def.behavior !== 'turret')
+    let bars = 0
+    ring.forEach((w, i) => {
+      const slotAngle = Math.PI / 2 + (i * Math.PI * 2) / Math.max(1, ring.length)
+      const x = p.x + Math.cos(slotAngle) * WEAPON_RING
+      const y = p.y + Math.sin(slotAngle) * WEAPON_RING * 0.8
+      // Smooth turning, the short way round.
+      const prev = this.weaponAim[i] ?? w.aim
+      let d = w.aim - prev
+      d = Math.atan2(Math.sin(d), Math.cos(d))
+      const aim = (this.weaponAim[i] = prev + d * 0.35)
+      // Keep the weapon upright when it points left: mirror it vertically instead of flipping it over.
+      const left = Math.cos(aim) < 0
+      if (this.drawSprite(SPRITE.weapon(w.def.id), x, y, WEAPON_SIZE, false, Z.player + 0.1, undefined, aim, left)) return
+      this.q.setFromAxisAngle(this.zAxis, aim)
+      this.m.compose(this.v.set(x, y, Z.player + 0.1), this.q, this.sv.set(22, 5, 1))
+      this.weaponBars.setMatrixAt(bars, this.m)
+      this.weaponBars.setColorAt(bars++, this.c.setHex(KIND_COLOR[w.def.kind]))
+    })
+    this.finish(this.weaponBars, bars)
+    if (this.weaponBars.instanceColor) this.weaponBars.instanceColor.needsUpdate = true
   }
 
   private tintEnemy(e: Enemy, time: number, picture: boolean): void {

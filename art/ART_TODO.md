@@ -1,6 +1,6 @@
 # Что сгенерировать сейчас
 
-Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 18:46:36). Генерируй **только** картинки из этого списка — остальные уже готовы.
+Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 18:59:27). Генерируй **только** картинки из этого списка — остальные уже готовы.
 
 Стиль: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions
 Референс: References/style.png (сделать первым: богатырь Иван — hero/ivan.png — и утвердить стиль)
@@ -15,51 +15,51 @@
 
 ## hero/ivan.png — 256×256
 
-- Почему: новая картинка
-- Что: Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, a short sword, cheerful and brave
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Почему: переделать: в руке меч: у богатырей руки пустые, оружие игра рисует отдельно поверх; стиль и одежду сохранить как есть
+- Что: Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, cheerful and brave
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/alyosha.png — 256×256
 
 - Почему: новая картинка
-- Что: Alyosha Popovich, young slim cunning bogatyr, light chainmail, pointed helmet, bow on his back, a sly grin
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Alyosha Popovich, young slim cunning bogatyr, light chainmail, pointed helmet, a sly grin
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/dobrynya.png — 256×256
 
 - Почему: новая картинка
-- Что: Dobrynya Nikitich, strong dragon-slayer bogatyr, scale armour, round red shield, long sword, brown beard
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Dobrynya Nikitich, strong dragon-slayer bogatyr, scale armour, red cloak, brown beard
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/buslaev.png — 256×256
 
 - Почему: новая картинка
-- Что: Vasily Buslaev, rowdy Novgorod hero, red kaftan open at the chest, iron-bound club, clay pot of fire potion on his belt
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Vasily Buslaev, rowdy Novgorod hero, red kaftan open at the chest, wide belt, broad grin
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/mikula.png — 256×256
 
 - Почему: новая картинка
-- Что: Mikula Selyaninovich, mighty ploughman bogatyr, peasant clothes, enormous build, carrying a wooden plough on his shoulder
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Mikula Selyaninovich, mighty ploughman bogatyr, peasant clothes, enormous build, straw hat, calm smile
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/volga.png — 256×256
 
 - Почему: новая картинка
-- Что: Volga Svyatoslavich, shapeshifter prince-bogatyr, falcon feathers on his cloak and helmet, falcon on his arm
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Volga Svyatoslavich, shapeshifter prince-bogatyr, falcon feathers on his cloak and helmet
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/marya.png — 256×256
 
 - Почему: новая картинка
-- Что: Marya Morevna, warrior princess, ornate kokoshnik helmet, silver mail, sabre, a flask of living water at her belt
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Marya Morevna, warrior princess, ornate kokoshnik helmet, silver mail, long braid, proud look
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## hero/ilya.png — 256×256
 
 - Почему: новая картинка
-- Что: Ilya Muromets, the eldest and greatest bogatyr, grey beard, heavy chainmail, pointed helmet, huge mace, calm and mighty
-- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
+- Что: Ilya Muromets, the eldest and greatest bogatyr, grey beard, heavy chainmail, pointed helmet, calm and mighty
+- Дополнительно: Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.
 
 ## mob/forest_chaser.png — 256×256
 
@@ -695,61 +695,61 @@
 
 - Почему: новая картинка
 - Что: old Russian hand cannon (ruchnitsa), short iron barrel on a wooden stock
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/smg.png — 128×128
 
 - Почему: новая картинка
 - Что: rapid-fire multi-barrel matchlock arquebus (pishchal)
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/shotgun.png — 128×128
 
 - Почему: новая картинка
 - Что: wide-mouthed scatter arquebus loaded with shot
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/crossbow.png — 128×128
 
 - Почему: новая картинка
 - Что: old Russian crossbow (samostrel)
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/sword.png — 128×128
 
 - Почему: новая картинка
 - Что: Kladenets, the magic sword of Russian tales, glowing blade
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/lightning.png — 128×128
 
 - Почему: новая картинка
 - Что: staff of Perun crackling with lightning
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/fireWand.png — 128×128
 
 - Почему: новая картинка
 - Что: feather of the Firebird, glowing golden-red
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/frostStaff.png — 128×128
 
 - Почему: новая картинка
 - Что: staff of Morozko, Father Frost, icy blue with frost crystals
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/drone.png — 128×128
 
 - Почему: новая картинка
 - Что: copper mechanical falcon automaton
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## weapon/turret.png — 128×128
 
 - Почему: новая картинка
 - Что: small wooden watchtower with a crossbow on top
-- Дополнительно: One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text.
+- Дополнительно: One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.
 
 ## gear/hat_hunter.png — 128×128
 
