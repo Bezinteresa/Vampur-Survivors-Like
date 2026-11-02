@@ -22,6 +22,7 @@ export const CHEST_RADIUS = 70
 const CHEST_OPEN_TIME = 2.5
 const COLLECTOR_PERIOD = 5
 const COLLECTOR_RADIUS = 450
+const COIN_DROP_CHANCE = 0.55 // regular enemies drop coins only this often (balance: 2–3 purchases per wave)
 
 export interface Enemy {
   id: number
@@ -201,6 +202,7 @@ export class World {
   collectors = 0 // number of coin-collector helpers
   collected = 0 // coins picked up since the game last drained it
   kills = 0
+  damageTaken: Record<string, number> = {} // by source, for balancing
   boss: Enemy | null = null
   bossKilled = false
   private readonly grid = new SpatialGrid(ARENA_W, ARENA_H, 80, MAX_ENEMIES)
@@ -213,6 +215,7 @@ export class World {
     this.weapons = []
     this.pickups = []
     this.kills = 0
+    this.damageTaken = {}
     this.collected = 0
     this.standHeal = 0
     this.collectors = 0
@@ -397,7 +400,7 @@ export class World {
     this.hostiles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, dmg, life, turn })
   }
 
-  addBeam(x: number, y: number, angle: number, dmg: number, charge: number, active: number, sweep: number, len = 650, width = 18): void {
+  addBeam(x: number, y: number, angle: number, dmg: number, charge: number, active: number, sweep: number, len = 650, width = 14): void {
     this.beams.push({ x, y, angle, sweep, len, width, dmg, charge, active, t: 0, hit: false })
   }
 
@@ -434,7 +437,7 @@ export class World {
       h.life -= dt
       if (Math.abs(h.x) > HALF_W + 50 || Math.abs(h.y) > HALF_H + 50) h.life = 0
       if (h.life > 0 && Math.hypot(p.x - h.x, p.y - h.y) < h.r + p.r) {
-        this.hurtPlayer(h.dmg)
+        this.hurtPlayer(h.dmg, h.turn > 0 ? 'rocket' : 'shot')
         h.life = 0
       }
     }
@@ -449,7 +452,7 @@ export class World {
       const along = (p.x - b.x) * ux + (p.y - b.y) * uy
       const across = Math.abs(-(p.x - b.x) * uy + (p.y - b.y) * ux)
       if (along > 0 && along < b.len && across < b.width / 2 + p.r) {
-        this.hurtPlayer(b.dmg)
+        this.hurtPlayer(b.dmg, 'beam')
         b.hit = true
       }
     }
@@ -467,6 +470,7 @@ export class World {
       }
       if (p.hp > 0 && Math.hypot(p.x - pd.x, p.y - pd.y) < pd.r) {
         p.hp -= pd.dps * armor * dt
+        this.damageTaken.puddle = (this.damageTaken.puddle ?? 0) + pd.dps * armor * dt
         p.hurt = 0.1
       }
     }
@@ -515,7 +519,7 @@ export class World {
       e.kx *= decay
       e.ky *= decay
       e.flash -= dt
-      if (e.dmg > 0 && d < e.r + p.r) this.hurtPlayer(e.dmg)
+      if (e.dmg > 0 && d < e.r + p.r) this.hurtPlayer(e.dmg, e.boss ? 'boss' : 'contact')
     }
   }
 
@@ -549,7 +553,7 @@ export class World {
     }
   }
 
-  private hurtPlayer(dmg: number): void {
+  private hurtPlayer(dmg: number, source: string): void {
     const p = this.player
     if (p.iframes > 0 || p.rollT > 0 || p.hp <= 0) return
     if (Math.random() < Math.min(0.6, this.stats.dodge + this.buffValue('dodgeAfter'))) {
@@ -557,7 +561,9 @@ export class World {
       return
     }
     if (this.sets.has('guard') && Math.random() < 0.15) dmg *= 0.5
-    p.hp -= dmg * (15 / (15 + Math.max(0, this.stats.armor)))
+    const taken = dmg * (15 / (15 + Math.max(0, this.stats.armor)))
+    p.hp -= taken
+    this.damageTaken[source] = (this.damageTaken[source] ?? 0) + taken
     p.iframes = 0.6
     p.hurt = 0.2
   }
@@ -781,7 +787,7 @@ export class World {
       return
     }
     this.onDeath(e)
-    let value = e.def.coin
+    let value = e.def.ai === 'coin' || Math.random() < COIN_DROP_CHANCE ? e.def.coin : 0
     if (Math.random() < this.stats.profit) value++
     if (e.def.ai === 'coin') {
       for (let i = 0; i < value; i++) this.drop(e.x + (Math.random() - 0.5) * 70, e.y + (Math.random() - 0.5) * 70, 1, false)

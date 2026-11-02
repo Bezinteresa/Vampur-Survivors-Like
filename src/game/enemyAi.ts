@@ -57,10 +57,10 @@ function ranged(w: World, e: Enemy, dx: number, dy: number, d: number): [number,
     if (e.cd <= 0 && d < e.def.keep + 140) {
       startWindup(e, CHARGE[ai], dx, dy)
       const a = Math.atan2(dy, dx)
-      if (ai === 'beam') w.addBeam(e.x, e.y, a, e.dmg * 1.6, CHARGE.beam, 0.35, 0)
+      if (ai === 'beam') w.addBeam(e.x, e.y, a, e.dmg * 1.2, CHARGE.beam, 0.35, 0)
       if (ai === 'twinBeam') {
-        w.addBeam(e.x, e.y, a + 0.45, e.dmg * 1.4, CHARGE.twinBeam, 0.5, -0.4)
-        w.addBeam(e.x, e.y, a - 0.45, e.dmg * 1.4, CHARGE.twinBeam, 0.5, 0.4)
+        w.addBeam(e.x, e.y, a + 0.45, e.dmg, CHARGE.twinBeam, 0.5, -0.4)
+        w.addBeam(e.x, e.y, a - 0.45, e.dmg, CHARGE.twinBeam, 0.5, 0.4)
       }
       return [0, 0]
     }
@@ -74,7 +74,7 @@ function ranged(w: World, e: Enemy, dx: number, dy: number, d: number): [number,
     if (e.stateT <= 0) {
       const a = Math.atan2(e.aimY, e.aimX)
       if (ai === 'shotgun') for (let k = -2; k <= 2; k++) w.fireHostile(e.x, e.y, a + k * 0.14, 230, e.dmg * 0.7)
-      if (ai === 'rocket') w.fireHostile(e.x, e.y, a, 170, e.dmg * 1.8, 9, 1.2, 6)
+      if (ai === 'rocket') w.fireHostile(e.x, e.y, a, 170, e.dmg * 1.3, 9, 0.9, 6)
       setState(e, 'recover', ai === 'twinBeam' ? 0.6 : 0.45)
     }
     return [0, 0]

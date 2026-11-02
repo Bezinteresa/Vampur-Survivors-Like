@@ -733,8 +733,9 @@ function itemLines(def: ItemDef): DescLine[] {
   return lines
 }
 
+// Matches COIN_DROP_CHANCE in World: coins are experience, so fewer coins means a lower bar per level.
 export function xpNext(level: number): number {
-  return Math.round(6 + level * 4 + level * level * 0.6)
+  return Math.round((6 + level * 4 + level * level * 0.6) * 0.55)
 }
 
 function shuffle<T>(a: T[]): T[] {

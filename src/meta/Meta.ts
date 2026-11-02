@@ -415,7 +415,7 @@ export class Meta {
     const lvl = r.level
     const levelMul = 1 + 0.3 * lvl
     const rewards: Reward[] = []
-    const gold = Math.round((40 + 35 * r.wavesCleared) * levelMul) + (r.victory ? 300 * (lvl + 1) : 0)
+    const gold = Math.round((150 + 120 * r.wavesCleared) * levelMul) + (r.victory ? 900 * (lvl + 1) : 0)
     this.p.gold += gold
     rewards.push({ kind: 'gold', amount: gold })
     if (r.victory) {
@@ -428,7 +428,7 @@ export class Meta {
     const items = r.victory ? 2 : r.wavesCleared >= 5 ? 1 : 0
     const odds = [0.75 - 0.05 * lvl, 0.2 + 0.03 * lvl, 0.05 + 0.02 * lvl]
     for (let i = 0; i < items; i++) rewards.push(this.giveItem(rollRarity(odds)))
-    rewards.push(...this.giveBlueprints(r.wavesCleared + (r.victory ? 3 : 0)))
+    rewards.push(...this.giveBlueprints(2 * r.wavesCleared + (r.victory ? 6 : 0)))
     const water = Math.floor(r.wavesCleared / 3) + (r.victory ? 3 : 0)
     if (water > 0) rewards.push(this.giveWater(water))
     this.save()

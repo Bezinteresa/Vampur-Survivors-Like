@@ -23,7 +23,11 @@ const rewards = ref<Reward[]>([])
 onMounted(async () => {
   game.value = new Game(host.value!)
   game.value.onRunEnd = (result) => (rewards.value = meta.applyRun(result))
-  if (import.meta.env.DEV) Object.assign(window, { __game: game.value, __meta: meta })
+  if (import.meta.env.DEV) {
+    Object.assign(window, { __game: game.value, __meta: meta })
+    const g = game.value
+    import('./dev/balance').then((b) => b.installBalance(g))
+  }
   await meta.load(devStorage)
   loaded.value = true
 })

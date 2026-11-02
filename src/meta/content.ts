@@ -137,7 +137,7 @@ export function upgradeGold(level: number): number {
 }
 
 export function upgradeBlueprints(level: number): number {
-  return Math.max(1, Math.round(level * 1.3))
+  return level
 }
 
 // Gold and blueprints spent to raise an item from level 1 to `level` (refunded by dismantling or merging).
@@ -181,7 +181,7 @@ export const TALENTS: TalentDef[] = [
 ]
 
 export function talentCost(level: number): number {
-  return 150 + 150 * level
+  return 100 + 100 * level
 }
 
 // ---------- map levels ----------

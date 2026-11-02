@@ -37,5 +37,5 @@ export function waveDef(n: number): WaveDef {
 
 // Regular enemies get stronger every wave; the boss keeps its own numbers.
 export function enemyScale(n: number): { hp: number; dmg: number } {
-  return { hp: 1 + 0.25 * (n - 1), dmg: 1 + 0.15 * (n - 1) }
+  return { hp: 1 + 0.3 * (n - 1), dmg: 1 + 0.15 * (n - 1) }
 }

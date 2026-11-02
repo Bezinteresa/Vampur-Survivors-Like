@@ -93,7 +93,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'swamp', name: 'Гиблое болото', enemyMul: 1.4, ground: '#4a5a48',
+    id: 'swamp', name: 'Гиблое болото', enemyMul: 1.6, ground: '#4a5a48',
     roster: {
       chaser: ['Болотник', 0x6f8a6a], roller: ['Кочка-ползун', 0x5d6b3e], shotgun: ['Лягух-плевун', 0x7fa84a],
       beam: ['Блуждающий огонёк', 0xb8e0ff], twinBeam: ['Огоньки-близнецы', 0x9ad0f0], splitter: ['Тинник', 0x4f6a4a],
@@ -105,7 +105,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'pool', name: 'Тёмный омут', enemyMul: 1.9, ground: '#3f5250',
+    id: 'pool', name: 'Тёмный омут', enemyMul: 2.4, ground: '#3f5250',
     roster: {
       chaser: ['Утопленник', 0x7a9a9a], roller: ['Сом-усач', 0x5a6a70], shotgun: ['Водяница', 0x6ab0c0],
       beam: ['Омутник', 0x4a8ab0], twinBeam: ['Водоворот', 0x5aa0d0], splitter: ['Ракушник', 0x9a8a7a],
@@ -117,7 +117,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'road', name: 'Разбойничья дорога', enemyMul: 2.5, ground: '#5a5544',
+    id: 'road', name: 'Разбойничья дорога', enemyMul: 3.4, ground: '#5a5544',
     roster: {
       chaser: ['Разбойник с кистенём', 0x8a6a5a], roller: ['Детина с бочкой', 0x7a5a3a], shotgun: ['Самопальщик', 0x6a6a5a],
       beam: ['Лучник', 0x8a7a5a], twinBeam: ['Свистун', 0x9a8a6a], splitter: ['Атаман-толстяк', 0x7a4a3a],
@@ -129,7 +129,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'cave', name: 'Пещера Лиха', enemyMul: 3.2, ground: '#4a4a4e',
+    id: 'cave', name: 'Пещера Лиха', enemyMul: 4.6, ground: '#4a4a4e',
     roster: {
       chaser: ['Нетопырь', 0x5a4a5a], roller: ['Камнекат', 0x7a7a7a], shotgun: ['Кремнемёт', 0x8a8070],
       beam: ['Глазастик', 0xd0d0a0], twinBeam: ['Сглазник', 0xa0a0d0], splitter: ['Каменный истукан', 0x6a6a6a],
@@ -141,7 +141,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'hut', name: 'Избушка на курьих ножках', enemyMul: 4, ground: '#4f4a3e',
+    id: 'hut', name: 'Избушка на курьих ножках', enemyMul: 6, ground: '#4f4a3e',
     roster: {
       chaser: ['Чёрный кот', 0x3a3a44], roller: ['Курья ножка', 0xc0a070], shotgun: ['Ворона-каркуша', 0x4a4a5a],
       beam: ['Череп-фонарь', 0xe0d090], twinBeam: ['Два черепа', 0xd0c080], splitter: ['Котёл с варевом', 0x5a5a5a],
@@ -153,7 +153,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'bridge', name: 'Калинов мост', enemyMul: 5, ground: '#55443a',
+    id: 'bridge', name: 'Калинов мост', enemyMul: 7.8, ground: '#55443a',
     roster: {
       chaser: ['Огненный ящер', 0xb05a3a], roller: ['Змеёныш-катун', 0x8a6a3a], shotgun: ['Огнеплюй', 0xd07a3a],
       beam: ['Жар-змейка', 0xf0a040], twinBeam: ['Двуглавый змеёныш', 0xc06a3a], splitter: ['Змеиное яйцо', 0xd0c0a0],
@@ -165,7 +165,7 @@ export const LOCATIONS: LocationDef[] = [
     },
   },
   {
-    id: 'koschei', name: 'Царство Кощея', enemyMul: 6.2, ground: '#3e3e48',
+    id: 'koschei', name: 'Царство Кощея', enemyMul: 10, ground: '#3e3e48',
     roster: {
       chaser: ['Костяной воин', 0xd8d4c4], roller: ['Костяной конь', 0xc8c4b4], shotgun: ['Костомёт', 0xb8b4a4],
       beam: ['Мертвяк-колдун', 0x8a9ab0], twinBeam: ['Чёрный колдун', 0x5a5a7a], splitter: ['Груда костей', 0xa8a494],
@@ -181,7 +181,7 @@ export const LOCATIONS: LocationDef[] = [
   },
 ]
 
-const BOSS_HP = 2600
+const BOSS_HP = 8000
 
 // Enemy definitions for one location, keyed by archetype ('boss' and 'egg' included).
 export function locationRoster(index: number): Record<string, EnemyDef> {

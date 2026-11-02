@@ -87,9 +87,9 @@ export const MAX_TIER = 4
 export const TIER_NAMES = ['I', 'II', 'III', 'IV', 'V']
 const TIER_PRICE = [1, 2.1, 4.3, 8.8, 18]
 
-// Shop prices climb with the wave (≈ ×3 between wave 3 and wave 9, as in the reference).
+// Shop prices climb with the wave (balance bench: 2–3 purchases per wave).
 export function wavePriceMul(wave: number): number {
-  return 1 + 0.25 * (wave - 1)
+  return 1 + 0.5 * (wave - 1)
 }
 
 export function weaponPrice(def: WeaponDef, tier: number, wave: number): number {
