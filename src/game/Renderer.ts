@@ -2,6 +2,15 @@ import * as THREE from 'three'
 import { SPRITE, hasSprite, spriteTexture, walkFrame } from '../sprites'
 import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type Enemy, type World } from './World'
 
+// Life in a still picture: the feet stay put, the top stretches a little up and down ("breathing");
+// while walking the bob is stronger, in step, and the figure leans left and right around its feet.
+// Returns vertical stretch and lean angle; `phase` keeps a crowd out of sync.
+function bob(t: number, moving: boolean, phase: number): { stretch: number; lean: number } {
+  if (!moving) return { stretch: 1 + 0.025 * Math.sin(t * 2.6 + phase), lean: 0 }
+  const step = t * 8 * Math.PI * 0.5 + phase // two bobs per walk cycle (8 frames per second, 4 frames per cycle)
+  return { stretch: 1 + 0.06 * Math.abs(Math.sin(step)), lean: 0.07 * Math.sin(step * 0.5) }
+}
+
 // Placeholder look: flat circles with a dark outline, drawn as instanced meshes (one draw call per kind).
 // When the art pipeline has a picture for something (public/sprites), it is drawn instead of the placeholder:
 // one instanced quad per picture, tinted the same way the circles are.
@@ -20,6 +29,8 @@ const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
 const SPRITE_SCALE = 2.6 // picture size relative to the enemy radius (pictures have margins)
 const WEAPON_RING = 30 // weapons hover this far around the hero
+const HERO_SIZE = 52
+const HERO_LIFT = 6 // hero picture centre above the body centre
 const WEAPON_SIZE = 30
 const KIND_COLOR = { melee: 0xd8dde3, bullet: 0x6a5a4a, magic: 0x9a6ad0, mech: 0xb08a4a }
 
@@ -113,8 +124,8 @@ export class Renderer {
     this.playerBody.position.z = 0.01
     this.playerShape.add(outline, this.playerBody)
     this.heroSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }))
-    this.heroSprite.scale.set(52, 52, 1)
-    this.heroSprite.position.set(0, 6, 0.03)
+    this.heroSprite.scale.set(HERO_SIZE, HERO_SIZE, 1)
+    this.heroSprite.position.set(0, HERO_LIFT, 0.03)
     this.heroSprite.visible = false
     this.player.add(this.playerShape, this.heroSprite)
     this.player.position.z = Z.player
@@ -190,10 +201,22 @@ export class Renderer {
         this.heroSprite.material.needsUpdate = true
       }
       // Hero pictures face right; turn with the movement.
-      if (Math.abs(p.fx) > 0.2) this.heroSprite.scale.x = Math.abs(this.heroSprite.scale.x) * Math.sign(p.fx)
+      if (Math.abs(p.fx) > 0.2) this.heroSprite.scale.x = HERO_SIZE * Math.sign(p.fx)
       this.heroSprite.material.opacity = p.rollT > 0 ? 0.55 : 1
       this.heroSprite.material.color.setHex(p.hurt > 0 ? 0xff8080 : 0xffffff)
-      this.heroSprite.rotation.z = p.rollT > 0 ? -Math.sign(p.fx || 1) * (1 - p.rollT / 0.3) * Math.PI * 2 : 0
+      if (p.rollT > 0) {
+        this.heroSprite.rotation.z = -Math.sign(p.fx || 1) * (1 - p.rollT / 0.3) * Math.PI * 2
+        this.heroSprite.scale.y = HERO_SIZE
+        this.heroSprite.position.set(0, HERO_LIFT, 0.03)
+      } else {
+        // Stretch and lean around the feet (bottom edge of the picture).
+        const { stretch, lean } = bob(time, p.moving, 0)
+        const h = HERO_SIZE * stretch
+        const footY = HERO_LIFT - HERO_SIZE / 2
+        this.heroSprite.rotation.z = lean
+        this.heroSprite.scale.y = h
+        this.heroSprite.position.set(-Math.sin(lean) * h * 0.5, footY + Math.cos(lean) * h * 0.5, 0.03)
+      }
     }
 
     this.drawEnemies(world, time)
@@ -308,7 +331,7 @@ export class Renderer {
   }
 
   // Adds one picture instance this frame; false when that picture does not exist (draw the placeholder).
-  private drawSprite(file: string, x: number, y: number, size: number, flip: boolean, z: number, tint?: THREE.Color, angle = 0, flipY = false): boolean {
+  private drawSprite(file: string, x: number, y: number, size: number, flip: boolean, z: number, tint?: THREE.Color, angle = 0, flipY = false, stretch = 1): boolean {
     let b = this.batches.get(file)
     if (!b) {
       const tex = spriteTexture(file)
@@ -328,7 +351,7 @@ export class Renderer {
     }
     if (b.n >= MAX_ENEMIES) return true
     this.q.setFromAxisAngle(this.zAxis, angle)
-    this.m.compose(this.v.set(x, y, z), this.q, this.sv.set(flip ? -size : size, flipY ? -size : size, 1))
+    this.m.compose(this.v.set(x, y, z), this.q, this.sv.set(flip ? -size : size, (flipY ? -size : size) * stretch, 1))
     b.mesh.setMatrixAt(b.n, this.m)
     b.mesh.setColorAt(b.n, tint ?? this.white)
     b.n++
@@ -354,8 +377,17 @@ export class Renderer {
       this.c.setHex(file ? 0xffffff : e.def.color)
       this.tintEnemy(e, time, !!file)
       // Pictures face left; turn toward the hero. Walking enemies step through their walk frames.
-      const walking = e.state === 'move' || e.state === 'act'
-      if (file && this.drawSprite(walkFrame(file, time, walking && e.speed > 0, e.id * 0.37), e.x, e.y, e.r * SPRITE_SCALE, p.x > e.x, Z.enemy + (e.boss ? 0.05 : 0), this.c)) continue
+      const walking = (e.state === 'move' || e.state === 'act') && e.speed > 0
+      if (file) {
+        // Breathing / walking bob around the feet; the egg just sits.
+        const size = e.r * SPRITE_SCALE
+        const { stretch, lean } = e.def.ai === 'egg' ? { stretch: 1, lean: 0 } : bob(time, walking, e.id * 1.7)
+        const h = size * stretch
+        const footY = e.y - size / 2
+        const cx = e.x - Math.sin(lean) * h * 0.5
+        const cy = footY + Math.cos(lean) * h * 0.5
+        if (this.drawSprite(walkFrame(file, time, walking, e.id * 0.37), cx, cy, size, p.x > e.x, Z.enemy + (e.boss ? 0.05 : 0), this.c, lean, false, stretch)) continue
+      }
       this.place(this.enemyOutline, n, e.x, e.y, e.r + 3, Z.outline)
       this.place(this.enemyBody, n, e.x, e.y, e.r, Z.enemy)
       this.enemyBody.setColorAt(n, this.c)

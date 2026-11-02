@@ -1292,3 +1292,14 @@ button {
 .chip.bank {
   color: #c8e07a;
 }
+
+/* the bogatyr in the lobby breathes: feet stay put, the top rises a little */
+@keyframes breathe {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.025); }
+}
+.hero-figure .sprite-icon.hero-pic,
+.hero-portrait .sprite-icon {
+  transform-origin: 50% 100%;
+  animation: breathe 2.4s ease-in-out infinite;
+}
