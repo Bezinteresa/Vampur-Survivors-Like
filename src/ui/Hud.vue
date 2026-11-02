@@ -47,7 +47,7 @@ function cdStyle(cd: number, max: number) {
 
     <div v-if="ui.bossWave && ui.bossHp > 0" class="boss-bar">
       <div class="fill" :style="{ width: bossPct }"></div>
-      <span>Босс</span>
+      <span>{{ ui.bossName }}{{ ui.bossShield ? ' — бессмертен, разбейте яйцо!' : '' }}</span>
     </div>
 
     <div v-if="ui.banner" :key="ui.banner" class="banner">{{ ui.banner }}</div>

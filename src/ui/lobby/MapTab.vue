@@ -25,6 +25,7 @@ function step(d: number) {
           <Icon name="skull" :size="56" />
         </div>
         <div class="level-name">{{ i + 1 }}. {{ level.name }}</div>
+        <div class="level-boss">Хозяин: <b>{{ level.boss }}</b> — {{ level.bossTitle }}</div>
         <div class="level-progress">
           <div class="fill" :style="{ width: `${(100 * p.best[i]) / WAVE_COUNT}%` }"></div>
           <span>{{ p.best[i] }}/{{ WAVE_COUNT }}</span>

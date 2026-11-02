@@ -1,4 +1,5 @@
-import { ENEMIES, type EnemyDef } from './data/enemies'
+import type { Ai, BossAttack, EnemyDef } from './data/bestiary'
+import { think } from './enemyAi'
 import type { StatusEffect, WeaponDef } from './data/weapons'
 import type { OwnBonus } from './loadout'
 import { SpatialGrid } from './SpatialGrid'
@@ -35,10 +36,18 @@ export interface Enemy {
   dmg: number
   speed: number
   flash: number
-  state: 'chase' | 'windup' | 'dash' // boss only
+  state: 'move' | 'windup' | 'act' | 'recover'
   stateT: number
-  dx: number
-  dy: number
+  cd: number // attack cooldown
+  aimX: number // attack direction locked at windup
+  aimY: number
+  windupTime: number
+  charge: number // 0..1 while charging, drives the colour shift
+  side: number // ±1: which way a ranged enemy circles
+  attack: BossAttack | null
+  attackIdx: number
+  invulnerable: boolean // Koschei while his egg is whole
+  mortal: boolean // Koschei after the egg broke
   burnT: number
   burnDps: number
   burnSrc: WeaponSlot | null
@@ -116,6 +125,47 @@ export interface Chest {
   progress: number // 0..1
 }
 
+// Enemy shot: pellet, or a homing rocket when `turn` > 0 (radians per second).
+export interface Hostile {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  r: number
+  dmg: number
+  life: number
+  turn: number
+}
+
+// Enemy beam anchored where it was cast: thin warning line while charging, then a short hit window.
+// `sweep` rotates it during the hit window (two beams closing like scissors).
+export interface Beam {
+  x: number
+  y: number
+  angle: number
+  sweep: number
+  len: number
+  width: number
+  dmg: number
+  charge: number
+  active: number
+  t: number
+  hit: boolean
+}
+
+export interface Puddle {
+  x: number
+  y: number
+  r: number
+  dps: number
+  life: number
+}
+
+export function beamAngle(b: Beam): number {
+  const k = b.t <= b.charge ? 0 : Math.min(1, (b.t - b.charge) / b.active)
+  return b.angle + b.sweep * k
+}
+
 export const SWING_LIFE = 0.18
 export const BOLT_LIFE = 0.15
 
@@ -128,7 +178,11 @@ export class World {
   swings: Swing[] = []
   bolts: Bolt[] = []
   turrets: Turret[] = []
+  hostiles: Hostile[] = []
+  beams: Beam[] = []
+  puddles: Puddle[] = []
   weapons: WeaponSlot[] = []
+  roster: Record<string, EnemyDef> = {} // enemies of the current location, keyed by archetype
   chest: Chest | null = null
   chestOpened = false // set when the ring fills; the game shows the reward and clears it
   stats: Stats = { ...BASE_STATS }
@@ -171,6 +225,9 @@ export class World {
     this.swings = []
     this.bolts = []
     this.turrets = []
+    this.hostiles = []
+    this.beams = []
+    this.puddles = []
     this.chest = null
     this.chestOpened = false
     this.boss = null
@@ -203,6 +260,7 @@ export class World {
     this.updateMarkers(dt)
     this.rebuildGrid()
     this.updateEnemies(dt)
+    this.updateHazards(dt)
     this.rebuildGrid()
     this.updateWeapons(dt)
     this.updateTurrets(dt)
@@ -251,23 +309,100 @@ export class World {
   private updateMarkers(dt: number): void {
     for (const m of this.markers) {
       m.t -= dt
-      if (m.t <= 0) this.spawnEnemy(ENEMIES[m.defId], m.x, m.y)
+      if (m.t <= 0) this.spawnEnemy(this.roster[m.defId], m.x, m.y)
     }
     this.markers = this.markers.filter((m) => m.t > 0)
   }
 
-  private spawnEnemy(def: EnemyDef, x: number, y: number): void {
-    if (this.enemies.length >= MAX_ENEMIES) return
-    const boss = def.behavior === 'boss'
+  spawnEnemy(def: EnemyDef, x: number, y: number): Enemy | null {
+    if (!def || this.enemies.length >= MAX_ENEMIES) return null
+    const boss = def.ai === 'boss'
     const hp = boss ? def.hp * this.bossMul : def.hp * this.hpMul
     const e: Enemy = {
       id: this.nextId++, def, boss, x, y, kx: 0, ky: 0, r: def.radius,
       hp, maxHp: hp, dmg: boss ? def.dmg * Math.sqrt(this.bossMul) : def.dmg * this.dmgMul, speed: def.speed * (0.9 + Math.random() * 0.2),
-      flash: 0, state: 'chase', stateT: 3, dx: 0, dy: 0,
+      flash: 0, state: 'move', stateT: boss ? 2.5 : def.ai === 'coin' ? 14 : 0, cd: 1 + Math.random() * 1.5,
+      aimX: 0, aimY: 1, windupTime: 1, charge: 0, side: Math.random() < 0.5 ? -1 : 1, attack: null, attackIdx: 0, invulnerable: false, mortal: false,
       burnT: 0, burnDps: 0, burnSrc: null, bleedT: 0, bleedDps: 0, bleedSrc: null, freezeT: 0,
     }
     this.enemies.push(e)
     if (boss) this.boss = e
+    return e
+  }
+
+  // ---------- enemy attacks ----------
+
+  fireHostile(x: number, y: number, angle: number, speed: number, dmg: number, r = 6, turn = 0, life = 4): void {
+    this.hostiles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, dmg, life, turn })
+  }
+
+  addBeam(x: number, y: number, angle: number, dmg: number, charge: number, active: number, sweep: number, len = 650, width = 18): void {
+    this.beams.push({ x, y, angle, sweep, len, width, dmg, charge, active, t: 0, hit: false })
+  }
+
+  summon(ai: Ai, count: number, x: number, y: number): void {
+    for (let i = 0; i < count; i++) {
+      const a = (i / count) * Math.PI * 2
+      this.queueSpawn(ai, clamp(x + Math.cos(a) * 110, -HALF_W + 30, HALF_W - 30), clamp(y + Math.sin(a) * 110, -HALF_H + 30, HALF_H - 30), 0.6)
+    }
+  }
+
+  puddlesAroundPlayer(count: number, dps: number): void {
+    const p = this.player
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2
+      const d = i === 0 ? 0 : 70 + Math.random() * 90
+      this.puddles.push({ x: p.x + Math.cos(a) * d, y: p.y + Math.sin(a) * d, r: 55, dps, life: 6 })
+    }
+  }
+
+  private updateHazards(dt: number): void {
+    const p = this.player
+    for (const h of this.hostiles) {
+      if (h.turn > 0) {
+        // Homing rocket: turns slowly toward the hero, easy to sidestep.
+        const want = Math.atan2(p.y - h.y, p.x - h.x)
+        const cur = Math.atan2(h.vy, h.vx)
+        const turn = clamp(angleDiff(want, cur), -h.turn * dt, h.turn * dt)
+        const speed = Math.hypot(h.vx, h.vy)
+        h.vx = Math.cos(cur + turn) * speed
+        h.vy = Math.sin(cur + turn) * speed
+      }
+      h.x += h.vx * dt
+      h.y += h.vy * dt
+      h.life -= dt
+      if (Math.abs(h.x) > HALF_W + 50 || Math.abs(h.y) > HALF_H + 50) h.life = 0
+      if (h.life > 0 && Math.hypot(p.x - h.x, p.y - h.y) < h.r + p.r) {
+        this.hurtPlayer(h.dmg)
+        h.life = 0
+      }
+    }
+    this.hostiles = this.hostiles.filter((h) => h.life > 0)
+
+    for (const b of this.beams) {
+      b.t += dt
+      if (b.hit || b.t <= b.charge) continue
+      const a = beamAngle(b)
+      const ux = Math.cos(a)
+      const uy = Math.sin(a)
+      const along = (p.x - b.x) * ux + (p.y - b.y) * uy
+      const across = Math.abs(-(p.x - b.x) * uy + (p.y - b.y) * ux)
+      if (along > 0 && along < b.len && across < b.width / 2 + p.r) {
+        this.hurtPlayer(b.dmg)
+        b.hit = true
+      }
+    }
+    this.beams = this.beams.filter((b) => b.t < b.charge + b.active)
+
+    const armor = 15 / (15 + Math.max(0, this.stats.armor))
+    for (const pd of this.puddles) {
+      pd.life -= dt
+      if (p.hp > 0 && Math.hypot(p.x - pd.x, p.y - pd.y) < pd.r) {
+        p.hp -= pd.dps * armor * dt
+        p.hurt = 0.1
+      }
+    }
+    this.puddles = this.puddles.filter((pd) => pd.life > 0)
   }
 
   private rebuildGrid(): void {
@@ -284,38 +419,15 @@ export class World {
       if (e.hp <= 0) continue
       this.tickStatus(e, dt)
       if (e.hp <= 0) continue
-      let dx = p.x - e.x
-      let dy = p.y - e.y
-      const d = Math.hypot(dx, dy) || 1
-      dx /= d
-      dy /= d
-      let speed = e.speed
-      if (e.boss) {
-        e.stateT -= dt
-        if (e.state === 'chase' && e.stateT <= 0) {
-          e.state = 'windup'
-          e.stateT = 0.8
-          e.dx = dx
-          e.dy = dy
-        } else if (e.state === 'windup') {
-          speed = 0
-          e.dx = dx
-          e.dy = dy
-          if (e.stateT <= 0) {
-            e.state = 'dash'
-            e.stateT = 0.55
-          }
-        } else if (e.state === 'dash') {
-          speed = 520
-          dx = e.dx
-          dy = e.dy
-          if (e.stateT <= 0) {
-            e.state = 'chase'
-            e.stateT = 3 + Math.random() * 1.5
-          }
-        }
+      const dx0 = p.x - e.x
+      const dy0 = p.y - e.y
+      const d = Math.hypot(dx0, dy0) || 1
+      let [vx, vy] = think(this, e, dt, dx0 / d, dy0 / d, d)
+      if (e.hp <= 0) continue // a thief that got away
+      if (e.freezeT > 0) {
+        vx *= e.boss ? 0.7 : 0.3
+        vy *= e.boss ? 0.7 : 0.3
       }
-      if (e.freezeT > 0) speed *= e.boss ? 0.7 : 0.3
       // Push apart from neighbours so the crowd does not collapse into one point.
       this.grid.forEachNear(e.x, e.y, e.r * 2, (j) => {
         const o = list[j]
@@ -330,12 +442,12 @@ export class World {
         e.x += ox * push
         e.y += oy * push
       })
-      e.x = clamp(e.x + (dx * speed + e.kx) * dt, -HALF_W + e.r, HALF_W - e.r)
-      e.y = clamp(e.y + (dy * speed + e.ky) * dt, -HALF_H + e.r, HALF_H - e.r)
+      e.x = clamp(e.x + (vx + e.kx) * dt, -HALF_W + e.r, HALF_W - e.r)
+      e.y = clamp(e.y + (vy + e.ky) * dt, -HALF_H + e.r, HALF_H - e.r)
       e.kx *= decay
       e.ky *= decay
       e.flash -= dt
-      if (d < e.r + p.r) this.hurtPlayer(e.dmg)
+      if (e.dmg > 0 && d < e.r + p.r) this.hurtPlayer(e.dmg)
     }
   }
 
@@ -525,6 +637,9 @@ export class World {
   }
 
   private nearest(x: number, y: number, range: number, exclude?: number[]): Enemy | null {
+    // Koschei's egg is the target that matters: weapons aim at it whenever it is in reach.
+    const egg = this.boss?.invulnerable ? this.enemies.find((e) => e.def.ai === 'egg' && e.hp > 0) : undefined
+    if (egg && !exclude?.includes(egg.id) && (egg.x - x) ** 2 + (egg.y - y) ** 2 < range * range) return egg
     let best: Enemy | null = null
     let bestD = range * range
     this.grid.forEachNear(x, y, range, (i) => {
@@ -561,7 +676,18 @@ export class World {
 
   private hitEnemy(e: Enemy, dmg: number, kx: number, ky: number, src: WeaponSlot | null, effect: StatusEffect | null, dot = false): void {
     if (e.hp <= 0) return
+    if (e.invulnerable) {
+      e.flash = 0.04
+      return
+    }
     if (e.boss) dmg *= 1 + this.stats.bossDmg
+    // Koschei: at 30% health he stops taking damage and his egg appears somewhere on the field.
+    if (e.boss && e.def.boss?.immortal && !e.mortal && e.hp - dmg < e.maxHp * 0.3) {
+      dmg = Math.max(0, e.hp - e.maxHp * 0.3)
+      e.invulnerable = true
+      const a = Math.random() * Math.PI * 2
+      this.spawnEnemy(this.roster.egg, clamp(this.player.x + Math.cos(a) * 380, -HALF_W + 60, HALF_W - 60), clamp(this.player.y + Math.sin(a) * 380, -HALF_H + 60, HALF_H - 60))
+    }
     const dealt = Math.min(dmg, e.hp)
     e.hp -= dmg
     if (src) {
@@ -586,10 +712,37 @@ export class World {
       for (let i = 0; i < 30; i++) this.drop(e.x + (Math.random() - 0.5) * 120, e.y + (Math.random() - 0.5) * 120, 2, false)
       return
     }
+    this.onDeath(e)
     let value = e.def.coin
     if (Math.random() < this.stats.profit) value++
-    this.drop(e.x, e.y, value, false)
+    if (e.def.ai === 'coin') {
+      for (let i = 0; i < value; i++) this.drop(e.x + (Math.random() - 0.5) * 70, e.y + (Math.random() - 0.5) * 70, 1, false)
+    } else if (value > 0) {
+      this.drop(e.x, e.y, value, false)
+    }
     if (Math.random() < e.def.medkit) this.drop(e.x + 10, e.y, 0, true)
+  }
+
+  private onDeath(e: Enemy): void {
+    switch (e.def.ai) {
+      case 'splitter':
+        for (let i = 0; i < 3; i++) {
+          const a = (i / 3) * Math.PI * 2
+          this.spawnEnemy(this.roster.small, e.x + Math.cos(a) * 18, e.y + Math.sin(a) * 18)
+        }
+        break
+      case 'poison':
+        this.puddles.push({ x: e.x, y: e.y, r: 40, dps: e.dmg * 0.8, life: 5 })
+        break
+      case 'egg':
+        // The needle breaks: Koschei falls.
+        if (this.boss && this.boss.hp > 0) {
+          this.boss.invulnerable = false
+          this.boss.mortal = true
+          this.hitEnemy(this.boss, this.boss.hp + 1, 0, 0, null, null)
+        }
+        break
+    }
   }
 
   private drop(x: number, y: number, value: number, medkit: boolean): void {

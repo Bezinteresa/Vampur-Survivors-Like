@@ -1,3 +1,5 @@
+import type { Ai } from './bestiary'
+
 export const WAVE_COUNT = 10
 
 export interface WaveDef {
@@ -7,14 +9,20 @@ export interface WaveDef {
   spawnInterval: number
   batch: number
   maxAlive: number
-  mix: [string, number][] // enemy id, weight
+  mix: [Ai, number][] // archetype, weight
+  coinThieves: number // harmless thieves that appear during the wave
 }
 
+// New behaviours join wave by wave, so each one gets a moment to be learned.
 export function waveDef(n: number): WaveDef {
   const boss = n === WAVE_COUNT
-  const mix: [string, number][] = [['runner', 10]]
-  if (n >= 2) mix.push(['tank', 2 + n])
-  if (n >= 3) mix.push(['fast', 2 + n * 1.5])
+  const mix: [Ai, number][] = [['chaser', 10]]
+  if (n >= 2) mix.push(['roller', 2 + n * 0.5])
+  if (n >= 3) mix.push(['shotgun', 1 + n * 0.35])
+  if (n >= 4) mix.push(['poison', 2.5], ['splitter', 1.5])
+  if (n >= 5) mix.push(['beam', 1.5 + n * 0.2])
+  if (n >= 6) mix.push(['rocket', 1.2])
+  if (n >= 7) mix.push(['twinBeam', 1.2])
   return {
     n,
     boss,
@@ -23,6 +31,7 @@ export function waveDef(n: number): WaveDef {
     batch: 1 + Math.floor((n - 1) * 0.6),
     maxAlive: boss ? 120 : 25 + n * 30,
     mix,
+    coinThieves: n >= 2 && !boss ? (n >= 6 ? 2 : 1) : 0,
   }
 }
 

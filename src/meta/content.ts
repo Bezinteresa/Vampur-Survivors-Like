@@ -1,4 +1,5 @@
 import { ABILITIES } from '../game/data/abilities'
+import { LOCATIONS } from '../game/data/bestiary'
 import { WEAPONS } from '../game/data/weapons'
 import type { Stats } from '../game/stats'
 
@@ -188,15 +189,11 @@ export function talentCost(level: number): number {
 export interface MapLevel {
   name: string
   enemyMul: number // enemy health and damage multiplier
+  boss: string
+  bossTitle: string
 }
 
-export const MAP_LEVELS: MapLevel[] = [
-  { name: 'Окраина', enemyMul: 1 },
-  { name: 'Старое кладбище', enemyMul: 1.5 },
-  { name: 'Туманное болото', enemyMul: 2.1 },
-  { name: 'Заброшенный рудник', enemyMul: 2.8 },
-  { name: 'Замок на холме', enemyMul: 3.6 },
-]
+export const MAP_LEVELS: MapLevel[] = LOCATIONS.map((l) => ({ name: l.name, enemyMul: l.enemyMul, boss: l.boss.name, bossTitle: l.boss.def.title }))
 
 // ---------- chests ----------
 

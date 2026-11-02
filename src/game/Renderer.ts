@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, type World } from './World'
+import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type World } from './World'
 
 // Placeholder look: flat circles with a dark outline, drawn as instanced meshes (one draw call per kind).
 // Sprites from the art pipeline will replace these materials later.
@@ -11,6 +11,9 @@ const MAX_PICKUPS = 500
 const MAX_MARKERS = 300
 const MAX_SWINGS = 12
 const MAX_MECH = 64
+const MAX_HOSTILES = 600
+const MAX_BEAMS = 40
+const MAX_PUDDLES = 60
 const MAX_BOLT_SEGMENTS = 128
 const SWORD_ARC = 2.1
 
@@ -27,6 +30,8 @@ export class Renderer {
   private readonly red = new THREE.Color(0xff5050)
   private readonly burnColor = new THREE.Color(0xff8a3d)
   private readonly freezeColor = new THREE.Color(0x9fdcff)
+  private readonly chargeColor = new THREE.Color(0xfff2a0)
+  private readonly shieldColor = new THREE.Color(0x9a7aff)
   private readonly bleedColor = new THREE.Color(0xb0203a)
 
   private readonly enemyOutline: THREE.InstancedMesh
@@ -44,6 +49,10 @@ export class Renderer {
   private readonly circleGeo = new THREE.RingGeometry(0.85, 1, 40)
   private readonly bolts: THREE.LineSegments<THREE.BufferGeometry, THREE.LineBasicMaterial>
   private readonly chest = new THREE.Group()
+  private readonly hostiles: THREE.InstancedMesh
+  private readonly puddles: THREE.InstancedMesh
+  private readonly beams: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>[] = []
+  private readonly ground: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
   private readonly chestRing: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>
 
   constructor(host: HTMLElement) {
@@ -52,7 +61,20 @@ export class Renderer {
     host.appendChild(this.gl.domElement)
     this.scene.background = new THREE.Color(0x1b2019)
 
-    this.scene.add(this.makeGround())
+    this.ground = this.makeGround()
+    this.scene.add(this.ground)
+    this.puddles = this.instanced(new THREE.CircleGeometry(1, 28), MAX_PUDDLES, 0x7ac943, false)
+    ;(this.puddles.material as THREE.MeshBasicMaterial).transparent = true
+    ;(this.puddles.material as THREE.MeshBasicMaterial).opacity = 0.35
+    this.hostiles = this.instanced(new THREE.CircleGeometry(1, 12), MAX_HOSTILES, 0xffffff, true)
+    const beamGeo = new THREE.PlaneGeometry(1, 1)
+    for (let i = 0; i < MAX_BEAMS; i++) {
+      const b = new THREE.Mesh(beamGeo, new THREE.MeshBasicMaterial({ color: 0xff4040, transparent: true }))
+      b.visible = false
+      b.position.z = Z.fx - 0.1
+      this.beams.push(b)
+      this.scene.add(b)
+    }
 
     const circle = new THREE.CircleGeometry(1, 24)
     this.enemyOutline = this.instanced(circle, MAX_ENEMIES, 0x15181a, false)
@@ -138,6 +160,7 @@ export class Renderer {
 
     this.drawEnemies(world, time)
     this.drawMech(world)
+    this.drawHazards(world)
 
     let n = 0
     for (const pr of world.projectiles) {
@@ -207,7 +230,10 @@ export class Renderer {
       this.place(this.enemyOutline, n, e.x, e.y, e.r + 3, Z.outline)
       this.place(this.enemyBody, n, e.x, e.y, e.r, Z.enemy)
       this.c.setHex(e.def.color)
-      if (e.state === 'windup') this.c.lerp(this.red, 0.5 + 0.5 * Math.sin(time * 30))
+      // Charging an attack: the colour shifts to bright yellow; the boss also pulses red.
+      if (e.charge > 0) this.c.lerp(this.chargeColor, Math.min(1, e.charge) * 0.8)
+      if (e.boss && e.state === 'windup') this.c.lerp(this.red, 0.3 + 0.3 * Math.sin(time * 30))
+      if (e.invulnerable) this.c.lerp(this.shieldColor, 0.5 + 0.2 * Math.sin(time * 8))
       if (e.freezeT > 0) this.c.lerp(this.freezeColor, 0.6)
       else if (e.burnT > 0) this.c.lerp(this.burnColor, 0.45)
       else if (e.bleedT > 0) this.c.lerp(this.bleedColor, 0.35)
@@ -258,12 +284,65 @@ export class Renderer {
     return mesh
   }
 
-  private makeGround(): THREE.Mesh {
+  // Each location has its own floor colour (placeholder until the art pipeline gives real tiles).
+  setGround(color: string): void {
+    const old = this.ground.material.map
+    this.ground.material.map = this.groundTexture(color)
+    this.ground.material.needsUpdate = true
+    old?.dispose()
+  }
+
+  private drawHazards(world: World): void {
+    let n = 0
+    for (const pd of world.puddles) this.place(this.puddles, n++, pd.x, pd.y, pd.r, Z.pickup - 0.5)
+    this.finish(this.puddles, n)
+
+    n = 0
+    for (const h of world.hostiles) {
+      this.place(this.hostiles, n, h.x, h.y, h.r, Z.projectile + 0.1)
+      this.hostiles.setColorAt(n++, this.c.setHex(h.turn > 0 ? 0xff9a3a : 0xff4a6a))
+    }
+    this.finish(this.hostiles, n)
+    if (this.hostiles.instanceColor) this.hostiles.instanceColor.needsUpdate = true
+
+    for (let i = 0; i < this.beams.length; i++) {
+      const mesh = this.beams[i]
+      const b = world.beams[i]
+      mesh.visible = !!b
+      if (!b) continue
+      const a = beamAngle(b)
+      const charging = b.t <= b.charge
+      mesh.position.x = b.x + (Math.cos(a) * b.len) / 2
+      mesh.position.y = b.y + (Math.sin(a) * b.len) / 2
+      mesh.rotation.z = a
+      mesh.scale.set(b.len, charging ? 3 : b.width, 1)
+      mesh.material.color.setHex(charging ? 0xff4040 : 0xfff0c0)
+      mesh.material.opacity = charging ? 0.25 + 0.4 * (b.t / b.charge) : 0.9
+    }
+  }
+
+  private makeGround(): THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial> {
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(ARENA_W, ARENA_H), new THREE.MeshBasicMaterial({ map: this.groundTexture('#56644d') }))
+    ground.position.z = Z.ground
+    const border = new THREE.LineLoop(
+      new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-HALF_W, -HALF_H, 0.1),
+        new THREE.Vector3(HALF_W, -HALF_H, 0.1),
+        new THREE.Vector3(HALF_W, HALF_H, 0.1),
+        new THREE.Vector3(-HALF_W, HALF_H, 0.1),
+      ]),
+      new THREE.LineBasicMaterial({ color: 0x0e110d }),
+    )
+    ground.add(border)
+    return ground
+  }
+
+  private groundTexture(color: string): THREE.CanvasTexture {
     const size = 256
     const cv = document.createElement('canvas')
     cv.width = cv.height = size
     const g = cv.getContext('2d')!
-    g.fillStyle = '#56644d'
+    g.fillStyle = color
     g.fillRect(0, 0, size, size)
     let seed = 7
     const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
@@ -287,19 +366,7 @@ export class Renderer {
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping
     tex.repeat.set(ARENA_W / size, ARENA_H / size)
     tex.colorSpace = THREE.SRGBColorSpace
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(ARENA_W, ARENA_H), new THREE.MeshBasicMaterial({ map: tex }))
-    ground.position.z = Z.ground
-    const border = new THREE.LineLoop(
-      new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(-HALF_W, -HALF_H, 0.1),
-        new THREE.Vector3(HALF_W, -HALF_H, 0.1),
-        new THREE.Vector3(HALF_W, HALF_H, 0.1),
-        new THREE.Vector3(-HALF_W, HALF_H, 0.1),
-      ]),
-      new THREE.LineBasicMaterial({ color: 0x0e110d }),
-    )
-    ground.add(border)
-    return ground
+    return tex
   }
 }
 

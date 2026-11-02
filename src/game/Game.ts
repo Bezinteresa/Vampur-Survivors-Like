@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { ABILITIES, type AbilityDef } from './data/abilities'
+import { LOCATIONS, locationRoster } from './data/bestiary'
 import { ITEMS, ITEM_IDS, type ItemDef } from './data/items'
 import { CARD_TIER_MUL, UPGRADES } from './data/upgrades'
 import { WAVE_COUNT, enemyScale, waveDef, type WaveDef } from './data/waves'
@@ -66,6 +67,7 @@ export class Game {
   private bannerTime = 0
   private victory = false
   private chestSpawned = false
+  private thiefTimes: number[] = [] // wave-time marks when a coin thief appears
   private resumeTo: Screen = 'wave'
   private abilities: AbilityState[] = []
   private loadout: RunLoadout = PLAIN_LOADOUT
@@ -96,6 +98,9 @@ export class Game {
     bossWave: false,
     bossHp: 0,
     bossMaxHp: 1,
+    bossName: '',
+    bossShield: false, // Koschei waiting for his egg to break
+    location: '',
     banner: '',
     kills: 0,
     abilities: [] as { id: string; name: string; icon: string; cd: number; cdMax: number; active: boolean }[],
@@ -142,6 +147,9 @@ export class Game {
     this.world.reset(this.stats)
     this.world.sets = new Set(loadout.sets)
     this.world.bossMul = loadout.enemyMul
+    this.world.roster = locationRoster(loadout.level)
+    this.ui.location = LOCATIONS[loadout.level]?.name ?? ''
+    this.renderer.setGround(LOCATIONS[loadout.level]?.ground ?? '#56644d')
     this.world.weapons.push(this.newSlot(WEAPONS[loadout.startWeapon] ?? WEAPONS.pistol, 0))
     this.items = new Map()
     this.abilities = loadout.abilities.map((a) => ({ def: ABILITIES[a.id], cd: 0, active: 0, cooldownMul: a.cooldownMul, durationMul: a.durationMul }))
@@ -162,6 +170,7 @@ export class Game {
     this.waveTime = this.wave.duration
     this.spawnTimer = 0.6
     this.chestSpawned = false
+    this.thiefTimes = Array.from({ length: this.wave.coinThieves }, () => this.wave.duration * (0.25 + Math.random() * 0.5))
     const scale = enemyScale(n)
     this.world.hpMul = scale.hp * this.loadout.enemyMul
     this.world.dmgMul = scale.dmg * Math.sqrt(this.loadout.enemyMul)
@@ -176,7 +185,7 @@ export class Game {
     if (this.wave.boss) this.world.queueSpawn('boss', 0, 380, 1.5)
     this.ui.wave = n
     this.ui.bossWave = this.wave.boss
-    this.showBanner(this.wave.boss ? 'Босс!' : `Волна ${n}`)
+    this.showBanner(this.wave.boss ? this.world.roster.boss.name : `Волна ${n}`)
     this.ui.screen = 'wave'
     this.acc = 0
   }
@@ -576,6 +585,7 @@ export class Game {
       if (this.world.enemies.length + this.world.markers.length < this.wave.maxAlive) this.spawnBatch()
     }
     this.maybePlaceChest()
+    this.maybeSpawnThief()
 
     this.world.step(dt, mv.x, mv.y)
     this.drainCoins()
@@ -592,6 +602,19 @@ export class Game {
     } else if (this.world.chestOpened) {
       this.openChest()
     }
+  }
+
+  // A harmless thief runs across the field; catching it pays a pile of coins.
+  private maybeSpawnThief(): void {
+    const i = this.thiefTimes.findIndex((t) => this.waveTime <= t)
+    if (i < 0) return
+    this.thiefTimes.splice(i, 1)
+    const p = this.world.player
+    const a = Math.random() * Math.PI * 2
+    const x = Math.max(-HALF_W + 40, Math.min(HALF_W - 40, p.x + Math.cos(a) * 260))
+    const y = Math.max(-HALF_H + 40, Math.min(HALF_H - 40, p.y + Math.sin(a) * 260))
+    this.world.queueSpawn('coin', x, y, 0.5)
+    this.showBanner('Воришка с монетами!')
   }
 
   private spawnBatch(): void {
@@ -656,6 +679,8 @@ export class Game {
     const boss = this.world.boss
     ui.bossHp = boss ? Math.max(0, boss.hp) : 0
     ui.bossMaxHp = boss ? boss.maxHp : 1
+    ui.bossName = boss ? boss.def.name : ''
+    ui.bossShield = !!boss?.invulnerable
     for (let i = 0; i < this.abilities.length; i++) {
       const a = this.abilities[i]
       const u = ui.abilities[i]
