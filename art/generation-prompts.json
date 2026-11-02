@@ -9,8 +9,7 @@
       "w": 256,
       "h": 256,
       "subject": "Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, cheerful and brave",
-      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
-      "redo": "в руке меч: у богатырей руки пустые, оружие игра рисует отдельно поверх; стиль и одежду сохранить как есть"
+      "extra": "Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero."
     },
     {
       "file": "hero/alyosha.png",
@@ -79,8 +78,9 @@
       "file": "mob/forest_shotgun.png",
       "w": 256,
       "h": 256,
-      "subject": "small forest goblin throwing a handful of pine cones, minion of the location \"Dark enchanted Russian forest\"",
-      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+      "subject": "angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "redo": "гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок"
     },
     {
       "file": "mob/forest_beam.png",
@@ -443,7 +443,7 @@
       "file": "mob/cave_shotgun.png",
       "w": 256,
       "h": 256,
-      "subject": "stone imp throwing flint shards, minion of the location \"Cave of One-Eyed Likho\"",
+      "subject": "big flint beetle spitting sharp stone shards, minion of the location \"Cave of One-Eyed Likho\"",
       "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
@@ -744,7 +744,7 @@
       "file": "mob/koschei_small.png",
       "w": 192,
       "h": 192,
-      "subject": "little bone imp, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "subject": "little crawling pile of bones with a tiny skull, minion of the location \"Kingdom of Koschei the Deathless\"",
       "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
@@ -1271,6 +1271,1542 @@
       "h": 128,
       "subject": "rolled birch bark blueprint",
       "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+    },
+    {
+      "file": "hero/ivan_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, cheerful and brave",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/ivan.png"
+    },
+    {
+      "file": "hero/ivan_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Ivan the peasant son, young bogatyr in a simple linen shirt with red embroidery, bast shoes, cheerful and brave",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/ivan.png"
+    },
+    {
+      "file": "hero/alyosha_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Alyosha Popovich, young slim cunning bogatyr, light chainmail, pointed helmet, a sly grin",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/alyosha.png"
+    },
+    {
+      "file": "hero/alyosha_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Alyosha Popovich, young slim cunning bogatyr, light chainmail, pointed helmet, a sly grin",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/alyosha.png"
+    },
+    {
+      "file": "hero/dobrynya_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Dobrynya Nikitich, strong dragon-slayer bogatyr, scale armour, red cloak, brown beard",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/dobrynya.png"
+    },
+    {
+      "file": "hero/dobrynya_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Dobrynya Nikitich, strong dragon-slayer bogatyr, scale armour, red cloak, brown beard",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/dobrynya.png"
+    },
+    {
+      "file": "hero/buslaev_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Vasily Buslaev, rowdy Novgorod hero, red kaftan open at the chest, wide belt, broad grin",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/buslaev.png"
+    },
+    {
+      "file": "hero/buslaev_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Vasily Buslaev, rowdy Novgorod hero, red kaftan open at the chest, wide belt, broad grin",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/buslaev.png"
+    },
+    {
+      "file": "hero/mikula_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Mikula Selyaninovich, mighty ploughman bogatyr, peasant clothes, enormous build, straw hat, calm smile",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/mikula.png"
+    },
+    {
+      "file": "hero/mikula_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Mikula Selyaninovich, mighty ploughman bogatyr, peasant clothes, enormous build, straw hat, calm smile",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/mikula.png"
+    },
+    {
+      "file": "hero/volga_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Volga Svyatoslavich, shapeshifter prince-bogatyr, falcon feathers on his cloak and helmet",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/volga.png"
+    },
+    {
+      "file": "hero/volga_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Volga Svyatoslavich, shapeshifter prince-bogatyr, falcon feathers on his cloak and helmet",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/volga.png"
+    },
+    {
+      "file": "hero/marya_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Marya Morevna, warrior princess, ornate kokoshnik helmet, silver mail, long braid, proud look",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/marya.png"
+    },
+    {
+      "file": "hero/marya_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Marya Morevna, warrior princess, ornate kokoshnik helmet, silver mail, long braid, proud look",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/marya.png"
+    },
+    {
+      "file": "hero/ilya_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Ilya Muromets, the eldest and greatest bogatyr, grey beard, heavy chainmail, pointed helmet, calm and mighty",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/ilya.png"
+    },
+    {
+      "file": "hero/ilya_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Ilya Muromets, the eldest and greatest bogatyr, grey beard, heavy chainmail, pointed helmet, calm and mighty",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single hero, full body, top-down 3/4 game camera, facing RIGHT, centered, entire silhouette visible, transparent background, no ground or shadow plate. EMPTY HANDS: holding nothing, no weapon, no shield, no tool in the hands or on the back; the game draws weapons separately over the hero.",
+      "guide": "public/sprites/hero/ilya.png"
+    },
+    {
+      "file": "mob/forest_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "grey forest wolf, snarling, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_chaser.png"
+    },
+    {
+      "file": "mob/forest_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "grey forest wolf, snarling, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_chaser.png"
+    },
+    {
+      "file": "mob/forest_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big wild boar with tusks, lowering its head to charge, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_roller.png"
+    },
+    {
+      "file": "mob/forest_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big wild boar with tusks, lowering its head to charge, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_roller.png"
+    },
+    {
+      "file": "mob/forest_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_shotgun.png"
+    },
+    {
+      "file": "mob/forest_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_shotgun.png"
+    },
+    {
+      "file": "mob/forest_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "glowing rotten-wood firefly spirit with a single bright eye, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_beam.png"
+    },
+    {
+      "file": "mob/forest_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "glowing rotten-wood firefly spirit with a single bright eye, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_beam.png"
+    },
+    {
+      "file": "mob/forest_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "twisted root creature with two glowing knots, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_twinBeam.png"
+    },
+    {
+      "file": "mob/forest_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "twisted root creature with two glowing knots, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_twinBeam.png"
+    },
+    {
+      "file": "mob/forest_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big rotten tree stump monster, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_splitter.png"
+    },
+    {
+      "file": "mob/forest_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big rotten tree stump monster, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_splitter.png"
+    },
+    {
+      "file": "mob/forest_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little angry honey mushroom, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_small.png"
+    },
+    {
+      "file": "mob/forest_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little angry honey mushroom, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_small.png"
+    },
+    {
+      "file": "mob/forest_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "grey owl messenger diving, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_rocket.png"
+    },
+    {
+      "file": "mob/forest_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "grey owl messenger diving, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_rocket.png"
+    },
+    {
+      "file": "mob/forest_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fly agaric mushroom man, red cap with white spots, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_poison.png"
+    },
+    {
+      "file": "mob/forest_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fly agaric mushroom man, red cap with white spots, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_poison.png"
+    },
+    {
+      "file": "mob/forest_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "thief squirrel carrying a bag of coins, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_coin.png"
+    },
+    {
+      "file": "mob/forest_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "thief squirrel carrying a bag of coins, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/forest_coin.png"
+    },
+    {
+      "file": "boss/forest_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Leshy, the forest master: a tall wild man of bark and moss with antler-like branches, glowing green eyes, leaf beard",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/forest.png"
+    },
+    {
+      "file": "boss/forest_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Leshy, the forest master: a tall wild man of bark and moss with antler-like branches, glowing green eyes, leaf beard",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/forest.png"
+    },
+    {
+      "file": "mob/swamp_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "bog man made of mud and reeds, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_chaser.png"
+    },
+    {
+      "file": "mob/swamp_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "bog man made of mud and reeds, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_chaser.png"
+    },
+    {
+      "file": "mob/swamp_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "crawling moss hummock creature, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_roller.png"
+    },
+    {
+      "file": "mob/swamp_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "crawling moss hummock creature, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_roller.png"
+    },
+    {
+      "file": "mob/swamp_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fat spitting frog, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_shotgun.png"
+    },
+    {
+      "file": "mob/swamp_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fat spitting frog, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_shotgun.png"
+    },
+    {
+      "file": "mob/swamp_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "will-o'-the-wisp blue swamp light, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_beam.png"
+    },
+    {
+      "file": "mob/swamp_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "will-o'-the-wisp blue swamp light, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_beam.png"
+    },
+    {
+      "file": "mob/swamp_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "twin wisps joined by a thread of light, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_twinBeam.png"
+    },
+    {
+      "file": "mob/swamp_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "twin wisps joined by a thread of light, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_twinBeam.png"
+    },
+    {
+      "file": "mob/swamp_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big slimy duckweed monster, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_splitter.png"
+    },
+    {
+      "file": "mob/swamp_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big slimy duckweed monster, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_splitter.png"
+    },
+    {
+      "file": "mob/swamp_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "leech, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_small.png"
+    },
+    {
+      "file": "mob/swamp_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "leech, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_small.png"
+    },
+    {
+      "file": "mob/swamp_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "huge blood-sucking mosquito, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_rocket.png"
+    },
+    {
+      "file": "mob/swamp_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "huge blood-sucking mosquito, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_rocket.png"
+    },
+    {
+      "file": "mob/swamp_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "warty poison toad, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_poison.png"
+    },
+    {
+      "file": "mob/swamp_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "warty poison toad, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_poison.png"
+    },
+    {
+      "file": "mob/swamp_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "greedy bittern bird with a coin in its beak, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_coin.png"
+    },
+    {
+      "file": "mob/swamp_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "greedy bittern bird with a coin in its beak, minion of the location \"Deadly bog\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/swamp_coin.png"
+    },
+    {
+      "file": "boss/swamp_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Kikimora of the bog: a gaunt swamp witch with tangled hair of weeds, long fingers, a spindle, frogs around her feet",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/swamp.png"
+    },
+    {
+      "file": "boss/swamp_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Kikimora of the bog: a gaunt swamp witch with tangled hair of weeds, long fingers, a spindle, frogs around her feet",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/swamp.png"
+    },
+    {
+      "file": "mob/pool_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "drowned man, pale and dripping, weeds in his hair, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_chaser.png"
+    },
+    {
+      "file": "mob/pool_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "drowned man, pale and dripping, weeds in his hair, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_chaser.png"
+    },
+    {
+      "file": "mob/pool_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "giant whiskered catfish flopping forward, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_roller.png"
+    },
+    {
+      "file": "mob/pool_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "giant whiskered catfish flopping forward, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_roller.png"
+    },
+    {
+      "file": "mob/pool_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "water maiden throwing splashes, long wet hair, modest dress, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_shotgun.png"
+    },
+    {
+      "file": "mob/pool_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "water maiden throwing splashes, long wet hair, modest dress, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_shotgun.png"
+    },
+    {
+      "file": "mob/pool_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "pool spirit, a column of dark water with glowing eyes, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_beam.png"
+    },
+    {
+      "file": "mob/pool_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "pool spirit, a column of dark water with glowing eyes, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_beam.png"
+    },
+    {
+      "file": "mob/pool_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "whirlpool spirit spinning, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_twinBeam.png"
+    },
+    {
+      "file": "mob/pool_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "whirlpool spirit spinning, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_twinBeam.png"
+    },
+    {
+      "file": "mob/pool_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big river shell creature, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_splitter.png"
+    },
+    {
+      "file": "mob/pool_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big river shell creature, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_splitter.png"
+    },
+    {
+      "file": "mob/pool_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little crayfish, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_small.png"
+    },
+    {
+      "file": "mob/pool_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little crayfish, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_small.png"
+    },
+    {
+      "file": "mob/pool_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "toothy pike leaping, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_rocket.png"
+    },
+    {
+      "file": "mob/pool_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "toothy pike leaping, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_rocket.png"
+    },
+    {
+      "file": "mob/pool_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "blob of green slime, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_poison.png"
+    },
+    {
+      "file": "mob/pool_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "blob of green slime, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_poison.png"
+    },
+    {
+      "file": "mob/pool_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "burbot fish carrying a treasure pouch, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_coin.png"
+    },
+    {
+      "file": "mob/pool_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "burbot fish carrying a treasure pouch, minion of the location \"Dark whirlpool by an old mill\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/pool_coin.png"
+    },
+    {
+      "file": "boss/pool_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Vodyanoy, the water grandfather: a fat old green-skinned water spirit with a long wet beard of weeds, fish tail feet, mill-wheel crown",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/pool.png"
+    },
+    {
+      "file": "boss/pool_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Vodyanoy, the water grandfather: a fat old green-skinned water spirit with a long wet beard of weeds, fish tail feet, mill-wheel crown",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/pool.png"
+    },
+    {
+      "file": "mob/road_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber with a flail in a red shirt, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_chaser.png"
+    },
+    {
+      "file": "mob/road_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber with a flail in a red shirt, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_chaser.png"
+    },
+    {
+      "file": "mob/road_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big lad rolling a barrel, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_roller.png"
+    },
+    {
+      "file": "mob/road_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big lad rolling a barrel, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_roller.png"
+    },
+    {
+      "file": "mob/road_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber with an old matchlock gun, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_shotgun.png"
+    },
+    {
+      "file": "mob/road_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber with an old matchlock gun, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_shotgun.png"
+    },
+    {
+      "file": "mob/road_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber archer drawing a bow, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_beam.png"
+    },
+    {
+      "file": "mob/road_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber archer drawing a bow, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_beam.png"
+    },
+    {
+      "file": "mob/road_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber whistler with two fingers in his mouth, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_twinBeam.png"
+    },
+    {
+      "file": "mob/road_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "robber whistler with two fingers in his mouth, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_twinBeam.png"
+    },
+    {
+      "file": "mob/road_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "fat robber ataman, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_splitter.png"
+    },
+    {
+      "file": "mob/road_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "fat robber ataman, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_splitter.png"
+    },
+    {
+      "file": "mob/road_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "scrawny robber henchman, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_small.png"
+    },
+    {
+      "file": "mob/road_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "scrawny robber henchman, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_small.png"
+    },
+    {
+      "file": "mob/road_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "hunting falcon diving, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_rocket.png"
+    },
+    {
+      "file": "mob/road_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "hunting falcon diving, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_rocket.png"
+    },
+    {
+      "file": "mob/road_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tavern keeper with a jug of poison, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_poison.png"
+    },
+    {
+      "file": "mob/road_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "tavern keeper with a jug of poison, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_poison.png"
+    },
+    {
+      "file": "mob/road_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "pickpocket in a cap running with a purse, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_coin.png"
+    },
+    {
+      "file": "mob/road_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "pickpocket in a cap running with a purse, minion of the location \"Robbers' high road among old oaks\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/road_coin.png"
+    },
+    {
+      "file": "boss/road_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Nightingale the Robber: a wild robber perched among nine oak branches, a huge lungful for his deadly whistle, feathers and rags",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/road.png"
+    },
+    {
+      "file": "boss/road_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Nightingale the Robber: a wild robber perched among nine oak branches, a huge lungful for his deadly whistle, feathers and rags",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/road.png"
+    },
+    {
+      "file": "mob/cave_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "cave bat, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_chaser.png"
+    },
+    {
+      "file": "mob/cave_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "cave bat, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_chaser.png"
+    },
+    {
+      "file": "mob/cave_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "rolling boulder creature, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_roller.png"
+    },
+    {
+      "file": "mob/cave_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "rolling boulder creature, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_roller.png"
+    },
+    {
+      "file": "mob/cave_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "big flint beetle spitting sharp stone shards, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_shotgun.png"
+    },
+    {
+      "file": "mob/cave_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "big flint beetle spitting sharp stone shards, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_shotgun.png"
+    },
+    {
+      "file": "mob/cave_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "many-eyed cave creature with one big glowing eye, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_beam.png"
+    },
+    {
+      "file": "mob/cave_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "many-eyed cave creature with one big glowing eye, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_beam.png"
+    },
+    {
+      "file": "mob/cave_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "evil-eye spirit with two glowing eyes, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_twinBeam.png"
+    },
+    {
+      "file": "mob/cave_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "evil-eye spirit with two glowing eyes, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_twinBeam.png"
+    },
+    {
+      "file": "mob/cave_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "stone idol golem, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_splitter.png"
+    },
+    {
+      "file": "mob/cave_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "stone idol golem, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_splitter.png"
+    },
+    {
+      "file": "mob/cave_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little pebble creature, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_small.png"
+    },
+    {
+      "file": "mob/cave_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little pebble creature, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_small.png"
+    },
+    {
+      "file": "mob/cave_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "wandering fireball spirit, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_rocket.png"
+    },
+    {
+      "file": "mob/cave_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "wandering fireball spirit, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_rocket.png"
+    },
+    {
+      "file": "mob/cave_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "rotting ghoul, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_poison.png"
+    },
+    {
+      "file": "mob/cave_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "rotting ghoul, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_poison.png"
+    },
+    {
+      "file": "mob/cave_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "copper snake carrying a gem, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_coin.png"
+    },
+    {
+      "file": "mob/cave_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "copper snake carrying a gem, minion of the location \"Cave of One-Eyed Likho\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/cave_coin.png"
+    },
+    {
+      "file": "boss/cave_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Likho One-Eyed: a towering gaunt cyclops crone with one huge eye in the middle of the forehead, rags, long grasping arms",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/cave.png"
+    },
+    {
+      "file": "boss/cave_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Likho One-Eyed: a towering gaunt cyclops crone with one huge eye in the middle of the forehead, rags, long grasping arms",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/cave.png"
+    },
+    {
+      "file": "mob/hut_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "black cat with arched back, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_chaser.png"
+    },
+    {
+      "file": "mob/hut_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "black cat with arched back, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_chaser.png"
+    },
+    {
+      "file": "mob/hut_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "giant chicken leg running, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_roller.png"
+    },
+    {
+      "file": "mob/hut_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "giant chicken leg running, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_roller.png"
+    },
+    {
+      "file": "mob/hut_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "cawing crow, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_shotgun.png"
+    },
+    {
+      "file": "mob/hut_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "cawing crow, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_shotgun.png"
+    },
+    {
+      "file": "mob/hut_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skull lantern on a fence stake with glowing eye sockets, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_beam.png"
+    },
+    {
+      "file": "mob/hut_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skull lantern on a fence stake with glowing eye sockets, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_beam.png"
+    },
+    {
+      "file": "mob/hut_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "two skulls on one stake, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_twinBeam.png"
+    },
+    {
+      "file": "mob/hut_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "two skulls on one stake, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_twinBeam.png"
+    },
+    {
+      "file": "mob/hut_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "bubbling witch cauldron on legs, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_splitter.png"
+    },
+    {
+      "file": "mob/hut_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "bubbling witch cauldron on legs, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_splitter.png"
+    },
+    {
+      "file": "mob/hut_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little green frog, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_small.png"
+    },
+    {
+      "file": "mob/hut_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little green frog, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_small.png"
+    },
+    {
+      "file": "mob/hut_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "flying witch broom, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_rocket.png"
+    },
+    {
+      "file": "mob/hut_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "flying witch broom, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_rocket.png"
+    },
+    {
+      "file": "mob/hut_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "purple witch mushroom, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_poison.png"
+    },
+    {
+      "file": "mob/hut_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "purple witch mushroom, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_poison.png"
+    },
+    {
+      "file": "mob/hut_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "little treasure-keeper house spirit with a coin chest, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_coin.png"
+    },
+    {
+      "file": "mob/hut_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "little treasure-keeper house spirit with a coin chest, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/hut_coin.png"
+    },
+    {
+      "file": "boss/hut_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Baba Yaga: a bony old witch with a hooked nose, flying in a wooden mortar with a pestle and broom, iron teeth, a skull lantern",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/hut.png"
+    },
+    {
+      "file": "boss/hut_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Baba Yaga: a bony old witch with a hooked nose, flying in a wooden mortar with a pestle and broom, iron teeth, a skull lantern",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/hut.png"
+    },
+    {
+      "file": "mob/bridge_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fire lizard, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_chaser.png"
+    },
+    {
+      "file": "mob/bridge_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fire lizard, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_chaser.png"
+    },
+    {
+      "file": "mob/bridge_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "young dragon curled into a rolling ball, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_roller.png"
+    },
+    {
+      "file": "mob/bridge_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "young dragon curled into a rolling ball, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_roller.png"
+    },
+    {
+      "file": "mob/bridge_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fire-spitting salamander, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_shotgun.png"
+    },
+    {
+      "file": "mob/bridge_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fire-spitting salamander, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_shotgun.png"
+    },
+    {
+      "file": "mob/bridge_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fire serpent with a glowing mouth, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_beam.png"
+    },
+    {
+      "file": "mob/bridge_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fire serpent with a glowing mouth, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_beam.png"
+    },
+    {
+      "file": "mob/bridge_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "young two-headed dragon, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_twinBeam.png"
+    },
+    {
+      "file": "mob/bridge_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "young two-headed dragon, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_twinBeam.png"
+    },
+    {
+      "file": "mob/bridge_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big dragon egg with cracks, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_splitter.png"
+    },
+    {
+      "file": "mob/bridge_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "big dragon egg with cracks, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_splitter.png"
+    },
+    {
+      "file": "mob/bridge_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "tiny baby dragon, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_small.png"
+    },
+    {
+      "file": "mob/bridge_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "tiny baby dragon, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_small.png"
+    },
+    {
+      "file": "mob/bridge_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "living fire spark, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_rocket.png"
+    },
+    {
+      "file": "mob/bridge_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "living fire spark, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_rocket.png"
+    },
+    {
+      "file": "mob/bridge_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "viper snake, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_poison.png"
+    },
+    {
+      "file": "mob/bridge_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "viper snake, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_poison.png"
+    },
+    {
+      "file": "mob/bridge_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "golden serpent with treasure, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_coin.png"
+    },
+    {
+      "file": "mob/bridge_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "golden serpent with treasure, minion of the location \"Kalinov bridge over the fiery river Smorodina\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/bridge_coin.png"
+    },
+    {
+      "file": "boss/bridge_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Zmey Gorynych: a green three-headed dragon with bat wings, each head breathing fire, spiked tail",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/bridge.png"
+    },
+    {
+      "file": "boss/bridge_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Zmey Gorynych: a green three-headed dragon with bat wings, each head breathing fire, spiked tail",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/bridge.png"
+    },
+    {
+      "file": "mob/koschei_chaser_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skeleton warrior with a rusty sword, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_chaser.png"
+    },
+    {
+      "file": "mob/koschei_chaser_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skeleton warrior with a rusty sword, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_chaser.png"
+    },
+    {
+      "file": "mob/koschei_roller_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "skeleton horse, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_roller.png"
+    },
+    {
+      "file": "mob/koschei_roller_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "skeleton horse, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_roller.png"
+    },
+    {
+      "file": "mob/koschei_shotgun_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skeleton throwing bones, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_shotgun.png"
+    },
+    {
+      "file": "mob/koschei_shotgun_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skeleton throwing bones, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_shotgun.png"
+    },
+    {
+      "file": "mob/koschei_beam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "undead sorcerer with a staff, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_beam.png"
+    },
+    {
+      "file": "mob/koschei_beam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "undead sorcerer with a staff, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_beam.png"
+    },
+    {
+      "file": "mob/koschei_twinBeam_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "black-robed dark sorcerer with two glowing hands, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_twinBeam.png"
+    },
+    {
+      "file": "mob/koschei_twinBeam_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "black-robed dark sorcerer with two glowing hands, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_twinBeam.png"
+    },
+    {
+      "file": "mob/koschei_splitter_2.png",
+      "w": 320,
+      "h": 320,
+      "subject": "heap of bones creature, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_splitter.png"
+    },
+    {
+      "file": "mob/koschei_splitter_3.png",
+      "w": 320,
+      "h": 320,
+      "subject": "heap of bones creature, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single large creature, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_splitter.png"
+    },
+    {
+      "file": "mob/koschei_small_2.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little crawling pile of bones with a tiny skull, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_small.png"
+    },
+    {
+      "file": "mob/koschei_small_3.png",
+      "w": 192,
+      "h": 192,
+      "subject": "little crawling pile of bones with a tiny skull, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_small.png"
+    },
+    {
+      "file": "mob/koschei_rocket_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Koschei's black raven, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_rocket.png"
+    },
+    {
+      "file": "mob/koschei_rocket_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Koschei's black raven, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_rocket.png"
+    },
+    {
+      "file": "mob/koschei_poison_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "pale vampire ghoul (upyr), minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_poison.png"
+    },
+    {
+      "file": "mob/koschei_poison_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "pale vampire ghoul (upyr), minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_poison.png"
+    },
+    {
+      "file": "mob/koschei_coin_2.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Koschei's treasurer, a skeletal miser with a coin chest, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_coin.png"
+    },
+    {
+      "file": "mob/koschei_coin_3.png",
+      "w": 256,
+      "h": 256,
+      "subject": "Koschei's treasurer, a skeletal miser with a coin chest, minion of the location \"Kingdom of Koschei the Deathless\"",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/mob/koschei_coin.png"
+    },
+    {
+      "file": "boss/koschei_2.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape",
+      "extra": "WALK FRAME 2 of 3: the same character mid-stride, LEFT leg stepping forward and RIGHT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/koschei.png"
+    },
+    {
+      "file": "boss/koschei_3.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape",
+      "extra": "WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "guide": "public/sprites/boss/koschei.png"
     }
   ]
 }

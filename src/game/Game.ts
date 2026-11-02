@@ -54,6 +54,8 @@ const STEP = 1 / 60
 const MAX_WEAPONS = 6
 const WAVE_END_TIME = 1.4
 const ITEM_MIN_WAVE = [1, 2, 4, 6] // first wave an item of this rarity may appear in the shop
+const CHEST_FIRST_WAVE = 4
+const CHEST_CHANCE = 0.4 // per wave, from CHEST_FIRST_WAVE on
 
 export class Game {
   readonly world = new World()
@@ -174,7 +176,8 @@ export class Game {
     this.wave = waveDef(n)
     this.waveTime = this.wave.duration
     this.spawnTimer = 0.6
-    this.chestSpawned = false
+    // Not every wave has a supply chest: only from wave 4, and only sometimes.
+    this.chestSpawned = n < CHEST_FIRST_WAVE || Math.random() >= CHEST_CHANCE
     this.thiefTimes = Array.from({ length: this.wave.coinThieves }, () => this.wave.duration * (0.25 + Math.random() * 0.5))
     const scale = enemyScale(n)
     this.world.hpMul = scale.hp * this.loadout.enemyMul
@@ -483,9 +486,9 @@ export class Game {
 
   // ---------- supply chest ----------
 
-  // Mid-wave on waves 2–9: a chest appears near the hero; standing in its ring opens a free pick of three weapons.
+  // Mid-wave (from wave 4, by chance): a chest appears near the hero; standing in its ring opens a free pick of three weapons.
   private maybePlaceChest(): void {
-    if (this.chestSpawned || this.wave.boss || this.wave.n < 2 || this.waveTime > this.wave.duration * 0.6) return
+    if (this.chestSpawned || this.wave.boss || this.waveTime > this.wave.duration * 0.6) return
     this.chestSpawned = true
     const p = this.world.player
     for (let tries = 0; tries < 10; tries++) {
@@ -539,9 +542,14 @@ export class Game {
     this.renderer.render(this.world, this.time)
   }
 
+  // Dev: speed of game time (10 = ten times faster) and a per-frame hook for the watching bot.
+  timeScale = 1
+  onFrame: (() => void) | null = null
+
   private frame = (t: number): void => {
     this.raf = requestAnimationFrame(this.frame)
-    const dt = this.last ? Math.min(0.1, (t - this.last) / 1000) : 0
+    const dt = (this.last ? Math.min(0.1, (t - this.last) / 1000) : 0) * this.timeScale
+    this.onFrame?.()
     this.last = t
     this.advance(dt)
     this.syncHud()
@@ -743,7 +751,7 @@ function itemLines(def: ItemDef): DescLine[] {
 
 // Matches COIN_DROP_CHANCE in World: coins are experience, so fewer coins means a lower bar per level.
 export function xpNext(level: number): number {
-  return Math.round((6 + level * 4 + level * level * 0.6) * 0.55)
+  return Math.round((6 + level * 4 + level * level * 0.6) * 0.8)
 }
 
 function shuffle<T>(a: T[]): T[] {

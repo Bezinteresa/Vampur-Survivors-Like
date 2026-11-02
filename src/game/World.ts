@@ -22,7 +22,7 @@ export const CHEST_RADIUS = 70
 const CHEST_OPEN_TIME = 2.5
 const COLLECTOR_PERIOD = 5
 const COLLECTOR_RADIUS = 450
-const COIN_DROP_CHANCE = 0.55 // regular enemies drop coins only this often (balance: 2–3 purchases per wave)
+const COIN_DROP_CHANCE = 0.8 // regular enemies drop coins only this often (balance: 2–3 purchases per wave)
 
 export interface Enemy {
   id: number
@@ -175,7 +175,7 @@ export const SWING_LIFE = 0.18
 export const BOLT_LIFE = 0.15
 
 export class World {
-  readonly player = { x: 0, y: 0, r: 16, hp: 100, fx: 0, fy: 1, iframes: 0, hurt: 0, rollT: 0, rollDx: 0, rollDy: 0, rollSpeed: 1 }
+  readonly player = { x: 0, y: 0, r: 16, hp: 100, fx: 0, fy: 1, iframes: 0, hurt: 0, rollT: 0, rollDx: 0, rollDy: 0, rollSpeed: 1, moving: false }
   enemies: Enemy[] = []
   projectiles: Projectile[] = []
   pickups: Pickup[] = []
@@ -282,6 +282,7 @@ export class World {
     let vx: number
     let vy: number
     const len = Math.hypot(mx, my)
+    p.moving = len > 0.1 || p.rollT > 0
     if (p.rollT > 0) {
       p.rollT -= dt
       this.duringRoll(dt)

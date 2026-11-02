@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { SPRITE, hasSprite, spriteTexture } from '../sprites'
+import { SPRITE, hasSprite, spriteTexture, walkFrame } from '../sprites'
 import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type Enemy, type World } from './World'
 
 // Placeholder look: flat circles with a dark outline, drawn as instanced meshes (one draw call per kind).
@@ -72,6 +72,7 @@ export class Renderer {
   private readonly batches = new Map<string, { mesh: THREE.InstancedMesh; n: number }>()
   private readonly mobFiles = new Map<string, string | null>()
   private locationId = ''
+  private heroFile = ''
 
   constructor(host: HTMLElement) {
     this.gl = new THREE.WebGLRenderer({ antialias: true })
@@ -183,6 +184,11 @@ export class Renderer {
     this.playerBody.material.opacity = p.rollT > 0 ? 0.45 : 1
     this.playerBody.material.color.setHex(p.hurt > 0 ? 0xff6b6b : 0xe8c170)
     if (this.heroSprite.visible) {
+      const frame = spriteTexture(walkFrame(this.heroFile, time, p.moving && p.rollT <= 0))
+      if (frame && this.heroSprite.material.map !== frame) {
+        this.heroSprite.material.map = frame
+        this.heroSprite.material.needsUpdate = true
+      }
       // Hero pictures face right; turn with the movement.
       if (Math.abs(p.fx) > 0.2) this.heroSprite.scale.x = Math.abs(this.heroSprite.scale.x) * Math.sign(p.fx)
       this.heroSprite.material.opacity = p.rollT > 0 ? 0.55 : 1
@@ -263,7 +269,8 @@ export class Renderer {
   // ---------- pictures ----------
 
   setHero(id: string): void {
-    const tex = spriteTexture(SPRITE.hero(id))
+    this.heroFile = SPRITE.hero(id)
+    const tex = spriteTexture(this.heroFile)
     this.heroSprite.visible = !!tex
     this.playerShape.visible = !tex
     if (tex) {
@@ -346,8 +353,9 @@ export class Renderer {
       // Pictures start white (their own colours); placeholders start from the minion's colour.
       this.c.setHex(file ? 0xffffff : e.def.color)
       this.tintEnemy(e, time, !!file)
-      // Pictures face left; turn toward the hero.
-      if (file && this.drawSprite(file, e.x, e.y, e.r * SPRITE_SCALE, p.x > e.x, Z.enemy + (e.boss ? 0.05 : 0), this.c)) continue
+      // Pictures face left; turn toward the hero. Walking enemies step through their walk frames.
+      const walking = e.state === 'move' || e.state === 'act'
+      if (file && this.drawSprite(walkFrame(file, time, walking && e.speed > 0, e.id * 0.37), e.x, e.y, e.r * SPRITE_SCALE, p.x > e.x, Z.enemy + (e.boss ? 0.05 : 0), this.c)) continue
       this.place(this.enemyOutline, n, e.x, e.y, e.r + 3, Z.outline)
       this.place(this.enemyBody, n, e.x, e.y, e.r, Z.enemy)
       this.enemyBody.setColorAt(n, this.c)

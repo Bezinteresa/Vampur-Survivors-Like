@@ -27,6 +27,30 @@ export function spriteTexture(file: string): THREE.Texture | null {
   return t
 }
 
+// Walk cycle: frame 1 is the base picture, frames 2 and 3 are "<name>_2.png" and "<name>_3.png".
+// Played 1 -> 2 -> 1 -> 3. Without both stride frames the picture stays still.
+const WALK_ORDER = [0, 1, 0, 2]
+const frameSets = new Map<string, string[]>()
+
+export function walkFrames(base: string): string[] {
+  let frames = frameSets.get(base)
+  if (!frames) {
+    const stem = base.slice(0, -4)
+    const f2 = `${stem}_2.png`
+    const f3 = `${stem}_3.png`
+    frames = hasSprite(f2) && hasSprite(f3) ? [base, f2, f3] : [base]
+    frameSets.set(base, frames)
+  }
+  return frames
+}
+
+// The frame to show at time `t` (seconds); `phase` keeps a crowd from stepping in unison.
+export function walkFrame(base: string, t: number, moving: boolean, phase = 0, fps = 8): string {
+  const frames = walkFrames(base)
+  if (!moving || frames.length < 3) return base
+  return frames[WALK_ORDER[Math.floor(t * fps + phase) % WALK_ORDER.length]]
+}
+
 // Picture slots for game entities (names match art/generation-prompts.json).
 export const SPRITE = {
   hero: (id: string) => `hero/${id}.png`,

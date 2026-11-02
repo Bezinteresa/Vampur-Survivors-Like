@@ -17,12 +17,12 @@ export interface WaveDef {
 export function waveDef(n: number): WaveDef {
   const boss = n === WAVE_COUNT
   const mix: [Ai, number][] = [['chaser', 10]]
-  if (n >= 2) mix.push(['roller', 2 + n * 0.5])
-  if (n >= 3) mix.push(['shotgun', 1 + n * 0.35])
-  if (n >= 4) mix.push(['poison', 2.5], ['splitter', 1.5])
-  if (n >= 5) mix.push(['beam', 1.5 + n * 0.2])
-  if (n >= 6) mix.push(['rocket', 1.2])
-  if (n >= 7) mix.push(['twinBeam', 1.2])
+  if (n >= 3) mix.push(['roller', 2 + n * 0.5])
+  if (n >= 4) mix.push(['shotgun', 1 + n * 0.35])
+  if (n >= 5) mix.push(['poison', 2.5], ['splitter', 1.5])
+  if (n >= 6) mix.push(['beam', 1.5 + n * 0.2])
+  if (n >= 7) mix.push(['rocket', 1.2])
+  if (n >= 8) mix.push(['twinBeam', 1.2])
   return {
     n,
     boss,

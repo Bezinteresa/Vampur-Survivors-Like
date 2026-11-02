@@ -129,6 +129,19 @@ function steer(game: Game): { x: number; y: number } {
     const kit = w.pickups.find((p) => p.medkit)
     if (kit) goal(kit.x, kit.y, 0.8)
   }
+  // Collect coins like a player would: the nearest one, more eagerly when nothing is close.
+  let coin: { x: number; y: number } | null = null
+  let best = 450 * 450
+  for (const pk of w.pickups) {
+    if (pk.medkit) continue
+    const d2 = (pk.x - P.x) ** 2 + (pk.y - P.y) ** 2
+    if (d2 < best) {
+      best = d2
+      coin = pk
+    }
+  }
+  const crowded = w.enemies.some((e) => e.dmg > 0 && Math.hypot(e.x - P.x, e.y - P.y) < 160)
+  if (coin && !crowded) goal(coin.x, coin.y, 0.7)
   const l = Math.hypot(x, y)
   return l > 0.01 ? { x: x / l, y: y / l } : { x: 0, y: 0 }
 }
@@ -247,6 +260,33 @@ export function series(game: Game, profile: string, level: number, runs: number)
   }
 }
 
+// Watch the bot play in real time, sped up: __balance.watch('P0', 0, 10). Stops at the end of the run.
+export function watch(game: Game, profile: string, level: number, speed: number): void {
+  const stats: RunStats = { victory: false, wave: 0, level: 0, kills: 0, coins: 0, bought: 0, bossTime: 0, damage: {}, gold: 0 }
+  game.input.move = () => steer(game)
+  game.timeScale = speed
+  game.startRun(loadoutFor(profile, level))
+  const log: string[] = []
+  game.onFrame = () => {
+    const s = game.ui.screen
+    if (s === 'wave') useAbilities(game)
+    else if (s === 'levelup') pickCard(game)
+    else if (s === 'chest') {
+      const i = game.ui.chestOffers.findIndex((o) => game.canTakeChest(o))
+      if (i >= 0) game.pickChest(i)
+      else game.closeChest()
+    } else if (s === 'shop') {
+      log.push(`волна ${game.ui.wave} пройдена, уровень ${game.ui.level}, монет ${game.ui.coins}`)
+      shop(game, stats)
+    } else if (s !== 'waveEnd' && s !== 'paused') {
+      console.info([`[bot] конец: ${s}, волна ${game.ui.wave}`, ...log].join('; '))
+      game.onFrame = null
+      game.timeScale = 1
+      delete (game.input as any).move
+    }
+  }
+}
+
 export function installBalance(game: Game): void {
   Object.assign(window, {
     __balance: {
@@ -254,6 +294,7 @@ export function installBalance(game: Game): void {
       heroes: HEROES.map((h) => h.id),
       series: (profile: string, level: number, runs = 10) => series(game, profile, level, runs),
       runOnce: (profile: string, level: number) => runOnce(game, loadoutFor(profile, level)),
+      watch: (profile = 'P0', level = 0, speed = 10) => watch(game, profile, level, speed),
     },
   })
 }

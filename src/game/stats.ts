@@ -41,7 +41,7 @@ export const BASE_STATS: Stats = {
   range: 0,
   knockback: 0,
   moveSpeed: 220,
-  pickupRadius: 90,
+  pickupRadius: 110,
   profit: 0,
   luck: 0,
   cooldownPct: 0,

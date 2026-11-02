@@ -42,7 +42,7 @@ const base = { projSpeed: 0, pierce: 0, count: 1, spread: 0, arc: 0, jumps: 0, d
 export const WEAPONS: Record<string, WeaponDef> = {
   pistol: {
     ...base, id: 'pistol', name: 'Ручница', kind: 'bullet', behavior: 'shot',
-    damage: [12, 18, 28, 44, 70], cooldown: 0.6, range: 380, projSpeed: 720, spread: 0.04, price: 14,
+    damage: [15, 22, 34, 52, 80], cooldown: 0.6, range: 380, projSpeed: 720, spread: 0.04, price: 14,
   },
   smg: {
     ...base, id: 'smg', name: 'Скорострельная пищаль', kind: 'bullet', behavior: 'shot',
