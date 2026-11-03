@@ -19,6 +19,14 @@ export function onRealPlatform(): boolean {
 }
 
 const INIT_TIMEOUT = 20000
+// Our own site opens the game with ?platform_id=standalone; there the page's host script may be blocked
+// (an ad blocker), and Bridge then never finishes starting. The game waits less and goes on without it.
+const STANDALONE_TIMEOUT = 8000
+
+/** Opened as a standalone page (our own site), not on a game platform. */
+export function isStandalone(): boolean {
+  return typeof location !== 'undefined' && new URLSearchParams(location.search).get('platform_id')?.toLowerCase() === 'standalone'
+}
 
 /** Initializes Bridge. Resolves null when the runtime is not on the page; rejects when it failed to start. */
 export async function initBridge(): Promise<PlaygamaBridge | null> {
@@ -28,7 +36,7 @@ export async function initBridge(): Promise<PlaygamaBridge | null> {
     let timer: ReturnType<typeof setTimeout> | undefined
     await Promise.race([
       b.initialize(),
-      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Bridge initialize timeout')), INIT_TIMEOUT) }),
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Bridge initialize timeout')), isStandalone() ? STANDALONE_TIMEOUT : INIT_TIMEOUT) }),
     ]).finally(() => clearTimeout(timer))
   }
   instance = b
