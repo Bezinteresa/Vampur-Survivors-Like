@@ -6,6 +6,7 @@ import { JOY_RADIUS } from './game/Input'
 import { Meta, type Reward } from './meta/Meta'
 import { adHooks, adState, maybeInterstitial, rewardedSupported, showRewarded } from './platform/ads'
 import { bootState, boot } from './platform/boot'
+import { restorePurchases, setPaymentsProfile } from './platform/payments'
 import { gameReady, lifecycle, onPauseChange, sendMessage } from './platform/lifecycle'
 import ChestPick from './ui/ChestPick.vue'
 import Hud from './ui/Hud.vue'
@@ -49,6 +50,9 @@ async function start() {
     return
   }
   adHooks.beforeAd = () => meta.flush()
+  adHooks.noInterstitials = () => meta.owns('no_ads')
+  setPaymentsProfile(meta)
+  void restorePurchases() // paid but not granted last time (closed tab, lost connection)
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') void meta.flush()
   })

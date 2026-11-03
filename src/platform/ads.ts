@@ -25,8 +25,8 @@ const adsAllowed = () => onRealPlatform() || import.meta.env.DEV
 /** Reactive: buttons re-check while an ad starts or ends. */
 export const adState = reactive({ busy: false })
 
-/** Hooks set by the app: save before an ad. */
-export const adHooks = { beforeAd: (): Promise<void> | void => undefined }
+/** Hooks set by the app: save before an ad; the bought "no ads". */
+export const adHooks = { beforeAd: (): Promise<void> | void => undefined, noInterstitials: () => false }
 
 /** Rewarded ads are supported here and now. Asked every time a button is drawn: in the QA Tool the
  *  capabilities arrive after initialize, so a check made once at start could hide the button for good. */
@@ -87,7 +87,8 @@ export function showRewarded(placement: RewardedPlacement, grant: () => void): P
 /** Interstitial at a natural break. Resolves when the game may go on; never blocks when there is no ad. */
 export function maybeInterstitial(placement: InterstitialPlacement): Promise<void> {
   const b = bridge()
-  if (!b || !adsAllowed() || adState.busy || !b.advertisement.isInterstitialSupported) return Promise.resolve()
+  // "No ads" bought: interstitials are never shown (rewarded ads stay: the player chooses them).
+  if (!b || !adsAllowed() || adState.busy || adHooks.noInterstitials() || !b.advertisement.isInterstitialSupported) return Promise.resolve()
   adState.busy = true
   const S = b.INTERSTITIAL_STATE
   return new Promise<void>((resolve) => {

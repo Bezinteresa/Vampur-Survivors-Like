@@ -36,6 +36,9 @@ export interface Profile {
   hero: string // chosen bogatyr
   water: number // living water: upgrades bogatyrs
   settings: { sound: boolean; music: number; sfx: number } // sound switch and volumes 0..1
+  // Purchases for real money: permanent products owned, and the journal of granted transactions
+  // ("product:transaction"), so a paid purchase is never granted twice.
+  purchases: { owned: string[]; granted: string[] }
   nextUid: number
 }
 
@@ -53,6 +56,7 @@ function defaultProfile(): Profile {
     version: 1,
     gold: 500,
     settings: { sound: true, music: 0.7, sfx: 1 },
+    purchases: { owned: [], granted: [] },
     gems: 100,
     blueprints: Object.fromEntries(ALL_SLOTS.map((s) => [s, 5])) as Record<Slot, number>,
     items: [],
@@ -114,6 +118,7 @@ export class Meta {
         equipped: { ...d.equipped, ...data.equipped },
         heroes: { ...d.heroes, ...data.heroes },
         settings: { ...d.settings, ...data.settings },
+        purchases: { ...d.purchases, ...data.purchases },
         best: MAP_LEVELS.map((_, i) => data.best?.[i] ?? 0),
         cleared: MAP_LEVELS.map((_, i) => data.cleared?.[i] ?? false),
         items: (data.items ?? []).filter((it) => ITEMS[it.itemId]),
@@ -134,15 +139,23 @@ export class Meta {
 
   /** Writes pending changes now (before an ad, when the tab is hidden). */
   async flush(): Promise<void> {
+    await this.flushConfirmed()
+  }
+
+  /** Like flush; resolves true only when the storage accepted everything (purchases wait for it). */
+  async flushConfirmed(): Promise<boolean> {
     clearTimeout(this.saveTimer)
     while (this.writing) await this.writing
-    if (!this.dirty || !this.storage) return
+    if (!this.dirty) return true
+    if (!this.storage) return false
     this.dirty = false
     const storage = this.storage
+    let ok = false
     this.writing = storage
       .save(SAVE_KEY, JSON.stringify(this.p))
       .then(() => {
         this.failures = 0
+        ok = true
       })
       .catch((e) => {
         console.warn('[save] write failed', e)
@@ -153,6 +166,23 @@ export class Meta {
         this.writing = null
       })
     await this.writing
+    return ok && !this.dirty
+  }
+
+  /** A paid product: what it gives goes into the profile together with its journal entry, in one change. */
+  grantPurchase(key: string, gives: { gems?: number; gold?: number }, permanent: string | null): void {
+    const pr = this.p.purchases
+    if (pr.granted.includes(key) || (permanent && pr.owned.includes(permanent))) return
+    this.p.gems += gives.gems ?? 0
+    this.p.gold += gives.gold ?? 0
+    if (permanent) pr.owned.push(permanent)
+    pr.granted.push(key)
+    if (pr.granted.length > 300) pr.granted.splice(0, pr.granted.length - 300)
+    this.save()
+  }
+
+  owns(productId: string): boolean {
+    return this.p.purchases.owned.includes(productId)
   }
 
   /** Sound switch and volumes; the sound module follows them, the profile keeps them. */

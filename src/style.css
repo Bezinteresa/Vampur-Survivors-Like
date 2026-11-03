@@ -1374,3 +1374,9 @@ button {
   top: max(12px, env(safe-area-inset-top));
   right: 12px;
 }
+
+.price-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}

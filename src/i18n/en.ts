@@ -394,4 +394,12 @@ export const EN: Record<string, string> = {
   'Музыка': 'Music',
   'Звуки': 'Effects',
   'Закрыть': 'Close',
+  'Кристаллы': 'Gems',
+  'Без рекламы между волнами': 'No ads between waves',
+  'Горсть кристаллов': 'Handful of gems',
+  'Мешочек кристаллов': 'Pouch of gems',
+  'Сундучок кристаллов': 'Casket of gems',
+  'Набор новичка': 'Starter pack',
+  'Без рекламы': 'No ads',
+  'Покупка ещё не выдана — попробуем снова при следующем запуске.': 'A purchase is not delivered yet — we will try again next launch.',
 }
