@@ -65,6 +65,11 @@ npm run build    # проверка типов и сборка в dist/
 
 Игра сама подхватывает картинки: файл есть в `public/sprites` — рисуется он, нет — заглушка (цветной круг, текст). В dev-режиме новая картинка видна после автоматической перезагрузки страницы. Список файлов собирает плагин Vite (`virtual:sprite-list`), код — `src/sprites.ts`.
 
+## Сборка для площадок
+
+- `npm run build`, затем `python scripts/zip_release.py` — архив `release/bogatyr-survivors-<версия>.zip` (`index.html` в корне, обложки не входят).
+- Обложки магазина: картинки `cover/square.png` (800×800), `cover/portrait.png` (1080×1920), `cover/landscape.png` (1920×1080) рисуются по `art/ART_TODO.md`; `python scripts/make_covers.py` кладёт на них название и сохраняет в `release/covers/` — их загружают в черновик Playgama.
+
 ## Звук (все источники CC0)
 
 Только записанные файлы (Playgama 3.3.2), без синтеза в коде. Лежат в `public/audio`, копирует `python scripts/prepare_audio.py` из общей папки `H:/Html AI/resources/audio`; играет `src/audio/sound.ts`. Кнопка звука — в лобби и на паузе: выключить всё, громкость музыки и эффектов (хранится в профиле). Пока платформа запрещает звук, вкладка скрыта, игра на паузе или открыта реклама — тишина.

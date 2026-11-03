@@ -79,8 +79,7 @@
       "w": 256,
       "h": 256,
       "subject": "angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location \"Dark enchanted Russian forest\"",
-      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
-      "redo": "гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок"
+      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
     },
     {
       "file": "mob/forest_beam.png",
@@ -1495,6 +1494,27 @@
       "h": 128,
       "subject": "rolled birch bark blueprint",
       "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
+    },
+    {
+      "file": "cover/square.png",
+      "w": 800,
+      "h": 800,
+      "subject": "the young bogatyr Ivan (peasant son in a cream linen shirt with red embroidery, bast shoes, bare hands) standing brave in the middle, a copper falcon drone and a glowing Firebird feather spinning around him as his weapons, a crowd of fairy-tale forest minions (grey wolves, a wild boar, a quill hedgehog, toadstool imps) charging at him, the forest spirit Leshy towering in the background among dark old trees, silver coins scattered on the ground, dynamic battle mood",
+      "extra": "Full-bleed key art for a game store page, opaque background filling the whole frame (not transparent), rich colours, strong contrast, the hero clearly readable even at small size. Square composition, hero centered, leave the top fifth calm and less detailed for the game title."
+    },
+    {
+      "file": "cover/portrait.png",
+      "w": 1080,
+      "h": 1920,
+      "subject": "the young bogatyr Ivan (peasant son in a cream linen shirt with red embroidery, bast shoes, bare hands) standing brave in the middle, a copper falcon drone and a glowing Firebird feather spinning around him as his weapons, a crowd of fairy-tale forest minions (grey wolves, a wild boar, a quill hedgehog, toadstool imps) charging at him, the forest spirit Leshy towering in the background among dark old trees, silver coins scattered on the ground, dynamic battle mood",
+      "extra": "Full-bleed key art for a game store page, opaque background filling the whole frame (not transparent), rich colours, strong contrast, the hero clearly readable even at small size. Tall portrait composition, hero in the lower middle, Leshy above, leave the top sixth calm and less detailed for the game title."
+    },
+    {
+      "file": "cover/landscape.png",
+      "w": 1920,
+      "h": 1080,
+      "subject": "the young bogatyr Ivan (peasant son in a cream linen shirt with red embroidery, bast shoes, bare hands) standing brave in the middle, a copper falcon drone and a glowing Firebird feather spinning around him as his weapons, a crowd of fairy-tale forest minions (grey wolves, a wild boar, a quill hedgehog, toadstool imps) charging at him, the forest spirit Leshy towering in the background among dark old trees, silver coins scattered on the ground, dynamic battle mood",
+      "extra": "Full-bleed key art for a game store page, opaque background filling the whole frame (not transparent), rich colours, strong contrast, the hero clearly readable even at small size. Wide landscape composition, hero left of center, minions coming from the right, leave the top fifth calm and less detailed for the game title."
     },
     {
       "file": "hero/ivan_2.png",

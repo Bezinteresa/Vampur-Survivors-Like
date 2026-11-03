@@ -181,10 +181,17 @@ for k, v in {'small': 'small wooden chest', 'medium': 'medium chest with silver 
 for k, v in {'gold': 'pile of gold coins', 'gems': 'blue gem crystal', 'water': 'flask of living water', 'blueprint': 'rolled birch bark blueprint'}.items():
     add(f'ui/{k}.png', 128, 128, v, ICON)
 
-# ---------- pictures to redo ----------
-for a in assets:
-    if a['file'] == 'mob/forest_shotgun.png':
-        a['redo'] = 'гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок'
+# ---------- store covers for the platforms (Playgama: exact sizes) ----------
+# Not used by the game itself; scripts/make_covers.py puts the title on them, scripts/zip_release.py leaves them out of the build.
+COVER_SCENE = ('the young bogatyr Ivan (peasant son in a cream linen shirt with red embroidery, bast shoes, bare hands) '
+               'standing brave in the middle, a copper falcon drone and a glowing Firebird feather spinning around him as his weapons, '
+               'a crowd of fairy-tale forest minions (grey wolves, a wild boar, a quill hedgehog, toadstool imps) charging at him, '
+               'the forest spirit Leshy towering in the background among dark old trees, silver coins scattered on the ground, dynamic battle mood')
+COVER = ('Full-bleed key art for a game store page, opaque background filling the whole frame (not transparent), '
+         'rich colours, strong contrast, the hero clearly readable even at small size. ')
+add('cover/square.png', 800, 800, COVER_SCENE, COVER + 'Square composition, hero centered, leave the top fifth calm and less detailed for the game title.')
+add('cover/portrait.png', 1080, 1920, COVER_SCENE, COVER + 'Tall portrait composition, hero in the lower middle, Leshy above, leave the top sixth calm and less detailed for the game title.')
+add('cover/landscape.png', 1920, 1080, COVER_SCENE, COVER + 'Wide landscape composition, hero left of center, minions coming from the right, leave the top fifth calm and less detailed for the game title.')
 
 # ---------- walk frames ----------
 # Frame 1 is the base picture above (standing). Frames 2 and 3 are the two strides of the walk cycle;
