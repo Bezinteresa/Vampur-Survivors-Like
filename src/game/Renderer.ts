@@ -57,6 +57,8 @@ const BORDER_ROWS = 3 // rows of trees/rocks around the arena
 const BORDER_STEP = 56
 const HERO_LIFT = 6 // hero picture centre above the body centre
 const WEAPON_SIZE = 30
+const TURRET_SIZE = 46 // a watch turret on the field
+const DRONE_SIZE = 34 // the copper falcon
 const KIND_COLOR = { melee: 0xd8dde3, bullet: 0x6a5a4a, magic: 0x9a6ad0, mech: 0xb08a4a }
 
 const Z = { ground: 0, pickup: 1, marker: 1.5, outline: 2, enemy: 2.1, player: 3, projectile: 4, fx: 5 }
@@ -591,7 +593,8 @@ export class Renderer {
     if (e.flash > 0) this.c.lerp(picture ? this.red : this.white, picture ? 0.5 : 0.75)
   }
 
-  // Drones (small, light blue) and turrets (bigger, grey): placeholders for mechanical weapons.
+  // Mechanical weapons on the field: the copper falcon circling the hero and the watch turrets left behind.
+  // Their pictures (weapon/drone.png, weapon/turret.png) face the target; without a picture, coloured squares.
   private drawMech(world: World): void {
     let n = 0
     const add = (x: number, y: number, size: number, color: number) => {
@@ -601,8 +604,16 @@ export class Renderer {
       this.mechBody.setColorAt(n, this.c.setHex(color))
       n++
     }
-    for (const t of world.turrets) add(t.x, t.y, 12, 0x9aa1a8)
-    for (const w of world.weapons) if (w.orbit) add(w.orbit.x, w.orbit.y, 8, 0x6fc3d8)
+    for (const t of world.turrets) {
+      // A turret stands upright and only turns to face left or right.
+      const flip = Math.cos(t.slot.aim) < 0
+      if (!this.drawSprite(SPRITE.weapon('turret'), t.x, t.y + TURRET_SIZE * 0.3, TURRET_SIZE, flip, Z.player - 0.05)) add(t.x, t.y, 12, 0x9aa1a8)
+    }
+    for (const w of world.weapons) {
+      if (!w.orbit) continue
+      const flip = Math.cos(w.aim) < 0
+      if (!this.drawSprite(SPRITE.weapon('drone'), w.orbit.x, w.orbit.y, DRONE_SIZE, flip, Z.player + 0.15)) add(w.orbit.x, w.orbit.y, 8, 0x6fc3d8)
+    }
     this.finish(this.mechOutline, n)
     this.finish(this.mechBody, n)
     if (this.mechBody.instanceColor) this.mechBody.instanceColor.needsUpdate = true
