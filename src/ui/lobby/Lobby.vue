@@ -32,7 +32,7 @@ const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
 <template>
   <div class="lobby">
     <div class="lobby-top">
-      <div class="logo-small">Vampur Survivors</div>
+      <div class="logo-small">Bogatyr Survivors</div>
       <div class="chip"><Icon name="coin" :size="16" /> {{ meta.p.gold }}</div>
       <div class="chip gems"><Icon name="gem" :size="16" /> {{ meta.p.gems }}</div>
       <SoundSettings :meta="meta" />
