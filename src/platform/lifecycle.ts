@@ -15,7 +15,8 @@ const listeners = new Set<(paused: boolean) => void>()
 let readySent = false
 
 /** Reactive copy for the UI and the sound module. */
-export const lifecycle = reactive({ paused: false, adOpen: false, platformMuted: false, muted: false })
+// away: the player left the tab or the window during this pause (so the game waits for them to press Continue).
+export const lifecycle = reactive({ paused: false, adOpen: false, platformMuted: false, muted: false, away: false })
 
 export function isPaused(): boolean {
   return reasons.size > 0
@@ -31,6 +32,8 @@ export function setPauseReason(reason: PauseReason, on: boolean): void {
   const was = reasons.size > 0
   if (on) reasons.add(reason)
   else reasons.delete(reason)
+  if (!was && on) lifecycle.away = false
+  if (on && (reason === 'hidden' || reason === 'blur')) lifecycle.away = true
   lifecycle.adOpen = reasons.has('ad')
   const now = reasons.size > 0
   lifecycle.paused = now

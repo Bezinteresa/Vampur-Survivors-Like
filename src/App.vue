@@ -68,7 +68,8 @@ async function start() {
       import('./dev/balance').then((b) => b.installBalance(g))
     }
     // Platform pause, hidden tab or an open ad: everything stands still; in battle the pause screen shows
-    // (not over an ad), and goes away by itself when the pause was not the player's.
+    // (not over an ad). A pause the platform asked for goes away by itself; if the player left the tab or
+    // the window, the pause screen stays until they press Continue.
     onPauseChange((paused) => {
       g.frozen = paused
       const s = g.ui.screen
@@ -77,7 +78,7 @@ async function start() {
         autoPaused = true
       } else if (!paused && autoPaused) {
         autoPaused = false
-        g.resume()
+        if (!lifecycle.away) g.resume()
       }
     })
     g.frozen = lifecycle.paused

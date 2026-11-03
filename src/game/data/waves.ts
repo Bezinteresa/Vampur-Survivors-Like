@@ -27,9 +27,10 @@ export function waveDef(n: number): WaveDef {
     n,
     boss,
     duration: boss ? Infinity : Math.min(40 + 10 * (n - 1), 90),
-    spawnInterval: Math.max(0.45, 1.3 - 0.09 * n) * (boss ? 1.6 : 1),
-    batch: 1 + Math.floor((n - 1) * 0.6),
-    maxAlive: boss ? 120 : 25 + n * 30,
+    // The boss fight is about the boss: a thin stream of helpers, never a crowd.
+    spawnInterval: Math.max(0.45, 1.3 - 0.09 * n) * (boss ? 3 : 1),
+    batch: boss ? 2 : 1 + Math.floor((n - 1) * 0.4),
+    maxAlive: boss ? 35 : 20 + n * 20,
     mix,
     coinThieves: n >= 2 && !boss ? (n >= 6 ? 2 : 1) : 0,
   }
