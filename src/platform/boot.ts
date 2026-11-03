@@ -6,8 +6,8 @@
 // Then App creates the game, reads the profile and sends game_ready once the lobby is on screen.
 
 import { reactive } from 'vue'
-import { bridge, initBridge, isStandalone, onRealPlatform, platformId } from './bridge'
-import { startLifecycle } from './lifecycle'
+import { bridge, initBridge, isStandalone, lateBridge, onRealPlatform, platformId } from './bridge'
+import { attachPlatform, startLifecycle } from './lifecycle'
 import { setLanguage } from '../i18n'
 import { bridgeStorage, devStorage, type SaveStorage } from '../meta/storage'
 
@@ -32,6 +32,14 @@ export async function boot(): Promise<SaveStorage | null> {
       // Bridge's own loading picture stays up when it did not start; the lobby goes in front instead.
       if (isStandalone()) document.getElementById('loading-overlay')?.remove()
       bootState.blocked = isStandalone() && !isDevHost()
+      // Bridge may still finish starting (a slow server, the blocker turned off): then battles open at once.
+      if (bootState.blocked)
+        void lateBridge()?.then(() => {
+          bootState.platform = platformId()
+          attachPlatform()
+          bootState.blocked = false
+          console.info('[platform] Bridge started late; battles are open.')
+        })
       if (!isDevHost() && !isStandalone()) {
         bootState.error = 'bridge'
         return null
@@ -49,7 +57,8 @@ export async function boot(): Promise<SaveStorage | null> {
     startLifecycle()
   }
   const b = bridge()
-  const storage = b && onRealPlatform() ? bridgeStorage(b) : devStorage
+  // Our own site always keeps the profile in the same place, whether Bridge started in time or not.
+  const storage = b && onRealPlatform() && !isStandalone() ? bridgeStorage(b) : devStorage
   if (bootState.blocked) console.info('[platform] no Bridge on this site: the lobby opens, battles wait for Bridge.')
   else if (!onRealPlatform()) console.info(`[platform] ${bootState.platform}: saves in localStorage, ads simulated by Bridge (dev only).`)
   return storage

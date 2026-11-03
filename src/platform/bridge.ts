@@ -20,7 +20,8 @@ export function onRealPlatform(): boolean {
 
 const INIT_TIMEOUT = 20000
 // Our own site opens the game with ?platform_id=standalone; there the page's host script may be blocked
-// (an ad blocker), and Bridge then never finishes starting. The game waits less and goes on without it.
+// (an ad blocker, the network) or just slow. The game opens its lobby after this wait and keeps waiting
+// for Bridge in the background (lateBridge).
 const STANDALONE_TIMEOUT = 8000
 
 /** Opened as a standalone page (our own site), not on a game platform. */
@@ -34,11 +35,19 @@ export async function initBridge(): Promise<PlaygamaBridge | null> {
   if (!b) return null
   if (!b.isInitialized) {
     let timer: ReturnType<typeof setTimeout> | undefined
+    pending = b.initialize().then(() => b)
     await Promise.race([
-      b.initialize(),
+      pending,
       new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Bridge initialize timeout')), isStandalone() ? STANDALONE_TIMEOUT : INIT_TIMEOUT) }),
     ]).finally(() => clearTimeout(timer))
   }
   instance = b
   return b
+}
+
+let pending: Promise<PlaygamaBridge> | null = null
+
+/** After a timed-out start: resolves when Bridge finishes starting after all, and from then on bridge() returns it. */
+export function lateBridge(): Promise<PlaygamaBridge> | null {
+  return pending?.then((b) => (instance = b)) ?? null
 }

@@ -66,16 +66,28 @@ let started = false
 export function startLifecycle(): void {
   if (started) return
   started = true
+  attachPlatform()
+  startPage()
+}
+
+let attached = false
+/** Platform pause and sound; called at start, or later when Bridge finished starting late. */
+export function attachPlatform(): void {
   const b = bridge()
-  if (b) {
+  if (b && !attached) {
+    attached = true
     lifecycle.platformMuted = !b.platform.isAudioEnabled
-    if (b.platform.isPaused) reasons.add('platform')
+    lifecycle.muted = lifecycle.platformMuted || reasons.size > 0
+    if (b.platform.isPaused) setPauseReason('platform', true)
     b.platform.on(b.EVENT_NAME.AUDIO_STATE_CHANGED, (enabled: boolean) => {
       lifecycle.platformMuted = !enabled
       lifecycle.muted = lifecycle.platformMuted || reasons.size > 0
     })
     b.platform.on(b.EVENT_NAME.PAUSE_STATE_CHANGED, (paused: boolean) => setPauseReason('platform', paused))
   }
+}
+
+function startPage(): void {
   const visibility = () => setPauseReason('hidden', document.visibilityState === 'hidden')
   document.addEventListener('visibilitychange', visibility)
   window.addEventListener('pagehide', () => setPauseReason('hidden', true))

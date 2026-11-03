@@ -31,31 +31,19 @@ const goldDoubled = ref(false)
 const booting = ref(false)
 let autoPaused = false
 
-// Our own site with the ad script blocked (bootState.blocked): the lobby works, no battle starts.
-// Bridge is checked again on Start and every 5 s: it can still finish starting late (a slow server) or
-// once the blocker is off. Then the page reloads, so the game starts the normal way, with Bridge.
+// Our own site while Bridge has not started (bootState.blocked): the lobby works, no battle starts.
+// The game keeps waiting for Bridge (platform/boot.ts); once it starts, battles open and the note goes away.
 const blockerShown = ref(false)
-const BRIDGE_CHECK = 5000
-let bridgeCheck = 0
+watch(
+  () => bootState.blocked,
+  (on) => {
+    if (!on) blockerShown.value = false
+  },
+)
 
 function reload() {
   location.reload()
 }
-
-function bridgeReady(): boolean {
-  if (!window.bridge?.isInitialized) return false
-  reload()
-  return true
-}
-
-watch(
-  () => bootState.blocked,
-  (on) => {
-    clearInterval(bridgeCheck)
-    if (on) bridgeCheck = window.setInterval(() => (screen.value === 'menu' || blockerShown.value) && bridgeReady(), BRIDGE_CHECK)
-  },
-  { immediate: true },
-)
 
 // Bridge first, then the game engine and the profile; game_ready once the lobby takes input.
 async function start() {
@@ -120,7 +108,7 @@ const inBattle = computed(() => screen.value === 'wave' || screen.value === 'wav
 
 function startRun() {
   if (bootState.blocked) {
-    if (!bridgeReady()) blockerShown.value = true
+    blockerShown.value = true
     return
   }
   rewards.value = []
