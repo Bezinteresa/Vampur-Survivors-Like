@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, type Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import playgamaBridge from '@playgama/bridge/vite'
 
 const spritesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'public', 'sprites')
 
@@ -38,7 +39,9 @@ function spriteList(): Plugin {
 
 export default defineConfig({
   base: './',
-  plugins: [vue(), spriteList()],
+  // Bridge runtime from the npm package next to index.html (no CDN: no CSP trouble on Yandex).
+  // playgama-bridge-config.json lives in public/ and is copied into dist.
+  plugins: [vue(), spriteList(), playgamaBridge({ mode: 'local' })],
   server: { port: 5190 },
   build: { chunkSizeWarningLimit: 1200 },
 })

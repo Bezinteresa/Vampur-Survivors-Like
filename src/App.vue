@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { Game } from './game/Game'
 import { JOY_RADIUS } from './game/Input'
 import { Meta, type Reward } from './meta/Meta'
-import { devStorage } from './meta/storage'
+import { adHooks, adState, maybeInterstitial, rewardedSupported, showRewarded } from './platform/ads'
+import { bootState, boot } from './platform/boot'
+import { gameReady, lifecycle, onPauseChange, sendMessage } from './platform/lifecycle'
 import ChestPick from './ui/ChestPick.vue'
 import Hud from './ui/Hud.vue'
 import Icon from './ui/Icon.vue'
@@ -21,18 +23,63 @@ const game = shallowRef<Game>()
 const meta = new Meta()
 const loaded = ref(false)
 const rewards = ref<Reward[]>([])
+const goldDoubled = ref(false)
+const booting = ref(false)
+let autoPaused = false
 
-onMounted(async () => {
-  game.value = new Game(host.value!)
-  game.value.onRunEnd = (result) => (rewards.value = meta.applyRun(result))
-  if (import.meta.env.DEV) {
-    Object.assign(window, { __game: game.value, __meta: meta })
-    const g = game.value
-    import('./dev/balance').then((b) => b.installBalance(g))
+// Bridge first, then the game engine and the profile; game_ready once the lobby takes input.
+async function start() {
+  if (booting.value) return
+  booting.value = true
+  const storage = await boot()
+  if (!storage) {
+    booting.value = false
+    return
   }
-  await meta.load(devStorage)
+  try {
+    await meta.load(storage)
+  } catch (e) {
+    // Unknown saved state: never start over it with a fresh profile.
+    console.error('[save] could not read the profile', e)
+    bootState.error = 'save'
+    booting.value = false
+    return
+  }
+  adHooks.beforeAd = () => meta.flush()
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') void meta.flush()
+  })
+  window.addEventListener('pagehide', () => void meta.flush())
+  if (!game.value) {
+    const g = new Game(host.value!)
+    game.value = g
+    g.onRunEnd = (result) => (rewards.value = meta.applyRun(result))
+    if (import.meta.env.DEV) {
+      Object.assign(window, { __game: g, __meta: meta })
+      import('./dev/balance').then((b) => b.installBalance(g))
+    }
+    // Platform pause, hidden tab or an open ad: everything stands still; in battle the pause screen shows
+    // (not over an ad), and goes away by itself when the pause was not the player's.
+    onPauseChange((paused) => {
+      g.frozen = paused
+      const s = g.ui.screen
+      if (paused && !lifecycle.adOpen && (s === 'wave' || s === 'waveEnd')) {
+        g.pause()
+        autoPaused = true
+      } else if (!paused && autoPaused) {
+        autoPaused = false
+        g.resume()
+      }
+    })
+    g.frozen = lifecycle.paused
+  }
   loaded.value = true
-})
+  booting.value = false
+  await nextTick()
+  gameReady()
+}
+
+onMounted(start)
 onBeforeUnmount(() => game.value?.dispose())
 
 const screen = computed(() => game.value?.ui.screen)
@@ -40,8 +87,33 @@ const inBattle = computed(() => screen.value === 'wave' || screen.value === 'wav
 
 function startRun() {
   rewards.value = []
+  goldDoubled.value = false
   game.value?.startRun(meta.loadout())
 }
+
+function doubleGold() {
+  void showRewarded('double_gold', () => {
+    if (goldDoubled.value) return
+    goldDoubled.value = true
+    meta.doubleRunGold(rewards.value)
+  })
+}
+
+// Platform game events and interstitials at natural breaks, from the screen the game shows.
+watch(screen, (now, before) => {
+  const level = String((game.value?.loadout.level ?? 0) + 1)
+  const data = { world: 'map', level }
+  if (now === 'wave' && (before === 'menu' || before === 'gameover' || before === 'victory')) sendMessage('level_started', data)
+  if (now === 'paused') sendMessage('level_paused', data)
+  if (before === 'paused' && now !== 'paused') {
+    autoPaused = false
+    sendMessage('level_resumed', data)
+  }
+  if (now === 'victory') sendMessage('level_completed', data)
+  if (now === 'gameover') sendMessage('level_failed', data)
+  if ((now === 'levelup' || now === 'shop' || now === 'chest') && (before === 'wave' || before === 'waveEnd')) void maybeInterstitial('wave_end')
+  if ((now === 'gameover' || now === 'victory') && before !== now) void maybeInterstitial('run_end')
+})
 
 const knob = computed(() => {
   const j = game.value!.input.joy
@@ -54,8 +126,13 @@ const knob = computed(() => {
 </script>
 
 <template>
-  <div class="stage" @contextmenu.prevent>
+  <div class="stage" :class="{ frozen: lifecycle.paused }" @contextmenu.prevent>
     <div ref="host" class="canvas-host"></div>
+
+    <div v-if="bootState.error" class="screen dim">
+      <div class="ribbon red">{{ bootState.error === 'bridge' ? 'Нет связи с площадкой' : 'Не удалось загрузить сохранение' }}</div>
+      <button class="btn btn-green big" :disabled="booting" @click="start">Повторить</button>
+    </div>
 
     <template v-if="game && loaded">
       <Hud v-if="inBattle" :game="game" />
@@ -94,6 +171,14 @@ const knob = computed(() => {
         </div>
         <div class="section-title">Награды</div>
         <RewardList :rewards="rewards" />
+        <button
+          v-if="!goldDoubled && rewards.some((r) => r.kind === 'gold') && rewardedSupported()"
+          class="btn btn-green bonus-btn"
+          :disabled="adState.busy"
+          @click="doubleGold"
+        >
+          <Icon name="video" :size="20" /> Золото ×2
+        </button>
         <button class="btn btn-green big" @click="startRun">Ещё раз</button>
         <button class="btn btn-blue" @click="game.toMenu()">В лобби</button>
       </div>

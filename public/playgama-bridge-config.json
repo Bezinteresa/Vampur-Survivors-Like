@@ -1,0 +1,21 @@
+{
+    "advertisement": {
+        "minimumDelayBetweenInterstitial": 120,
+        "initialInterstitialDelay": 180,
+        "interstitial": {
+            "placements": [
+                { "id": "wave_end" },
+                { "id": "run_end" }
+            ]
+        },
+        "rewarded": {
+            "placements": [
+                { "id": "reroll_cards" },
+                { "id": "reroll_shop" },
+                { "id": "double_gold" }
+            ]
+        }
+    },
+    "payments": [],
+    "leaderboards": []
+}

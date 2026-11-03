@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Game } from '../game/Game'
+import { adState, rewardedSupported, showRewarded } from '../platform/ads'
 import Icon from './Icon.vue'
 import Loadout from './Loadout.vue'
 import OfferCard from './OfferCard.vue'
@@ -31,6 +32,14 @@ const showStats = ref(false)
 
     <button class="btn btn-blue" :disabled="ui.coins < ui.shopRerollCost" @click="game.rerollShop()">
       <Icon name="reroll" :size="18" /> Обновить · <Icon name="coin" :size="16" /> {{ ui.shopRerollCost }}
+    </button>
+    <button
+      v-if="ui.freeShopReroll && rewardedSupported()"
+      class="btn btn-green bonus-btn"
+      :disabled="adState.busy"
+      @click="showRewarded('reroll_shop', () => game.rerollShop(true))"
+    >
+      <Icon name="video" :size="18" /> Обновить бесплатно
     </button>
 
     <Loadout :game="game" editable />

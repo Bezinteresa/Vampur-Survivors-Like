@@ -73,7 +73,7 @@ export class Game {
   private thiefTimes: number[] = [] // wave-time marks when a coin thief appears
   private resumeTo: Screen = 'wave'
   private abilities: AbilityState[] = []
-  private loadout: RunLoadout = PLAIN_LOADOUT
+  loadout: RunLoadout = PLAIN_LOADOUT
   private runEnded = false
   // Called once when a run ends (death, victory or surrender); the lobby turns it into rewards.
   onRunEnd: (result: RunResult) => void = () => {}
@@ -110,8 +110,10 @@ export class Game {
     abilities: [] as { id: string; name: string; icon: string; cd: number; cdMax: number; active: boolean }[],
     cards: [] as Card[],
     cardRerollCost: 0,
+    freeCardReroll: false, // one reroll for a video, per cards screen
     offers: [] as Offer[],
     shopRerollCost: 0,
+    freeShopReroll: false, // one reroll for a video, per shop visit
     chestOffers: [] as Offer[],
     weapons: [] as {
       id: string; name: string; kind: string; tier: number; canMerge: boolean; sellPrice: number
@@ -300,6 +302,7 @@ export class Game {
   private openLevelUp(): void {
     this.ui.cards = this.rollCards()
     this.ui.cardRerollCost = this.rerollCost(this.cardRerolls)
+    this.ui.freeCardReroll = true
     this.syncStats()
     this.ui.screen = 'levelup'
   }
@@ -314,11 +317,15 @@ export class Game {
     else this.openShop()
   }
 
-  rerollCards(): void {
+  // `free`: paid by a watched video instead of coins (once per screen); the price does not grow.
+  rerollCards(free = false): void {
     const cost = this.rerollCost(this.cardRerolls)
-    if (this.ui.screen !== 'levelup' || this.ui.coins < cost) return
-    this.ui.coins -= cost
-    this.cardRerolls++
+    if (this.ui.screen !== 'levelup' || (free ? !this.ui.freeCardReroll : this.ui.coins < cost)) return
+    if (free) this.ui.freeCardReroll = false
+    else {
+      this.ui.coins -= cost
+      this.cardRerolls++
+    }
     this.ui.cards = this.rollCards()
     this.ui.cardRerollCost = this.rerollCost(this.cardRerolls)
   }
@@ -351,6 +358,7 @@ export class Game {
     this.ui.offers = [...this.ui.offers.filter((o) => o.locked && !o.sold)]
     while (this.ui.offers.length < 3) this.ui.offers.push(this.makeOffer())
     this.ui.shopRerollCost = this.rerollCost(this.shopRerolls)
+    this.ui.freeShopReroll = true
     this.syncStats()
     this.ui.screen = 'shop'
   }
@@ -425,11 +433,14 @@ export class Game {
     if (o && !o.sold) o.locked = !o.locked
   }
 
-  rerollShop(): void {
+  rerollShop(free = false): void {
     const cost = this.rerollCost(this.shopRerolls)
-    if (this.ui.screen !== 'shop' || this.ui.coins < cost) return
-    this.ui.coins -= cost
-    this.shopRerolls++
+    if (this.ui.screen !== 'shop' || (free ? !this.ui.freeShopReroll : this.ui.coins < cost)) return
+    if (free) this.ui.freeShopReroll = false
+    else {
+      this.ui.coins -= cost
+      this.shopRerolls++
+    }
     this.ui.offers = this.ui.offers.map((o) => (o.locked && !o.sold ? o : this.makeOffer()))
     this.ui.shopRerollCost = this.rerollCost(this.shopRerolls)
   }
@@ -559,8 +570,15 @@ export class Game {
   }
   onFrame: (() => void) | null = null
 
+  // Platform pause, hidden tab or an open ad: no game time passes and nothing moves.
+  frozen = false
+
   private frame = (t: number): void => {
     this.raf = requestAnimationFrame(this.frame)
+    if (this.frozen) {
+      this.last = t
+      return
+    }
     const dt = (this.last ? Math.min(0.1, (t - this.last) / 1000) : 0) * this.timeScale
     this.onFrame?.()
     this.last = t

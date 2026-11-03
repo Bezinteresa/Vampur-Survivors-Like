@@ -81,6 +81,9 @@ export class Meta {
   readonly p: Profile = reactive(defaultProfile())
   private storage: SaveStorage | null = null
   private saveTimer = 0
+  private writing: Promise<void> | null = null
+  private dirty = false
+  private failures = 0
 
   async load(storage: SaveStorage): Promise<void> {
     this.storage = storage
@@ -105,10 +108,36 @@ export class Meta {
     }
   }
 
+  // Changes are batched for a moment, then the whole profile is written. Writes go one at a time;
+  // a change made while a write is in flight is written after it. A failed write is retried later.
   private save(): void {
     if (!this.storage) return
+    this.dirty = true
     clearTimeout(this.saveTimer)
-    this.saveTimer = window.setTimeout(() => this.storage?.save(SAVE_KEY, JSON.stringify(this.p)), 300)
+    this.saveTimer = window.setTimeout(() => void this.flush(), 300)
+  }
+
+  /** Writes pending changes now (before an ad, when the tab is hidden). */
+  async flush(): Promise<void> {
+    clearTimeout(this.saveTimer)
+    while (this.writing) await this.writing
+    if (!this.dirty || !this.storage) return
+    this.dirty = false
+    const storage = this.storage
+    this.writing = storage
+      .save(SAVE_KEY, JSON.stringify(this.p))
+      .then(() => {
+        this.failures = 0
+      })
+      .catch((e) => {
+        console.warn('[save] write failed', e)
+        this.dirty = true
+        this.saveTimer = window.setTimeout(() => void this.flush(), [3000, 10000, 30000][Math.min(2, this.failures++)])
+      })
+      .finally(() => {
+        this.writing = null
+      })
+    await this.writing
   }
 
   // ---------- queries ----------
@@ -409,6 +438,15 @@ export class Meta {
 
   levelOpen(i: number): boolean {
     return i === 0 || this.p.cleared[i - 1]
+  }
+
+  // Rewarded video after a run: the run's gold once more.
+  doubleRunGold(rewards: Reward[]): void {
+    const r = rewards.find((x) => x.kind === 'gold')
+    if (!r) return
+    this.p.gold += r.amount
+    r.amount *= 2
+    this.save()
   }
 
   applyRun(r: RunResult): Reward[] {

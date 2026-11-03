@@ -1354,3 +1354,10 @@ button {
   user-select: text;
   -webkit-user-select: text;
 }
+
+/* Platform pause: CSS animations stand still too. */
+.stage.frozen *,
+.stage.frozen *::before,
+.stage.frozen *::after {
+  animation-play-state: paused !important;
+}
