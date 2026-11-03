@@ -3,7 +3,8 @@
 // Rewarded: only from a button that shows the video icon and what it gives. The reward is given only after
 // the confirmed 'rewarded' state, once, after the ad window has closed. Opened/closed without 'rewarded',
 // failed, no SDK, an exception or a timeout give nothing.
-// Placements: 'reroll_cards' and 'reroll_shop' (a free reroll, once per screen), 'double_gold' (after a run).
+// Placements: 'reroll_cards' and 'reroll_shop' (a free reroll, once per screen), 'double_gold' (after a run),
+// 'revive' (once per run), 'lobby_chest' and 'lobby_gold' (lobby shop, with a cooldown).
 //
 // Interstitial: asked for at natural breaks only — between waves (before the cards and the shop) and at the
 // end of a run. How often one is really shown is Bridge's decision (required step 7, no timers of our own):
@@ -16,7 +17,7 @@ import { setPauseReason } from './lifecycle'
 const START_TIMEOUT = 15_000 // no 'opened' by then: the ad will not come
 const OPEN_TIMEOUT = 5 * 60_000 // safety net: an ad window that never reports 'closed'
 
-export type RewardedPlacement = 'reroll_cards' | 'reroll_shop' | 'double_gold'
+export type RewardedPlacement = 'reroll_cards' | 'reroll_shop' | 'double_gold' | 'revive' | 'lobby_chest' | 'lobby_gold'
 export type InterstitialPlacement = 'wave_end' | 'run_end'
 
 /** Bridge's local mock simulates ads: allowed in dev to see the flow, never in a release build off a platform. */

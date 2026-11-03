@@ -22,6 +22,15 @@
                 },
                 {
                     "id": "double_gold"
+                },
+                {
+                    "id": "revive"
+                },
+                {
+                    "id": "lobby_chest"
+                },
+                {
+                    "id": "lobby_gold"
                 }
             ]
         }

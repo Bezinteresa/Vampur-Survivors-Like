@@ -16,7 +16,7 @@ import { HALF_H, HALF_W, World, type WeaponSlot } from './World'
 
 // Run flow: waves, timer, spawning, coins (= experience), level-up cards, shop, supply chest. Owns the loop.
 
-export type Screen = 'menu' | 'wave' | 'waveEnd' | 'levelup' | 'shop' | 'chest' | 'paused' | 'gameover' | 'victory'
+export type Screen = 'menu' | 'wave' | 'waveEnd' | 'levelup' | 'shop' | 'chest' | 'paused' | 'revive' | 'gameover' | 'victory'
 
 export interface Card {
   stat: keyof Stats
@@ -53,6 +53,9 @@ interface AbilityState {
   durationMul: number
 }
 
+const REVIVE_HP = 0.5 // share of max health after a revive
+const REVIVE_SAFE_TIME = 2 // seconds nothing can hurt the revived hero
+const REVIVE_PUSH_RADIUS = 320
 const STEP = 1 / 60
 const MAX_WEAPONS = 6
 const WAVE_END_TIME = 1.4
@@ -151,6 +154,7 @@ export class Game {
   startRun(loadout: RunLoadout = this.loadout): void {
     this.loadout = loadout
     this.runEnded = false
+    this.revived = false
     this.stats = { ...BASE_STATS }
     for (const [k, v] of Object.entries(loadout.stats) as [keyof Stats, number][]) this.stats[k] += v
     this.world.reset(this.stats)
@@ -258,6 +262,30 @@ export class Game {
     this.ui.screen = 'menu'
   }
 
+  // ---------- revive for a video ----------
+
+  /** Set by the app: a rewarded video can be shown now. */
+  canRevive: () => boolean = () => false
+  private revived = false
+
+  /** After a watched video: half health back, enemy shots gone, the crowd around pushed away, a moment of safety. */
+  revive(): void {
+    if (this.ui.screen !== 'revive') return
+    this.revived = true
+    const p = this.world.player
+    p.hp = this.stats.maxHp * REVIVE_HP
+    p.iframes = REVIVE_SAFE_TIME
+    this.world.hostiles = []
+    this.world.beams = []
+    this.world.shockwave(0, REVIVE_PUSH_RADIUS)
+    this.ui.screen = 'wave'
+    this.acc = 0
+  }
+
+  declineRevive(): void {
+    if (this.ui.screen === 'revive') this.finishRun('gameover')
+  }
+
   // Leave the run from the pause screen: counts as a loss with the waves cleared so far.
   surrender(): void {
     if (this.ui.screen !== 'paused') return
@@ -274,6 +302,7 @@ export class Game {
   }
 
   useAbility(index: number): void {
+    if (this.hold) return
     if (this.ui.screen !== 'wave') return
     const a = this.abilities[index]
     if (!a || a.cd > 0) return
@@ -582,6 +611,8 @@ export class Game {
 
   // Platform pause, hidden tab or an open ad: no game time passes and nothing moves.
   frozen = false
+  // A tutorial card is open: the field is drawn but stands still.
+  hold = false
 
   private frame = (t: number): void => {
     this.raf = requestAnimationFrame(this.frame)
@@ -589,7 +620,7 @@ export class Game {
       this.last = t
       return
     }
-    const dt = (this.last ? Math.min(0.1, (t - this.last) / 1000) : 0) * this.timeScale
+    const dt = this.hold ? 0 : (this.last ? Math.min(0.1, (t - this.last) / 1000) : 0) * this.timeScale
     this.onFrame?.()
     this.last = t
     this.advance(dt)
@@ -645,7 +676,11 @@ export class Game {
     this.drainCoins()
 
     if (this.world.player.hp <= 0) {
-      this.finishRun('gameover')
+      // Once per run the fallen hero may come back for a video (Playgama 2.2.4: at most once per attempt).
+      if (!this.revived && this.canRevive()) {
+        this.ui.screen = 'revive'
+        this.input.clear()
+      } else this.finishRun('gameover')
       return
     }
     if (this.wave.boss && this.world.bossKilled) {

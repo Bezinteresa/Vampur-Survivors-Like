@@ -20,7 +20,7 @@ export interface ProductDef {
   gives: { gems?: number; gold?: number; noAds?: boolean }
 }
 
-// Proposed set, to be confirmed by the owner (GDD 6.1): gem packs, a one-time starter pack, no interstitials.
+// Approved by the owner (03.11, GDD 6.1): gem packs, a one-time starter pack, no interstitials.
 export const PRODUCTS: Record<string, ProductDef> = {
   gems_small: { consumable: true, gives: { gems: 500 } },
   gems_medium: { consumable: true, gives: { gems: 1600 } },

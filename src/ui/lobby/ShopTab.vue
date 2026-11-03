@@ -8,6 +8,7 @@ import Icon from '../Icon.vue'
 import SpriteIcon from '../SpriteIcon.vue'
 import RewardList from './RewardList.vue'
 import { PRODUCTS, buy, cachedCatalog, owns, paymentsAvailable, shopState, type CatalogItem } from '../../platform/payments'
+import { adState, rewardedSupported, showRewarded } from '../../platform/ads'
 
 const props = defineProps<{ meta: Meta }>()
 const p = props.meta.p
@@ -45,6 +46,15 @@ function open(id: string, free = false) {
   opened.value = props.meta.openChest(id, free)
 }
 
+// Rewards for a video: shown only where the platform has rewarded videos (checked every second with `now`).
+function videoChest() {
+  void showRewarded('lobby_chest', () => (opened.value = props.meta.openVideoChest()))
+}
+
+function videoGold() {
+  void showRewarded('lobby_gold', () => (opened.value = props.meta.giveVideoGold()))
+}
+
 function left(ms: number): string {
   const s = Math.max(0, Math.ceil(ms / 1000))
   const h = Math.floor(s / 3600)
@@ -74,10 +84,34 @@ function odds(list: number[]): string {
         <button v-if="c.freeEveryHours" class="btn btn-green small" :disabled="now < p.freeChestAt" @click="open(c.id, true)">
           {{ now < p.freeChestAt ? left(p.freeChestAt - now) : t('Бесплатно') }}
         </button>
+        <button
+          v-if="c.id === 'small' && (now, rewardedSupported())"
+          class="btn btn-green small bonus-btn"
+          :disabled="adState.busy || now < p.videoChestAt"
+          @click="videoChest"
+        >
+          <Icon name="video" :size="14" /> {{ now < p.videoChestAt ? left(p.videoChestAt - now) : t('За видео') }}
+        </button>
         <button v-if="c.gold" class="btn btn-blue small" :disabled="p.gold < c.gold" @click="open(c.id)"><Icon name="coin" :size="14" /> {{ c.gold }}</button>
         <button v-if="c.gems" class="btn btn-blue small" :disabled="p.gems < c.gems" @click="open(c.id)"><Icon name="gem" :size="14" /> {{ c.gems }}</button>
       </div>
     </div>
+
+    <template v-if="(now, rewardedSupported())">
+      <div class="section-title">{{ t('За видео') }}</div>
+      <div class="chest-card">
+        <div class="chest-art"><Icon name="coin" :size="40" /></div>
+        <div class="chest-info">
+          <div class="chest-name">{{ t('Мешок золота') }}</div>
+          <div class="hint left">{{ t('Золото +{n}', { n: meta.videoGoldAmount() }) }} · {{ t('раз в час') }}</div>
+        </div>
+        <div class="chest-buy">
+          <button class="btn btn-green small bonus-btn" :disabled="adState.busy || now < p.videoGoldAt" @click="videoGold">
+            <Icon name="video" :size="14" /> {{ now < p.videoGoldAt ? left(p.videoGoldAt - now) : t('Смотреть') }}
+          </button>
+        </div>
+      </div>
+    </template>
 
     <template v-if="canPay && catalog.length">
       <div class="section-title">{{ t('Кристаллы') }}</div>

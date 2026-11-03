@@ -18,6 +18,7 @@ import RewardList from './ui/lobby/RewardList.vue'
 import Shop from './ui/Shop.vue'
 import ViewPanel from './ui/ViewPanel.vue'
 import SoundSettings from './ui/SoundSettings.vue'
+import Tutorial from './ui/Tutorial.vue'
 import { play, setMusic } from './audio/sound'
 import { viewTuning } from './game/view'
 
@@ -61,6 +62,7 @@ async function start() {
     const g = new Game(host.value!)
     game.value = g
     g.onRunEnd = (result) => (rewards.value = meta.applyRun(result))
+    g.canRevive = rewardedSupported
     if (import.meta.env.DEV) {
       Object.assign(window, { __game: g, __meta: meta })
       import('./dev/balance').then((b) => b.installBalance(g))
@@ -159,6 +161,7 @@ const knob = computed(() => {
 
     <template v-if="game && loaded">
       <Hud v-if="inBattle" :game="game" />
+      <Tutorial :game="game" :meta="meta" />
       <ViewPanel v-if="viewTuning && (screen === 'wave' || screen === 'waveEnd')" :game="game" />
 
       <template v-if="game.input.joy.active && screen === 'wave'">
@@ -184,6 +187,15 @@ const knob = computed(() => {
           <button class="btn btn-green wide" @click="game.resume()"><Icon name="play" :size="24" /> {{ t('Продолжить') }}</button>
         </div>
         <button class="btn" @click="game.surrender()">{{ t('Сдаться') }}</button>
+      </div>
+
+      <div v-if="screen === 'revive'" class="screen dim">
+        <div class="ribbon red">{{ t('Богатырь пал') }}</div>
+        <div class="hint">{{ t('Один раз за забег можно вернуться в бой: половина здоровья, враги рядом отброшены.') }}</div>
+        <button class="btn btn-green big bonus-btn" :disabled="adState.busy" @click="showRewarded('revive', () => game!.revive())">
+          <Icon name="video" :size="22" /> {{ t('Возродиться') }}
+        </button>
+        <button class="btn" :disabled="adState.busy" @click="game.declineRevive()">{{ t('Отказаться') }}</button>
       </div>
 
       <div v-if="screen === 'gameover' || screen === 'victory'" v-drag-scroll class="screen dim">

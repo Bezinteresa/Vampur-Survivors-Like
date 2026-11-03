@@ -32,6 +32,9 @@ export interface Profile {
   cleared: boolean[] // boss beaten per map level
   selectedLevel: number
   freeChestAt: number // ms timestamp when the free small chest is ready
+  tutorial: { battle: boolean; levelup: boolean; shop: boolean } // first-run tips already shown
+  videoChestAt: number // ms timestamps when the lobby shop's rewards for a video are ready again
+  videoGoldAt: number
   heroes: Record<string, number> // unlocked bogatyrs and their levels
   hero: string // chosen bogatyr
   water: number // living water: upgrades bogatyrs
@@ -50,12 +53,20 @@ export interface Reward {
 }
 
 const SAVE_KEY = 'vampur.save'
+// Lobby shop rewards for a video (our balance, not a platform rule).
+const VIDEO_CHEST_COOLDOWN = 3 * 3600_000
+const VIDEO_GOLD_COOLDOWN = 3600_000
+const VIDEO_GOLD_BASE = 400
+const VIDEO_GOLD_PER_LOCATION = 250
 
 function defaultProfile(): Profile {
   const p: Profile = {
     version: 1,
     gold: 500,
     settings: { sound: true, music: 0.5, sfx: 1 },
+    tutorial: { battle: false, levelup: false, shop: false },
+    videoChestAt: 0,
+    videoGoldAt: 0,
     purchases: { owned: [], granted: [] },
     gems: 100,
     blueprints: Object.fromEntries(ALL_SLOTS.map((s) => [s, 5])) as Record<Slot, number>,
@@ -118,6 +129,7 @@ export class Meta {
         equipped: { ...d.equipped, ...data.equipped },
         heroes: { ...d.heroes, ...data.heroes },
         settings: { ...d.settings, ...data.settings },
+        tutorial: { ...d.tutorial, ...data.tutorial },
         purchases: { ...d.purchases, ...data.purchases },
         best: MAP_LEVELS.map((_, i) => data.best?.[i] ?? 0),
         cleared: MAP_LEVELS.map((_, i) => data.cleared?.[i] ?? false),
@@ -183,6 +195,11 @@ export class Meta {
 
   owns(productId: string): boolean {
     return this.p.purchases.owned.includes(productId)
+  }
+
+  tutorialDone(topic: keyof Profile['tutorial']): void {
+    this.p.tutorial[topic] = true
+    this.save()
   }
 
   /** Sound switch and volumes; the sound module follows them, the profile keeps them. */
@@ -448,12 +465,48 @@ export class Meta {
       if (this.p.gems < chest.gems) return null
       this.p.gems -= chest.gems
     }
+    return this.rollChest(chest)
+  }
+
+  private rollChest(chest: (typeof CHESTS)[number]): Reward[] {
     const rewards: Reward[] = []
     for (let i = 0; i < chest.count; i++) rewards.push(this.giveItem(rollRarity(chest.odds)))
     rewards.push(...this.giveBlueprints(chest.blueprints))
     if (chest.water) rewards.push(this.giveWater(chest.water))
     this.save()
     return rewards
+  }
+
+  // ---------- lobby shop: rewards for a video, each with its own cooldown ----------
+
+  videoChestReady(now = Date.now()): boolean {
+    return now >= this.p.videoChestAt
+  }
+
+  videoGoldReady(now = Date.now()): boolean {
+    return now >= this.p.videoGoldAt
+  }
+
+  /** Gold for a video grows with the locations cleared, so it stays worth a look later on. */
+  videoGoldAmount(): number {
+    return VIDEO_GOLD_BASE + VIDEO_GOLD_PER_LOCATION * this.p.cleared.filter(Boolean).length
+  }
+
+  /** A small chest for a watched video. */
+  openVideoChest(): Reward[] | null {
+    const chest = CHESTS.find((c) => c.id === 'small')
+    if (!chest || !this.videoChestReady()) return null
+    this.p.videoChestAt = Date.now() + VIDEO_CHEST_COOLDOWN
+    return this.rollChest(chest)
+  }
+
+  giveVideoGold(): Reward[] | null {
+    if (!this.videoGoldReady()) return null
+    const amount = this.videoGoldAmount()
+    this.p.videoGoldAt = Date.now() + VIDEO_GOLD_COOLDOWN
+    this.p.gold += amount
+    this.save()
+    return [{ kind: 'gold', amount }]
   }
 
   private giveItem(rarity: number): Reward {
