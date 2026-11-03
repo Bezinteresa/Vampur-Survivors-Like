@@ -1,0 +1,14 @@
+[
+  {
+    "asset": {
+      "file": "weapon/turret.png",
+      "w": 128,
+      "h": 128,
+      "subject": "small wooden watchtower with a crossbow on top",
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.",
+      "redo": "Clean transparent background"
+    },
+    "prompt": "Use case: background-extraction. Edit target: attached stationary crank crossbow weapon sprite. Remove ALL the white backing and gray haze, including inside the bowstring triangle and trigger opening. Keep only the solid crossbow and thin bowstring, bolt and crank unchanged. Preserve exact shape, wood, red/gold ornaments, flat side view, pointing RIGHT and aspect ratio. Every surrounding pixel is genuinely transparent alpha. No broad glow, no checkerboard artwork, no white edge, no backdrop, no shadow. Entire weapon fully visible with a small margin.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-909ba041-de88-44c5-8e04-4724cb4da148.png"
+  }
+]

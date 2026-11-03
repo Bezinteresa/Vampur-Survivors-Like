@@ -2,7 +2,7 @@
 import json
 import sys
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 
 root = Path(__file__).resolve().parents[1]
 source, relative, width, height = sys.argv[1:5]
@@ -13,6 +13,11 @@ if destination.exists() and not replace:
     raise SystemExit(f'Refusing to replace existing asset: {destination} (add --replace to redo it)')
 with Image.open(source) as original:
     result = original.convert('RGBA').resize((int(width), int(height)), Image.Resampling.LANCZOS)
+    if relative.replace('\\', '/').startswith('weapon/'):
+        # Side-view weapons keep their long silhouette inside the required square slot.
+        fitted = ImageOps.contain(original.convert('RGBA'), (int(width), int(height)), Image.Resampling.LANCZOS)
+        result = Image.new('RGBA', (int(width), int(height)))
+        result.paste(fitted, ((result.width - fitted.width) // 2, (result.height - fitted.height) // 2))
     if '--align-to' in sys.argv[5:]:
         reference_name = sys.argv[sys.argv.index('--align-to') + 1]
         with Image.open(root / 'public' / 'sprites' / reference_name) as reference:

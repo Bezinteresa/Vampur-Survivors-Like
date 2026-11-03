@@ -1,0 +1,26 @@
+[
+  {
+    "asset": {
+      "file": "weapon/crossbow.png",
+      "w": 128,
+      "h": 128,
+      "subject": "old Russian crossbow (samostrel)",
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.",
+      "redo": "Clean transparent background"
+    },
+    "prompt": "Use case: background-extraction. Edit target: attached horizontal weapon game sprite. Remove ALL the white background and ALL the gray/white checkerboard pattern from every gap and every surrounding area. Keep the crossbow, bowstring and bolt alone. Preserve the exact shape, colours, ornament details, painterly rendering, horizontal orientation pointing RIGHT, and original aspect ratio. Entire weapon visible with small padding around all edges. All background pixels must be genuinely transparent alpha: no checkerboard artwork, no white backing, no gray haze, no glow plate, no background colour. One isolated weapon, no text.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-5d9f0cf7-0000-487a-add2-d48fa61c6dd0.png"
+  },
+  {
+    "asset": {
+      "file": "weapon/lightning.png",
+      "w": 128,
+      "h": 128,
+      "subject": "staff of Perun crackling with lightning",
+      "extra": "One weapon alone, flat side view, lying horizontally with the business end pointing RIGHT and the handle on the left, centered, fills the width of the frame, no hand holding it, transparent background, no frame, no text.",
+      "redo": "Clean transparent background"
+    },
+    "prompt": "Use case: background-extraction. Edit target: attached horizontal weapon game sprite. Remove the entire broad white/gray glow cloud and haze behind the staff. Keep the staff and the sharp blue lightning bolts alone, with blue lightning narrowly outlined, no broad surrounding glow. Preserve the exact shape, colours, ornament details, painterly rendering, horizontal orientation pointing RIGHT, and original aspect ratio. Entire weapon visible with small padding around all edges. All background pixels must be genuinely transparent alpha: no checkerboard artwork, no white backing, no gray haze, no glow plate, no background colour. One isolated weapon, no text.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-bd99db68-9757-4495-8f6a-a3407ace61ae.png"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "asset": {
+      "file": "boss/koschei.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Koschei the Deathless: a skeletal sorcerer king, tall and thin, black armour and crown, burning cold eyes, dark cape",
+      "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "redo": "Face left as required"
+    },
+    "prompt": "Use case: precise-object-edit. Edit target: attached Koschei game sprite. Make the same character face LEFT rather than right by MIRRORING the entire sprite horizontally. Change ONLY the horizontal direction. Preserve every detail: skeletal head, crown, white flowing hair, black and gold armour, green cloak with red lining and folk ornaments, staff with blue flame, slender intimidating proportions, painterly dark outlines and cel shading. Full body, slightly elevated top-down 3/4 game view, complete silhouette and staff/flame inside the canvas with clear margin, centered. Truly transparent alpha background. No environment, ground, shadow plate, text or additions.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-81bbb3d9-5f72-469f-933d-02d61d33e3e7.png"
+  }
+]

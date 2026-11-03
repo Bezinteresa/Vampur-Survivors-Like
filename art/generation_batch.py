@@ -25,7 +25,7 @@ if sys.argv[1] == 'queue':
                     needed = (im.width < asset['w'] or im.height < asset['h']) if asset.get('minSize') else im.size != (asset['w'], asset['h'])
             if needed:
                 pending.append(asset)
-    print(json.dumps({'remaining': len(pending), 'style': documents[0][1]['style'], 'assets': pending[:5]}, ensure_ascii=False))
+    print(json.dumps({'remaining': len(pending), 'style': documents[0][1]['style'], 'assets': pending[:5]}, ensure_ascii=True))
 elif sys.argv[1] == 'save':
     batch = json.loads(Path(sys.argv[2]).read_text(encoding='utf-8'))
     completed = []
@@ -34,10 +34,15 @@ elif sys.argv[1] == 'save':
         target = ROOT / 'public/sprites' / asset['file']
         with Image.open(item['source']) as image:
             alpha = image.convert('RGBA').getchannel('A').getextrema()
-            opaque = asset['file'].startswith('terrain/')
+            opaque = asset['file'].startswith(('terrain/', 'cover/'))
+            if opaque and alpha != (255, 255):
+                raise ValueError(f'Expected opaque background for {asset["file"]}: {alpha}')
             if not opaque and (alpha[0] != 0 or alpha[1] < 250):
                 raise ValueError(f'Invalid transparency for {asset["file"]}: {alpha}')
         args = [sys.executable, str(ART / 'save_generated_asset.py'), item['source'], asset['file'], str(asset['w']), str(asset['h'])]
+        if asset.get('guide'):
+            reference = Path(asset['guide']).relative_to(Path('public/sprites')).as_posix()
+            args.extend(['--align-to', reference])
         if target.exists():
             if not asset.get('redo'):
                 raise ValueError(f'Unexpected existing target: {target}')

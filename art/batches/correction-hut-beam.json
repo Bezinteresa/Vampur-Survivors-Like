@@ -1,0 +1,14 @@
+[
+  {
+    "asset": {
+      "file": "mob/hut_beam.png",
+      "w": 256,
+      "h": 256,
+      "subject": "skull lantern on a fence stake with glowing eye sockets, minion of the location \"Baba Yaga's hut on chicken legs\"",
+      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.",
+      "redo": "Remove clipped broad background glow"
+    },
+    "prompt": "Use case: precise-object-edit. Edit target: the attached skull lantern on a wooden stake game sprite. Remove the entire broad white/gray background glow cloud and all surrounding haze. Keep ONLY the skull lantern, wooden stake, bindings, hanging fabric, ornaments and small leaves unchanged. Eyes may glow INSIDE the skull only; no exterior glow, no rays, no halo, no smoke. Genuinely transparent alpha on every surrounding area, clean cutout edges, clear padding on all sides, no backdrop or ground. Preserve exact shape, angle, colours, painterly cartoon folk-art rendering, composition, and scale of the solid sprite. Do not add any object or text.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-56486513-6cca-4d69-b4b3-36d164ec6e6f.png"
+  }
+]
