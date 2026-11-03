@@ -11,12 +11,13 @@ import { attachPlatform, startLifecycle } from './lifecycle'
 import { setLanguage } from '../i18n'
 import { bridgeStorage, devStorage, type SaveStorage } from '../meta/storage'
 
-// blocked: on our own site Bridge has not started yet (a slow server, or its scripts did not load).
-// The lobby opens there, and battles wait until Bridge starts.
+// blocked: on our own site Bridge has not started (a slow server, or the network cuts off playgama.com —
+// in some countries it is blocked). The game is fully playable there without it: no ads, no purchases,
+// saves in the browser. If Bridge starts later, ads and purchases come on.
 export const bootState = reactive({ error: '' as '' | 'bridge' | 'save', platform: 'none', language: 'en', blocked: false })
 
 const isDevHost = () => import.meta.env.DEV || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
-// Without Bridge the game runs only in dev (localhost); on our own site only the lobby opens (bootState.blocked).
+// Without Bridge the game runs in dev (localhost) and on our own site (bootState.blocked); platforms need it.
 
 let tried = false
 
@@ -32,13 +33,13 @@ export async function boot(): Promise<SaveStorage | null> {
       // Bridge's own loading picture stays up when it did not start; the lobby goes in front instead.
       if (isStandalone()) document.getElementById('loading-overlay')?.remove()
       bootState.blocked = isStandalone() && !isDevHost()
-      // Bridge may still finish starting (a slow server): then battles open at once.
+      // Bridge may still finish starting (a slow server): then ads and purchases come on.
       if (bootState.blocked)
         void lateBridge()?.then(() => {
           bootState.platform = platformId()
           attachPlatform()
           bootState.blocked = false
-          console.info('[platform] Bridge started late; battles are open.')
+          console.info('[platform] Bridge started late; ads and purchases are on.')
         })
       if (!isDevHost() && !isStandalone()) {
         bootState.error = 'bridge'
@@ -59,7 +60,7 @@ export async function boot(): Promise<SaveStorage | null> {
   const b = bridge()
   // Our own site always keeps the profile in the same place, whether Bridge started in time or not.
   const storage = b && onRealPlatform() && !isStandalone() ? bridgeStorage(b) : devStorage
-  if (bootState.blocked) console.info('[platform] no Bridge on this site: the lobby opens, battles wait for Bridge.')
+  if (bootState.blocked) console.info('[platform] no Bridge on this site: the game runs without ads and purchases.')
   else if (!onRealPlatform()) console.info(`[platform] ${bootState.platform}: saves in localStorage, ads simulated by Bridge (dev only).`)
   return storage
 }

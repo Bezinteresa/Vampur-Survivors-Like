@@ -93,8 +93,6 @@ const screen = computed(() => game.value?.ui.screen)
 const inBattle = computed(() => screen.value === 'wave' || screen.value === 'waveEnd' || screen.value === 'paused')
 
 function startRun() {
-  // Our own site while Bridge is still starting: no battle yet (the Start button shows it is loading).
-  if (bootState.blocked) return
   rewards.value = []
   goldDoubled.value = false
   game.value?.startRun(meta.loadout())

@@ -395,7 +395,6 @@ export const EN: Record<string, string> = {
   'Звуки': 'Effects',
   'Закрыть': 'Close',
   'Кристаллы': 'Gems',
-  'Загрузка…': 'Loading…',
   'Откроется, когда будет побеждён хозяин локации «{name}».': 'Opens once the ruler of {name} is defeated.',
   'Без рекламы между волнами': 'No ads between waves',
   'Горсть кристаллов': 'Handful of gems',

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { t } from '../../i18n'
-import { bootState } from '../../platform/boot'
 import { computed, ref } from 'vue'
 import { WAVE_COUNT } from '../../game/data/waves'
 import { MAP_LEVELS } from '../../meta/content'
@@ -136,10 +135,7 @@ const rowStyle = computed(() => ({
 
     <div class="map-actions">
       <button class="btn" disabled :title="t('Откроется после прохождения всех локаций')">{{ t('Обычная') }}</button>
-      <!-- On our own site Start waits until Bridge has started (bootState.blocked). -->
-      <button class="btn btn-green big" :disabled="locked || bootState.blocked" @click="emit('start')">
-        <Icon :name="locked ? 'lock' : 'play'" :size="24" /> {{ bootState.blocked && !locked ? t('Загрузка…') : t('Старт') }}
-      </button>
+      <button class="btn btn-green big" :disabled="locked" @click="emit('start')"><Icon :name="locked ? 'lock' : 'play'" :size="24" /> {{ t('Старт') }}</button>
     </div>
     <div class="hint">{{ t('Сложности «Герой» и «Кошмар» откроются после прохождения всех локаций.') }}</div>
   </div>
