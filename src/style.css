@@ -752,10 +752,50 @@ button {
   padding-top: 20px;
 }
 .level-carousel {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  position: relative;
   width: 100%;
+}
+/* Location cards in one row; the row slides by one card width (MapTab.vue). */
+.level-viewport {
+  overflow: hidden;
+  width: 100%;
+  touch-action: pan-y;
+}
+.level-row {
+  display: flex;
+  will-change: transform;
+}
+.level-row > .level-card {
+  flex: 0 0 100%;
+  padding: 0 52px;
+}
+.level-carousel > .round-nav {
+  position: absolute;
+  top: 70px;
+}
+.level-carousel > .round-nav.left {
+  left: 4px;
+}
+.level-carousel > .round-nav.right {
+  right: 4px;
+}
+.level-dots {
+  display: flex;
+  gap: 6px;
+}
+.level-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4a5563;
+  transition: transform 0.2s, background 0.2s;
+}
+.level-dots span.locked {
+  background: #2a3038;
+}
+.level-dots span.on {
+  background: #f0c94a;
+  transform: scale(1.3);
 }
 .round-nav {
   width: 44px;
