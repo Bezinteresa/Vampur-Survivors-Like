@@ -173,7 +173,7 @@ for k, v in items.items():
     add(f'item/{k}.png', 128, 128, v, ICON)
 
 # ---------- pickups, chests, currencies ----------
-add('pickup/coin.png', 128, 128, 'old Russian silver coin (denga)', ICON)
+add('pickup/xp.png', 128, 128, 'small glowing GREEN crystal of experience, bright emerald with a light-green glow, reads as green even when tiny', ICON)
 add('pickup/medkit.png', 128, 128, 'small flask of living water, glowing blue', ICON)
 add('object/supply_chest.png', 256, 256, 'wooden supply chest with iron bands, closed', 'One isolated map object, top-down 3/4 view, centered horizontally, base near bottom with small margin, transparent background, no terrain tile or backdrop.')
 for k, v in {'small': 'small wooden chest', 'medium': 'medium chest with silver bands', 'big': 'big ornate golden chest overflowing glow'}.items():

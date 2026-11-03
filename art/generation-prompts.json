@@ -1426,10 +1426,10 @@
       "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
     },
     {
-      "file": "pickup/coin.png",
+      "file": "pickup/xp.png",
       "w": 128,
       "h": 128,
-      "subject": "old Russian silver coin (denga)",
+      "subject": "small glowing GREEN crystal of experience, bright emerald with a light-green glow, reads as green even when tiny",
       "extra": "One object as a game icon, centered, fills most of the frame, slight 3/4 angle, transparent background, no frame, no text."
     },
     {

@@ -64,7 +64,7 @@ export const SPRITE = {
   ability: (id: string) => `ability/${id}.png`,
   item: (id: string) => `item/${id}.png`,
   chest: (id: string) => `object/chest_${id}.png`,
-  coin: 'pickup/coin.png',
+  coin: 'pickup/xp.png', // green: the coins on the field are the run's experience too
   medkit: 'pickup/medkit.png',
   supplyChest: 'object/supply_chest.png',
 }
