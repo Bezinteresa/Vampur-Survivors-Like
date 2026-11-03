@@ -55,7 +55,7 @@ function defaultProfile(): Profile {
   const p: Profile = {
     version: 1,
     gold: 500,
-    settings: { sound: true, music: 0.7, sfx: 1 },
+    settings: { sound: true, music: 0.5, sfx: 1 },
     purchases: { owned: [], granted: [] },
     gems: 100,
     blueprints: Object.fromEntries(ALL_SLOTS.map((s) => [s, 5])) as Record<Slot, number>,

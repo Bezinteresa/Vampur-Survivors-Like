@@ -31,7 +31,7 @@ const MIN_GAP: Partial<Record<Sfx, number>> = {
 }
 
 /** Player settings; stored in the profile (Meta) and given here at boot and on every change. */
-export const sound = reactive({ on: true, music: 0.7, sfx: 1 })
+export const sound = reactive({ on: true, music: 0.5, sfx: 1 })
 
 const SFX_LEVEL = 0.7
 const MUSIC_LEVEL = 0.35
