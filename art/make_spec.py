@@ -201,11 +201,13 @@ FRAME = {
     3: 'WALK FRAME 3 of 3: the same character mid-stride, RIGHT leg stepping forward and LEFT leg back, arms swinging opposite to the legs, body slightly lower. ',
 }
 SAME = 'Use the frame 1 picture as the exact reference: identical character, colours, outline, size, facing and framing; only the limbs (legs, arms, wings, tail) move. Creatures without legs sway, flap or squash instead. '
-walkers = [a for a in assets if a['file'].split('/')[0] in ('hero', 'mob', 'boss') and a['file'] != 'mob/egg.png']
-for a in walkers:
-    for n in (2, 3):
-        stem = a['file'][:-4]
-        assets.append({'file': f'{stem}_{n}.png', 'w': a['w'], 'h': a['h'], 'subject': a['subject'], 'extra': FRAME[n] + SAME + a['extra'], 'guide': f"public/sprites/{a['file']}"})
+# PAUSED 03.11 (owner): walk frames are not drawn for now — the game moves arms and legs in code.
+# Uncomment to put the 191 frames back into the queue.
+# walkers = [a for a in assets if a['file'].split('/')[0] in ('hero', 'mob', 'boss') and a['file'] != 'mob/egg.png']
+# for a in walkers:
+#     for n in (2, 3):
+#         stem = a['file'][:-4]
+#         assets.append({'file': f'{stem}_{n}.png', 'w': a['w'], 'h': a['h'], 'subject': a['subject'], 'extra': FRAME[n] + SAME + a['extra'], 'guide': f"public/sprites/{a['file']}"})
 
 spec = {
     'mode': 'built-in image_gen',
