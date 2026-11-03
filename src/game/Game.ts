@@ -151,6 +151,8 @@ export class Game {
     this.world.reset(this.stats)
     this.world.sets = new Set(loadout.sets)
     this.world.bossMul = loadout.enemyMul
+    // Shotgun minions: one pellet on the first map, then one more every two maps, at most four.
+    this.world.shotgunPellets = Math.min(4, 1 + Math.ceil(loadout.level / 2))
     this.world.heroPerk = loadout.heroPerk
     this.world.roster = locationRoster(loadout.level)
     this.ui.location = LOCATIONS[loadout.level]?.name ?? ''

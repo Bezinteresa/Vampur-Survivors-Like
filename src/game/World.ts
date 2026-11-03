@@ -197,6 +197,7 @@ export class World {
   hpMul = 1
   dmgMul = 1
   bossMul = 1 // map level multiplier for the boss
+  shotgunPellets = 1 // pellets per shot of the shotgun minions, grows with the map
   sets = new Set<string>() // active lobby set bonuses
   attackBonus = 0 // from abilities
   standHeal = 0 // number of "heal while standing" items

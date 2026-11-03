@@ -73,7 +73,10 @@ function ranged(w: World, e: Enemy, dx: number, dy: number, d: number): [number,
     e.charge = 1 - e.stateT / CHARGE[ai]
     if (e.stateT <= 0) {
       const a = Math.atan2(e.aimY, e.aimX)
-      if (ai === 'shotgun') for (let k = -2; k <= 2; k++) w.fireHostile(e.x, e.y, a + k * 0.14, 230, e.dmg * 0.7)
+      if (ai === 'shotgun') {
+        const n = w.shotgunPellets
+        for (let k = 0; k < n; k++) w.fireHostile(e.x, e.y, a + (k - (n - 1) / 2) * 0.14, 230, e.dmg * 0.7)
+      }
       if (ai === 'rocket') w.fireHostile(e.x, e.y, a, 170, e.dmg * 1.3, 9, 0.9, 6)
       setState(e, 'recover', ai === 'twinBeam' ? 0.6 : 0.45)
     }
