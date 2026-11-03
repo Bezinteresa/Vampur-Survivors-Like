@@ -1442,3 +1442,12 @@ button {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
   pointer-events: none;
 }
+
+.blocker-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 340px;
+  text-align: center;
+}

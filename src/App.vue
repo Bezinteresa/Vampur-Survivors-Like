@@ -31,6 +31,32 @@ const goldDoubled = ref(false)
 const booting = ref(false)
 let autoPaused = false
 
+// Our own site with the ad script blocked (bootState.blocked): the lobby works, no battle starts.
+// Bridge is checked again on Start and every 5 s: it can still finish starting late (a slow server) or
+// once the blocker is off. Then the page reloads, so the game starts the normal way, with Bridge.
+const blockerShown = ref(false)
+const BRIDGE_CHECK = 5000
+let bridgeCheck = 0
+
+function reload() {
+  location.reload()
+}
+
+function bridgeReady(): boolean {
+  if (!window.bridge?.isInitialized) return false
+  reload()
+  return true
+}
+
+watch(
+  () => bootState.blocked,
+  (on) => {
+    clearInterval(bridgeCheck)
+    if (on) bridgeCheck = window.setInterval(() => (screen.value === 'menu' || blockerShown.value) && bridgeReady(), BRIDGE_CHECK)
+  },
+  { immediate: true },
+)
+
 // Bridge first, then the game engine and the profile; game_ready once the lobby takes input.
 async function start() {
   if (booting.value) return
@@ -93,6 +119,10 @@ const screen = computed(() => game.value?.ui.screen)
 const inBattle = computed(() => screen.value === 'wave' || screen.value === 'waveEnd' || screen.value === 'paused')
 
 function startRun() {
+  if (bootState.blocked) {
+    if (!bridgeReady()) blockerShown.value = true
+    return
+  }
   rewards.value = []
   goldDoubled.value = false
   game.value?.startRun(meta.loadout())
@@ -154,10 +184,19 @@ const knob = computed(() => {
 
     <div v-if="bootState.error" class="screen dim">
       <div class="ribbon red">{{ bootState.error === 'bridge' ? t('Нет связи с площадкой') : t('Не удалось загрузить сохранение') }}</div>
+      <div v-if="bootState.error === 'bridge'" class="hint">{{ t('Если включён блокировщик рекламы, отключите его для этого сайта и нажмите «Повторить».') }}</div>
       <button class="btn btn-green big" :disabled="booting" @click="start">{{ t('Повторить') }}</button>
     </div>
 
     <template v-if="game && loaded">
+      <div v-if="blockerShown" class="modal-back">
+        <div class="modal blocker-note">
+          <div class="ribbon red">{{ t('Отключите блокировщик рекламы') }}</div>
+          <div class="hint">{{ t('Игра работает только с рекламой. Отключите блокировщик рекламы для этого сайта и обновите страницу.') }}</div>
+          <button class="btn btn-green big" @click="reload">{{ t('Обновить страницу') }}</button>
+          <button class="btn" @click="blockerShown = false">{{ t('Закрыть') }}</button>
+        </div>
+      </div>
       <Hud v-if="inBattle" :game="game" />
       <ViewPanel v-if="viewTuning && (screen === 'wave' || screen === 'waveEnd')" :game="game" />
 

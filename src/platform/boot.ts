@@ -11,11 +11,12 @@ import { startLifecycle } from './lifecycle'
 import { setLanguage } from '../i18n'
 import { bridgeStorage, devStorage, type SaveStorage } from '../meta/storage'
 
-export const bootState = reactive({ error: '' as '' | 'bridge' | 'save', platform: 'none', language: 'en' })
+// blocked: on our own site Bridge did not start — most often an ad blocker cut off the site's ad script.
+// The lobby still opens there, but no battle starts: the game asks to turn the blocker off.
+export const bootState = reactive({ error: '' as '' | 'bridge' | 'save', platform: 'none', language: 'en', blocked: false })
 
 const isDevHost = () => import.meta.env.DEV || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
-// Without Bridge the game still runs here: dev, and our own site (no ads, no purchases, saves in the browser).
-const canRunWithout = () => isDevHost() || isStandalone()
+// Without Bridge the game runs only in dev (localhost); on our own site only the lobby opens (bootState.blocked).
 
 let tried = false
 
@@ -28,23 +29,23 @@ export async function boot(): Promise<SaveStorage | null> {
       await initBridge()
     } catch (e) {
       console.error('[platform] Bridge failed to start', e)
-      if (!canRunWithout()) {
+      // Bridge's own loading picture stays up when it did not start; the lobby goes in front instead.
+      if (isStandalone()) document.getElementById('loading-overlay')?.remove()
+      bootState.blocked = isStandalone() && !isDevHost()
+      if (!isDevHost() && !isStandalone()) {
         bootState.error = 'bridge'
         return null
       }
-      // Bridge's own loading picture stays up when it did not start; the game shows itself instead.
-      document.getElementById('loading-overlay')?.remove()
     }
-    if (!bridge() && !canRunWithout()) {
+    if (!bridge() && !isDevHost() && !bootState.blocked) {
       bootState.error = 'bridge'
       return null
     }
     bootState.platform = platformId()
     // Dev only: ?lang=en / ?lang=ru to check a translation without a platform.
     const devLang = import.meta.env.DEV ? new URLSearchParams(location.search).get('lang') : null
-    // Without Bridge on our own site there is no platform language; the browser's is the best guess there.
-    const siteLang = !bridge() && isStandalone() ? navigator.language : null
-    bootState.language = setLanguage(devLang || bridge()?.platform.language || siteLang)
+    // Blocked on our own site there is no platform language; the browser's is the only guess there.
+    bootState.language = setLanguage(devLang || bridge()?.platform.language || (bootState.blocked ? navigator.language : null))
     startLifecycle()
   }
   const b = bridge()
