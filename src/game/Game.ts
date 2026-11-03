@@ -1,3 +1,4 @@
+import { play } from '../audio/sound'
 import { t } from '../i18n'
 import { reactive } from 'vue'
 import { ABILITIES, type AbilityDef } from './data/abilities'
@@ -128,6 +129,7 @@ export class Game {
     this.renderer = new Renderer(host)
     this.input = new Input(host)
     this.input.onAbility = (i) => this.useAbility(i)
+    this.world.sound = play
     this.input.onPause = () => (this.ui.screen === 'paused' ? this.resume() : this.pause())
     this.resizeObserver = new ResizeObserver(() => this.renderer.resize(host.clientWidth, host.clientHeight))
     this.resizeObserver.observe(host)
@@ -201,6 +203,7 @@ export class Game {
     this.ui.wave = n
     this.ui.bossWave = this.wave.boss
     this.showBanner(this.wave.boss ? this.world.roster.boss.name : t('Волна {n}', { n }))
+    play(this.wave.boss ? 'boss' : 'wave')
     this.ui.screen = 'wave'
     this.acc = 0
   }
@@ -213,6 +216,7 @@ export class Game {
     for (const pk of this.world.pickups) this.ui.bank += pk.value
     this.world.pickups = []
     this.showBanner(this.victory ? t('Босс повержен!') : t('Волна завершена!'))
+    play('waveClear')
   }
 
   private afterWave(): void {
@@ -263,6 +267,7 @@ export class Game {
   private finishRun(screen: 'gameover' | 'victory'): void {
     this.ui.screen = screen
     if (this.runEnded) return
+    play(screen === 'victory' ? 'win' : 'lose')
     this.runEnded = true
     const victory = screen === 'victory'
     this.onRunEnd({ level: this.loadout.level, wavesCleared: victory ? WAVE_COUNT : this.wave.n - 1, victory, kills: this.world.kills })
@@ -304,6 +309,7 @@ export class Game {
     this.ui.cards = this.rollCards()
     this.ui.cardRerollCost = this.rerollCost(this.cardRerolls)
     this.ui.freeCardReroll = true
+    play('levelup')
     this.syncStats()
     this.ui.screen = 'levelup'
   }
@@ -322,6 +328,7 @@ export class Game {
   rerollCards(free = false): void {
     const cost = this.rerollCost(this.cardRerolls)
     if (this.ui.screen !== 'levelup' || (free ? !this.ui.freeCardReroll : this.ui.coins < cost)) return
+    play('reroll')
     if (free) this.ui.freeCardReroll = false
     else {
       this.ui.coins -= cost
@@ -419,6 +426,7 @@ export class Game {
     if (this.ui.screen !== 'shop' || !o || !this.canBuy(o)) return
     this.ui.coins -= o.price
     o.sold = true
+    play('buy')
     o.locked = false
     this.take(o)
   }
@@ -437,6 +445,7 @@ export class Game {
   rerollShop(free = false): void {
     const cost = this.rerollCost(this.shopRerolls)
     if (this.ui.screen !== 'shop' || (free ? !this.ui.freeShopReroll : this.ui.coins < cost)) return
+    play('reroll')
     if (free) this.ui.freeShopReroll = false
     else {
       this.ui.coins -= cost

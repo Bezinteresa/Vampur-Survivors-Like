@@ -6,6 +6,8 @@ export const ICONS: Record<string, { d: string; fill?: boolean }> = {
   bolt: { d: 'M13 2 4.5 13.5H11L10 22l8.5-11.5H12z', fill: true },
   coin: { d: 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18M12 7.5a4.5 4.5 0 1 0 0 9a4.5 4.5 0 1 0 0-9' },
   reroll: { d: 'M4 12a8 8 0 0 1 13.7-5.6L20 9M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6L4 15M4 20v-5h5' },
+  sound: { d: 'M4 9h4l5-4v14l-5-4H4zM16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12' },
+  mute: { d: 'M4 9h4l5-4v14l-5-4H4zM16 9l6 6M22 9l-6 6' },
   video: { d: 'M3 6h13v12H3zM16 10l5-3v10l-5-3' },
   lock: { d: 'M6 11h12v10H6zM8.5 11V7.5a3.5 3.5 0 0 1 7 0V11' },
   unlock: { d: 'M6 11h12v10H6zM8.5 11V7.5a3.5 3.5 0 0 1 6.8-1.2' },

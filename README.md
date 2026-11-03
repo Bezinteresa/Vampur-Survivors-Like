@@ -63,6 +63,20 @@ npm run build    # проверка типов и сборка в dist/
 
 Игра сама подхватывает картинки: файл есть в `public/sprites` — рисуется он, нет — заглушка (цветной круг, текст). В dev-режиме новая картинка видна после автоматической перезагрузки страницы. Список файлов собирает плагин Vite (`virtual:sprite-list`), код — `src/sprites.ts`.
 
+## Звук (все источники CC0)
+
+Только записанные файлы (Playgama 3.3.2), без синтеза в коде. Лежат в `public/audio`, копирует `python scripts/prepare_audio.py` из общей папки `H:/Html AI/resources/audio`; играет `src/audio/sound.ts`. Кнопка звука — в лобби и на паузе: выключить всё, громкость музыки и эффектов (хранится в профиле). Пока платформа запрещает звук, вкладка скрыта, игра на паузе или открыта реклама — тишина.
+
+| Что | Источник |
+| --- | --- |
+| Выстрел, магия, молния, сокол и башенка, выстрел врага, луч, взрыв, появление босса, способность | [Kenney — Sci-fi Sounds](https://kenney.nl/assets/sci-fi-sounds) |
+| Попадание, смерть врага, урон герою | [Kenney — Impact Sounds](https://kenney.nl/assets/impact-sounds) |
+| Монета, лечение, уровень, начало и конец волны, покупка, обновление, кнопки, сундук, победа, поражение | [Kenney — Interface Sounds](https://kenney.nl/assets/interface-sounds) |
+| Взмах меча, кувырок | [artisticdude — Swishes Sound Pack](https://opengameart.org/content/swishes-sound-pack) |
+| Музыка лобби | [RandomMind — Medieval Exploration](https://opengameart.org/content/medieval-exploration) |
+| Музыка боя | [HydroGene — JRPG Epic Rock Battle Theme #1](https://opengameart.org/content/jrpg-epic-rock-battle-theme-1) |
+| Музыка босса | [CleytonKauffman — Boss Battle Theme](https://opengameart.org/content/boss-battle-theme) |
+
 ## Устройство кода
 
 | Путь | Что |

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { t } from '../../i18n'
+import SoundSettings from '../SoundSettings.vue'
 import { ref } from 'vue'
 import type { Meta } from '../../meta/Meta'
 import Icon from '../Icon.vue'
@@ -34,6 +35,7 @@ const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
       <div class="logo-small">Vampur Survivors</div>
       <div class="chip"><Icon name="coin" :size="16" /> {{ meta.p.gold }}</div>
       <div class="chip gems"><Icon name="gem" :size="16" /> {{ meta.p.gems }}</div>
+      <SoundSettings :meta="meta" />
     </div>
 
     <div v-swipe="{ left: () => switchTab(1), right: () => switchTab(-1) }" v-drag-scroll class="lobby-body">

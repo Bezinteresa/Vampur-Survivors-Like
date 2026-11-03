@@ -388,4 +388,10 @@ export const EN: Record<string, string> = {
   'Сундук открыт': 'Chest opened',
   'Забрать': 'Collect',
   'Таланты усиливают героя навсегда': 'Talents make your hero stronger for good',
+  'Звук': 'Sound',
+  'Звук включён': 'Sound on',
+  'Звук выключен': 'Sound off',
+  'Музыка': 'Music',
+  'Звуки': 'Effects',
+  'Закрыть': 'Close',
 }

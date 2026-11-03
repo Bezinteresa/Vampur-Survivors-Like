@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { sound } from '../audio/sound'
 import { HERO_MAX_LEVEL, HEROES, heroDamage, heroDef, heroHp, heroUpgradeGold, heroUpgradeWater } from '../game/data/heroes'
 import type { OwnBonus, RunLoadout, RunResult } from '../game/loadout'
 import { BASE_STATS, type Stats } from '../game/stats'
@@ -34,6 +35,7 @@ export interface Profile {
   heroes: Record<string, number> // unlocked bogatyrs and their levels
   hero: string // chosen bogatyr
   water: number // living water: upgrades bogatyrs
+  settings: { sound: boolean; music: number; sfx: number } // sound switch and volumes 0..1
   nextUid: number
 }
 
@@ -50,6 +52,7 @@ function defaultProfile(): Profile {
   const p: Profile = {
     version: 1,
     gold: 500,
+    settings: { sound: true, music: 0.7, sfx: 1 },
     gems: 100,
     blueprints: Object.fromEntries(ALL_SLOTS.map((s) => [s, 5])) as Record<Slot, number>,
     items: [],
@@ -77,6 +80,12 @@ function defaultProfile(): Profile {
   return p
 }
 
+function applySound(s: Profile['settings']): void {
+  sound.on = s.sound
+  sound.music = s.music
+  sound.sfx = s.sfx
+}
+
 export class Meta {
   readonly p: Profile = reactive(defaultProfile())
   private storage: SaveStorage | null = null
@@ -88,6 +97,11 @@ export class Meta {
   async load(storage: SaveStorage): Promise<void> {
     this.storage = storage
     const raw = await storage.load(SAVE_KEY)
+    this.restore(raw)
+    applySound(this.p.settings)
+  }
+
+  private restore(raw: string | null): void {
     if (!raw) return
     try {
       const data = JSON.parse(raw) as Partial<Profile>
@@ -99,6 +113,7 @@ export class Meta {
         blueprints: { ...d.blueprints, ...data.blueprints },
         equipped: { ...d.equipped, ...data.equipped },
         heroes: { ...d.heroes, ...data.heroes },
+        settings: { ...d.settings, ...data.settings },
         best: MAP_LEVELS.map((_, i) => data.best?.[i] ?? 0),
         cleared: MAP_LEVELS.map((_, i) => data.cleared?.[i] ?? false),
         items: (data.items ?? []).filter((it) => ITEMS[it.itemId]),
@@ -138,6 +153,13 @@ export class Meta {
         this.writing = null
       })
     await this.writing
+  }
+
+  /** Sound switch and volumes; the sound module follows them, the profile keeps them. */
+  setSound(change: Partial<Profile['settings']>, store = true): void {
+    Object.assign(this.p.settings, change)
+    applySound(this.p.settings)
+    if (store) this.save()
   }
 
   // ---------- queries ----------

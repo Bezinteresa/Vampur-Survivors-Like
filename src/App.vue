@@ -16,6 +16,8 @@ import Lobby from './ui/lobby/Lobby.vue'
 import RewardList from './ui/lobby/RewardList.vue'
 import Shop from './ui/Shop.vue'
 import ViewPanel from './ui/ViewPanel.vue'
+import SoundSettings from './ui/SoundSettings.vue'
+import { play, setMusic } from './audio/sound'
 import { viewTuning } from './game/view'
 
 const host = ref<HTMLElement>()
@@ -100,6 +102,22 @@ function doubleGold() {
   })
 }
 
+// Music by screen: the lobby theme, the battle theme through the whole run, the boss theme on wave 10.
+watch(
+  () => [screen.value, game.value?.ui.bossWave] as const,
+  ([s, boss]) => {
+    if (!s) return
+    if (s === 'menu') setMusic('lobby')
+    else if (s === 'gameover' || s === 'victory') setMusic(null)
+    else setMusic(boss && s !== 'shop' && s !== 'levelup' ? 'boss' : 'battle')
+  },
+)
+
+// Every button clicks.
+function onPress(e: PointerEvent) {
+  if ((e.target as HTMLElement).closest?.('button:not(:disabled)')) play('click')
+}
+
 // Platform game events and interstitials at natural breaks, from the screen the game shows.
 watch(screen, (now, before) => {
   const level = String((game.value?.loadout.level ?? 0) + 1)
@@ -127,7 +145,7 @@ const knob = computed(() => {
 </script>
 
 <template>
-  <div class="stage" :class="{ frozen: lifecycle.paused }" @contextmenu.prevent>
+  <div class="stage" :class="{ frozen: lifecycle.paused }" @contextmenu.prevent @pointerdown.capture="onPress">
     <div ref="host" class="canvas-host"></div>
 
     <div v-if="bootState.error" class="screen dim">
@@ -152,6 +170,7 @@ const knob = computed(() => {
 
       <div v-if="screen === 'paused'" v-drag-scroll class="screen pause">
         <div class="ribbon">{{ t('Пауза') }}</div>
+        <SoundSettings :meta="meta" />
         <Loadout :game="game" />
         <div v-if="showStats" class="stats-panel">
           <div v-for="s in game.ui.stats" :key="s.name" class="stat-row"><span>{{ s.name }}</span><b>{{ s.value }}</b></div>

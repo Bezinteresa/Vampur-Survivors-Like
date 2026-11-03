@@ -1361,3 +1361,16 @@ button {
 .stage.frozen *::after {
   animation-play-state: paused !important;
 }
+
+/* ---------- sound ---------- */
+.sound-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 320px;
+}
+.pause .sound-btn {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  right: 12px;
+}

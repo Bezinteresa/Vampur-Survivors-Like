@@ -1,3 +1,4 @@
+import type { Sfx } from '../audio/sound'
 import type { Ai, BossAttack, EnemyDef } from './data/bestiary'
 import { think } from './enemyAi'
 import type { RollPerk } from './data/heroes'
@@ -198,6 +199,7 @@ export class World {
   dmgMul = 1
   bossMul = 1 // map level multiplier for the boss
   shotgunPellets = 1 // pellets per shot of the shotgun minions, grows with the map
+  sound: (name: Sfx) => void = () => undefined // set by the game; the simulation only names the event
   sets = new Set<string>() // active lobby set bonuses
   attackBonus = 0 // from abilities
   standHeal = 0 // number of "heal while standing" items
@@ -260,6 +262,7 @@ export class World {
     p.rollDy = len > 0.1 ? my / len : p.fy
     p.rollT = duration
     p.rollSpeed = speedMul
+    this.sound('roll')
   }
 
   step(dt: number, mx: number, my: number): void {
@@ -396,10 +399,12 @@ export class World {
   // ---------- enemy attacks ----------
 
   fireHostile(x: number, y: number, angle: number, speed: number, dmg: number, r = 6, turn = 0, life = 4): void {
+    this.sound('enemyShot')
     this.hostiles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, dmg, life, turn })
   }
 
   addBeam(x: number, y: number, angle: number, dmg: number, charge: number, active: number, sweep: number, len = 650, width = 14): void {
+    this.sound('beam')
     this.beams.push({ x, y, angle, sweep, len, width, dmg, charge, active, t: 0, hit: false })
   }
 
@@ -562,6 +567,7 @@ export class World {
     if (this.sets.has('guard') && Math.random() < 0.15) dmg *= 0.5
     const taken = dmg * (15 / (15 + Math.max(0, this.stats.armor)))
     p.hp -= taken
+    this.sound('hurt')
     this.damageTaken[source] = (this.damageTaken[source] ?? 0) + taken
     p.iframes = 0.6
     p.hurt = 0.2
@@ -594,11 +600,16 @@ export class World {
     const range = def.range + this.stats.range
     switch (def.behavior) {
       case 'shot':
-        return this.shoot(w, p.x, p.y, range)
+        if (!this.shoot(w, p.x, p.y, range)) return false
+        this.sound(def.kind === 'magic' ? 'magic' : 'shot')
+        return true
       case 'drone':
-        return !!w.orbit && this.shoot(w, w.orbit.x, w.orbit.y, range)
+        if (!w.orbit || !this.shoot(w, w.orbit.x, w.orbit.y, range)) return false
+        this.sound('mech')
+        return true
       case 'turret':
         this.turrets.push({ x: p.x, y: p.y, life: def.duration, cd: 0.3, slot: w })
+        this.sound('mech')
         return true
       case 'swing': {
         const t = this.nearest(p.x, p.y, range + 30)
@@ -616,6 +627,7 @@ export class World {
           this.hitEnemy(e, dmg, (ex / (d || 1)) * 260, (ey / (d || 1)) * 260, w, this.effectOf(w))
         })
         this.swings.push({ x: p.x, y: p.y, angle, range, t: 0, full: false })
+        this.sound('swing')
         return true
       }
       case 'chain': {
@@ -636,6 +648,7 @@ export class World {
           cur = next
         }
         this.bolts.push({ pts, t: 0 })
+        this.sound('zap')
         return true
       }
     }
@@ -662,7 +675,9 @@ export class World {
       t.life -= dt
       t.cd -= dt * this.attackSpeed(t.slot)
       if (t.cd > 0) continue
-      t.cd = this.shoot(t.slot, t.x, t.y, t.slot.def.range + this.stats.range) ? t.slot.def.fireRate : 0
+      const shot = this.shoot(t.slot, t.x, t.y, t.slot.def.range + this.stats.range)
+      if (shot) this.sound('mech')
+      t.cd = shot ? t.slot.def.fireRate : 0
     }
     this.turrets = this.turrets.filter((t) => t.life > 0)
   }
@@ -691,10 +706,12 @@ export class World {
   healPlayer(share: number): void {
     const p = this.player
     if (p.hp > 0) p.hp = Math.min(this.stats.maxHp, p.hp + this.stats.maxHp * share)
+    this.sound('heal')
   }
 
   freezeAround(radius: number, time: number): void {
     const p = this.player
+    this.sound('ability')
     for (const e of this.enemies) {
       if (e.hp > 0 && Math.hypot(e.x - p.x, e.y - p.y) < radius) e.freezeT = Math.max(e.freezeT, e.boss ? time * 0.4 : time)
     }
@@ -710,6 +727,7 @@ export class World {
       this.hitEnemy(e, damage * (1 + this.stats.damagePct), (dx / d) * 900, (dy / d) * 900, null, null)
     }
     this.swings.push({ x: p.x, y: p.y, angle: 0, range: radius, t: 0, full: true })
+    this.sound('boom')
   }
 
   private nearest(x: number, y: number, range: number, exclude?: number[]): Enemy | null {
@@ -774,6 +792,7 @@ export class World {
     if (this.stats.lifesteal > 0 && p.hp > 0) p.hp = Math.min(this.stats.maxHp, p.hp + dealt * this.stats.lifesteal)
     if (!dot) {
       e.flash = 0.08
+      if (e.hp > 0) this.sound('hit')
       if (effect) this.applyStatus(e, effect, dmg, src)
       if (!e.boss) {
         const k = 1 + this.stats.knockback
@@ -783,6 +802,7 @@ export class World {
     }
     if (e.hp > 0) return
     this.kills++
+    this.sound(e.boss ? 'boom' : 'kill')
     if (e.boss) {
       this.bossKilled = true
       for (let i = 0; i < 30; i++) this.drop(e.x + (Math.random() - 0.5) * 120, e.y + (Math.random() - 0.5) * 120, 2, false)
@@ -853,6 +873,7 @@ export class World {
         pk.taken = true
         if (pk.medkit) p.hp = Math.min(this.stats.maxHp, p.hp + this.stats.maxHp * MEDKIT_HEAL * (1 + this.stats.medkitHeal))
         else this.collected += pk.value
+        this.sound(pk.medkit ? 'heal' : 'coin')
         continue
       }
       const step = Math.min(d, PICKUP_SPEED * dt)
@@ -870,6 +891,7 @@ export class World {
     if (c.progress >= 1) {
       this.chest = null
       this.chestOpened = true
+      this.sound('chest')
     }
   }
 
