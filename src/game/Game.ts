@@ -8,7 +8,7 @@ import { KIND_NAMES, MAX_TIER, WEAPONS, WEAPON_IDS, type WeaponDef, wavePriceMul
 import { Input } from './Input'
 import { PLAIN_LOADOUT, type RunLoadout, type RunResult } from './loadout'
 import { Renderer } from './Renderer'
-import { viewForWave } from './view'
+import { VIEW } from './view'
 import { BASE_STATS, STAT_LABELS, formatStat, isPercentStat, type Stats } from './stats'
 import { HALF_H, HALF_W, World, type WeaponSlot } from './World'
 
@@ -157,7 +157,7 @@ export class Game {
     const loc = LOCATIONS[loadout.level] ?? LOCATIONS[0]
     this.renderer.setLocation(loc.id, loc.ground)
     this.renderer.setHero(loadout.heroId)
-    this.renderer.setZoom(viewForWave(1), true)
+    this.renderer.battleIntro()
     this.world.weapons.push(this.newSlot(WEAPONS[loadout.startWeapon] ?? WEAPONS.pistol, 0))
     this.items = new Map()
     this.abilities = loadout.abilities.map((a) => ({ def: ABILITIES[a.id], cd: 0, active: 0, cooldownMul: a.cooldownMul, durationMul: a.durationMul }))
@@ -195,7 +195,6 @@ export class Game {
     if (this.wave.boss) this.world.queueSpawn('boss', 0, 380, 1.5)
     this.ui.wave = n
     this.ui.bossWave = this.wave.boss
-    if (n > 1) this.renderer.setZoom(viewForWave(n))
     this.showBanner(this.wave.boss ? this.world.roster.boss.name : `Волна ${n}`)
     this.ui.screen = 'wave'
     this.acc = 0
@@ -548,9 +547,13 @@ export class Game {
   // Dev: speed of game time (10 = ten times faster) and a per-frame hook for the watching bot.
   timeScale = 1
 
-  // View panel: preview the camera of a given wave (1, 2, or 3 for the final distance).
-  previewZoom(wave: number): void {
-    this.renderer.setZoom(viewForWave(wave))
+  // View panel: replay the battle-start pull-back, or jump to the working distance.
+  previewIntro(): void {
+    this.renderer.battleIntro()
+  }
+
+  previewFinal(): void {
+    this.renderer.setZoom(VIEW.final, 0.4)
   }
   onFrame: (() => void) | null = null
 

@@ -48,6 +48,8 @@ export class Renderer {
   private zoomFrom = 520
   private zoomTo = 520
   private zoomT = 1 // 0..1 progress of the current camera change
+  private zoomDelay = 0 // seconds to wait before the change starts
+  private zoomDuration = 1
   private lastTime = 0
   private readonly m = new THREE.Matrix4()
   private readonly c = new THREE.Color()
@@ -183,15 +185,24 @@ export class Renderer {
     this.applyView()
   }
 
-  // Camera distance (world units across the screen). `instant` snaps, otherwise it eases over VIEW.zoomTime.
-  setZoom(viewW: number, instant = false): void {
-    this.zoomFrom = instant ? viewW : this.viewW
+  // Camera distance (world units across the screen): snaps when `duration` is 0, otherwise eases over
+  // `duration` seconds after waiting `delay` seconds.
+  setZoom(viewW: number, duration = 0, delay = 0): void {
+    this.zoomFrom = duration > 0 ? this.viewW : viewW
     this.zoomTo = viewW
-    this.zoomT = instant ? 1 : 0
-    if (instant) {
+    this.zoomT = duration > 0 ? 0 : 1
+    this.zoomDuration = Math.max(0.05, duration)
+    this.zoomDelay = delay
+    if (duration <= 0) {
       this.viewW = viewW
       this.applyView()
     }
+  }
+
+  // Start of a battle: close to the hero, then pull back to the working distance.
+  battleIntro(): void {
+    this.setZoom(VIEW.start)
+    this.setZoom(VIEW.final, VIEW.zoomTime, VIEW.delay)
   }
 
   private applyView(): void {
@@ -214,8 +225,9 @@ export class Renderer {
     const now = performance.now() / 1000
     const dt = Math.max(0, Math.min(0.1, now - this.lastTime))
     this.lastTime = now
-    if (this.zoomT < 1) {
-      this.zoomT = Math.min(1, this.zoomT + dt / Math.max(0.05, VIEW.zoomTime))
+    if (this.zoomDelay > 0) this.zoomDelay -= dt
+    else if (this.zoomT < 1) {
+      this.zoomT = Math.min(1, this.zoomT + dt / this.zoomDuration)
       const k = this.zoomT * this.zoomT * (3 - 2 * this.zoomT) // smoothstep
       this.viewW = this.zoomFrom + (this.zoomTo - this.zoomFrom) * k
       this.applyView()

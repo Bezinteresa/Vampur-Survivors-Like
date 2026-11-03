@@ -1,26 +1,23 @@
 import { reactive } from 'vue'
 
-// How close the battle camera is. Numbers are world units visible across the screen width:
-// smaller = closer. The camera starts close on wave 1, pulls back on wave 2 and settles from wave 3.
+// How close the battle camera is. Distances are world units visible across the screen width: smaller = closer.
+// A run starts close to the bogatyr; after `delay` seconds the camera eases out to `final` over `zoomTime`
+// (by default it settles 5 seconds into the battle) and stays there.
 // Tuned with the in-game view panel (gear button in battle, dev build or ?tune in the address).
 
 export const VIEW_DEFAULTS = {
-  wave1: 300,
-  wave2: 400,
+  start: 300,
   final: 520,
-  zoomTime: 1.5, // seconds for a camera change
+  delay: 1.5, // seconds before the camera starts to pull back
+  zoomTime: 3.5, // seconds the pull-back takes
   heroSize: 52, // bogatyr picture size, world units
 }
 
 const KEY = 'vampur.dev.view'
 
-export const VIEW = reactive({ ...VIEW_DEFAULTS, ...load() })
-
 export const viewTuning = import.meta.env.DEV || new URLSearchParams(window.location.search).has('tune')
 
-export function viewForWave(wave: number): number {
-  return wave <= 1 ? VIEW.wave1 : wave === 2 ? VIEW.wave2 : VIEW.final
-}
+export const VIEW = reactive({ ...VIEW_DEFAULTS, ...load() })
 
 // Tuned values are kept only while tuning (they never touch the player's save).
 export function saveView(): void {
@@ -38,9 +35,11 @@ export function resetView(): void {
 }
 
 function load(): Partial<typeof VIEW_DEFAULTS> {
-  if (!(import.meta.env.DEV || new URLSearchParams(window.location.search).has('tune'))) return {}
+  if (!viewTuning) return {}
   try {
-    return JSON.parse(window.localStorage.getItem(KEY) ?? '{}')
+    const saved = JSON.parse(window.localStorage.getItem(KEY) ?? '{}') as Record<string, number>
+    // Keep only keys that still exist (older tuning sessions had per-wave values).
+    return Object.fromEntries(Object.entries(saved).filter(([k]) => k in VIEW_DEFAULTS))
   } catch {
     return {}
   }

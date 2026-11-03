@@ -4,20 +4,23 @@ import type { Game } from '../game/Game'
 import { VIEW, resetView, saveView } from '../game/view'
 import Icon from './Icon.vue'
 
-// Tuning panel for the battle camera and the bogatyr size. While it is open the game stands still.
+// Tuning panel for the battle camera and the bogatyr size. While it is open the game stands still
+// (camera changes still play, so the start-of-battle pull-back can be replayed).
 const props = defineProps<{ game: Game }>()
 const open = ref(false)
 let savedScale = 1
 
-const SLIDERS: { key: 'wave1' | 'wave2' | 'final' | 'zoomTime' | 'heroSize'; name: string; min: number; max: number; step: number; preview?: number }[] = [
-  { key: 'wave1', name: 'Камера: волна 1 (близко)', min: 160, max: 800, step: 10, preview: 1 },
-  { key: 'wave2', name: 'Камера: волна 2', min: 160, max: 800, step: 10, preview: 2 },
-  { key: 'final', name: 'Камера: с 3-й волны (финал)', min: 160, max: 800, step: 10, preview: 3 },
-  { key: 'zoomTime', name: 'Время перехода камеры, с', min: 0.2, max: 4, step: 0.1 },
-  { key: 'heroSize', name: 'Размер богатыря', min: 30, max: 120, step: 2 },
+type Key = 'start' | 'final' | 'delay' | 'zoomTime' | 'heroSize'
+const SLIDERS: { key: Key; name: string; min: number; max: number; step: number; show: 'intro' | 'final' | null }[] = [
+  { key: 'start', name: 'Камера в начале боя (близко)', min: 160, max: 800, step: 10, show: 'intro' },
+  { key: 'final', name: 'Камера после отъезда', min: 160, max: 800, step: 10, show: 'final' },
+  { key: 'delay', name: 'Через сколько начинает отъезжать, с', min: 0, max: 5, step: 0.1, show: 'intro' },
+  { key: 'zoomTime', name: 'Сколько длится отъезд, с', min: 0.2, max: 5, step: 0.1, show: 'intro' },
+  { key: 'heroSize', name: 'Размер богатыря', min: 30, max: 120, step: 2, show: null },
 ]
 
-const values = computed(() => `wave1: ${VIEW.wave1}, wave2: ${VIEW.wave2}, final: ${VIEW.final}, zoomTime: ${VIEW.zoomTime}, heroSize: ${VIEW.heroSize}`)
+const values = computed(() => `start: ${VIEW.start}, final: ${VIEW.final}, delay: ${VIEW.delay}, zoomTime: ${VIEW.zoomTime}, heroSize: ${VIEW.heroSize}`)
+const settledAt = computed(() => Math.round((VIEW.delay + VIEW.zoomTime) * 10) / 10)
 
 function toggle() {
   open.value = !open.value
@@ -29,10 +32,15 @@ function toggle() {
   }
 }
 
-function change(key: (typeof SLIDERS)[number]['key'], value: number, preview?: number) {
+function change(key: Key, value: number, show: 'intro' | 'final' | null) {
   VIEW[key] = value
   saveView()
-  if (preview) props.game.previewZoom(preview)
+  if (show === 'final') props.game.previewFinal()
+}
+
+// Sliders that shape the pull-back replay it when released, so the result is visible right away.
+function release(show: 'intro' | 'final' | null) {
+  if (show === 'intro') props.game.previewIntro()
 }
 
 // If the panel disappears while open (the game paused itself), never leave the game frozen.
@@ -42,7 +50,7 @@ onBeforeUnmount(() => {
 
 function reset() {
   resetView()
-  props.game.previewZoom(props.game.ui.wave)
+  props.game.previewIntro()
 }
 </script>
 
@@ -50,7 +58,7 @@ function reset() {
   <button class="round-btn view-btn" title="Настройка камеры" @click="toggle"><Icon name="gear" /></button>
   <div v-if="open" v-drag-scroll class="view-panel">
     <div class="panel-title">Камера и размер богатыря</div>
-    <div class="hint left">Меньше число — камера ближе. Игра стоит, пока панель открыта.</div>
+    <div class="hint left">Меньше число — камера ближе. Камера встаёт на место через {{ settledAt }} с после начала боя. Игра стоит, пока панель открыта.</div>
     <label v-for="s in SLIDERS" :key="s.key" class="view-row">
       <span>{{ s.name }}: <b>{{ VIEW[s.key] }}</b></span>
       <input
@@ -59,13 +67,13 @@ function reset() {
         :max="s.max"
         :step="s.step"
         :value="VIEW[s.key]"
-        @input="change(s.key, +($event.target as HTMLInputElement).value, s.preview)"
+        @input="change(s.key, +($event.target as HTMLInputElement).value, s.show)"
+        @change="release(s.show)"
       />
     </label>
     <div class="view-actions">
-      <button class="btn small btn-blue" @click="game.previewZoom(1)">Волна 1</button>
-      <button class="btn small btn-blue" @click="game.previewZoom(2)">Волна 2</button>
-      <button class="btn small btn-blue" @click="game.previewZoom(3)">Финал</button>
+      <button class="btn small btn-blue" @click="game.previewIntro()">Начало боя</button>
+      <button class="btn small btn-blue" @click="game.previewFinal()">После отъезда</button>
       <button class="btn small" @click="reset">Сбросить</button>
     </div>
     <div class="view-values">{{ values }}</div>
