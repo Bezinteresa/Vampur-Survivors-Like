@@ -3,14 +3,37 @@ import { SPRITE, hasSprite, spriteTexture, walkFrame } from '../sprites'
 import { VIEW } from './view'
 import { ARENA_H, ARENA_W, BOLT_LIFE, CHEST_RADIUS, HALF_H, HALF_W, SWING_LIFE, beamAngle, type Enemy, type World } from './World'
 
+// Walk rhythm shared by the body bob and the limb swing: two strides (four steps) per second.
+const STRIDE_HZ = 2
+
+export function stridePhase(t: number, phase = 0): number {
+  return t * Math.PI * 2 * STRIDE_HZ + phase
+}
+
 // Life in a still picture: the feet stay put, the top stretches a little up and down ("breathing");
-// while walking the bob is stronger, in step, and the figure leans left and right around its feet.
+// while walking the body is highest when the legs pass each other and leans toward the stepping side.
 // Returns vertical stretch and lean angle; `phase` keeps a crowd out of sync.
 function bob(t: number, moving: boolean, phase: number): { stretch: number; lean: number } {
   if (!moving) return { stretch: 1 + 0.025 * Math.sin(t * 2.6 + phase), lean: 0 }
-  const step = t * 8 * Math.PI * 0.5 + phase // two bobs per walk cycle (8 frames per second, 4 frames per cycle)
-  return { stretch: 1 + 0.06 * Math.abs(Math.sin(step)), lean: 0.07 * Math.sin(step * 0.5) }
+  const s = stridePhase(t, phase)
+  return { stretch: 1 + 0.05 * Math.abs(Math.cos(s)), lean: 0.05 * Math.sin(s) }
 }
+
+// Limbs of a hero picture, moved in the vertex shader of a subdivided quad (local coordinates -0.5..0.5,
+// y up). Measured on the bogatyr pictures: hips at y ≈ -0.12, feet at -0.5, the legs either side of
+// x ≈ 0.02; arms hang beside the torso (|x - 0.03| > 0.12) from the shoulders (y ≈ 0.22) to the hands (y ≈ -0.1).
+// Legs scissor and the forward foot lifts a little; arms swing against the legs. uAmp fades in and out.
+const LIMB_WARP = `
+  float legW = smoothstep(-0.10, -0.46, position.y);
+  float side = clamp((position.x - 0.02) * 10.0, -1.0, 1.0);
+  float st = sin(uPhase);
+  transformed.x += uAmp * legW * side * st * 0.11;
+  transformed.y += uAmp * legW * max(0.0, side * cos(uPhase)) * 0.035;
+  float armX = smoothstep(0.11, 0.2, abs(position.x - 0.03));
+  float armY = smoothstep(0.24, 0.1, position.y) * smoothstep(-0.18, -0.06, position.y);
+  float armW = armX * armY * clamp((0.22 - position.y) / 0.32, 0.0, 1.0);
+  transformed.x -= uAmp * armW * side * st * 0.07;
+`
 
 // Placeholder look: flat circles with a dark outline, drawn as instanced meshes (one draw call per kind).
 // When the art pipeline has a picture for something (public/sprites), it is drawn instead of the placeholder:
@@ -94,6 +117,7 @@ export class Renderer {
   private readonly mobFiles = new Map<string, string | null>()
   private locationId = ''
   private heroFile = ''
+  private readonly limbUniforms = { uPhase: { value: 0 }, uAmp: { value: 0 } }
   private readonly scenery = new THREE.Group() // decor and the border wall of the current location
 
   constructor(host: HTMLElement) {
@@ -135,7 +159,12 @@ export class Renderer {
     this.playerBody = new THREE.Mesh(new THREE.CircleGeometry(16, 28), new THREE.MeshBasicMaterial({ color: 0xe8c170, transparent: true }))
     this.playerBody.position.z = 0.01
     this.playerShape.add(outline, this.playerBody)
-    this.heroSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1, side: THREE.DoubleSide }))
+    const heroMat = new THREE.MeshBasicMaterial({ transparent: true, alphaTest: 0.1, side: THREE.DoubleSide })
+    heroMat.onBeforeCompile = (shader) => {
+      Object.assign(shader.uniforms, this.limbUniforms)
+      shader.vertexShader = 'uniform float uPhase;\nuniform float uAmp;\n' + shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>' + LIMB_WARP)
+    }
+    this.heroSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1, 10, 16), heroMat)
     this.heroSprite.scale.set(VIEW.heroSize, VIEW.heroSize, 1)
     this.heroSprite.position.set(0, HERO_LIFT, 0.03)
     this.heroSprite.visible = false
@@ -259,6 +288,10 @@ export class Renderer {
       } else {
         // Stretch and lean around the feet (bottom edge of the picture).
         const { stretch, lean } = bob(time, p.moving, 0)
+        // Arms and legs: swing while walking, settle smoothly when the hero stops.
+        const u = this.limbUniforms
+        u.uAmp.value += ((p.moving ? 1 : 0) - u.uAmp.value) * 0.2
+        u.uPhase.value = stridePhase(time)
         const h = VIEW.heroSize * stretch
         const footY = HERO_LIFT - VIEW.heroSize / 2
         this.heroSprite.rotation.z = lean
@@ -519,9 +552,11 @@ export class Renderer {
     const ring = world.weapons.filter((w) => w.def.behavior !== 'drone' && w.def.behavior !== 'turret')
     let bars = 0
     ring.forEach((w, i) => {
-      const slotAngle = Math.PI / 2 + (i * Math.PI * 2) / Math.max(1, ring.length)
-      const x = p.x + Math.cos(slotAngle) * WEAPON_RING
-      const y = p.y + Math.sin(slotAngle) * WEAPON_RING * 0.8
+      // Ring around the waist, sized to the hero; the first weapon sits low on the right, at hand height.
+      const slotAngle = -0.35 + (i * Math.PI * 2) / Math.max(1, ring.length)
+      const radius = Math.max(WEAPON_RING, VIEW.heroSize * 0.55)
+      const x = p.x + Math.cos(slotAngle) * radius
+      const y = p.y + HERO_LIFT - VIEW.heroSize * 0.1 + Math.sin(slotAngle) * radius * 0.6
       // Smooth turning, the short way round.
       const prev = this.weaponAim[i] ?? w.aim
       let d = w.aim - prev
