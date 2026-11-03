@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../../i18n'
 import { computed } from 'vue'
 import { WAVE_COUNT } from '../../game/data/waves'
 import { MAP_LEVELS } from '../../meta/content'
@@ -30,21 +31,21 @@ function step(d: number) {
           </div>
         </SpriteIcon>
         <div class="level-name">{{ i + 1 }}. {{ level.name }}</div>
-        <div class="level-boss">Хозяин: <b>{{ level.boss }}</b> — {{ level.bossTitle }}</div>
+        <div class="level-boss">{{ t('Хозяин:') }} <b>{{ level.boss }}</b> — {{ level.bossTitle }}</div>
         <div class="level-progress">
           <div class="fill" :style="{ width: `${(100 * p.best[i]) / WAVE_COUNT}%` }"></div>
           <span>{{ p.best[i] }}/{{ WAVE_COUNT }}</span>
         </div>
-        <div class="hint">Враги сильнее ×{{ level.enemyMul }}{{ p.cleared[i] ? ' · босс побеждён' : '' }}</div>
+        <div class="hint">{{ t('Враги сильнее ×{n}', { n: level.enemyMul }) }}{{ p.cleared[i] ? t(' · босс побеждён') : '' }}</div>
       </div>
       <button class="round-nav" :disabled="i >= MAP_LEVELS.length - 1 || !meta.levelOpen(i + 1)" @click="step(1)"><Icon name="right" /></button>
     </div>
-    <div v-if="i < MAP_LEVELS.length - 1 && !meta.levelOpen(i + 1)" class="hint">Победите босса, чтобы открыть следующую локацию.</div>
+    <div v-if="i < MAP_LEVELS.length - 1 && !meta.levelOpen(i + 1)" class="hint">{{ t('Победите босса, чтобы открыть следующую локацию.') }}</div>
 
     <div class="map-actions">
-      <button class="btn" disabled title="Откроется после прохождения всех локаций">Обычная</button>
-      <button class="btn btn-green big" @click="emit('start')"><Icon name="play" :size="24" /> Старт</button>
+      <button class="btn" disabled :title="t('Откроется после прохождения всех локаций')">{{ t('Обычная') }}</button>
+      <button class="btn btn-green big" @click="emit('start')"><Icon name="play" :size="24" /> {{ t('Старт') }}</button>
     </div>
-    <div class="hint">Сложности «Герой» и «Кошмар» откроются после прохождения всех локаций.</div>
+    <div class="hint">{{ t('Сложности «Герой» и «Кошмар» откроются после прохождения всех локаций.') }}</div>
   </div>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../../i18n'
 import { computed, ref } from 'vue'
 import { heroDef } from '../../game/data/heroes'
 import { ITEMS, SETS, SLOT_NAMES, type GearSlot, type Slot } from '../../meta/content'
@@ -46,7 +47,7 @@ function slotItem(slot: GearSlot) {
         <button v-for="slot in LEFT" :key="slot" class="gear-slot" :class="slotItem(slot) ? `rar-${slotItem(slot)!.rarity}` : 'empty'" @click="slotItem(slot) && (open = slotItem(slot)!.uid)">
           <template v-if="slotItem(slot)">
             <SpriteIcon :file="itemSprite(slotItem(slot)!.itemId)"><span class="cell-name">{{ ITEMS[slotItem(slot)!.itemId].name }}</span></SpriteIcon>
-            <span class="cell-level">Ур. {{ slotItem(slot)!.level }}</span>
+            <span class="cell-level">{{ t('Ур. {n}', { n: slotItem(slot)!.level }) }}</span>
           </template>
           <span v-else class="cell-name muted">{{ SLOT_NAMES[slot] }}</span>
         </button>
@@ -55,16 +56,16 @@ function slotItem(slot: GearSlot) {
         <SpriteIcon class="hero-pic" :file="SPRITE.hero(p.hero)"><div class="hero-body"></div></SpriteIcon>
         <div class="hero-name">{{ heroDef(p.hero).name }}</div>
         <div class="hero-stats">
-          <span>Урон +{{ Math.round(summary.damagePct * 100) }}%</span>
+          <span>{{ t('Урон +{n}%', { n: Math.round(summary.damagePct * 100) }) }}</span>
           <span><Icon name="heart" :size="14" /> {{ Math.round(summary.maxHp) }}</span>
         </div>
-        <div v-for="s in sets" :key="s" class="set-badge">Комплект «{{ SETS[s].name }}»</div>
+        <div v-for="s in sets" :key="s" class="set-badge">{{ t('Комплект «{name}»', { name: SETS[s].name }) }}</div>
       </div>
       <div class="doll-col">
         <button v-for="slot in RIGHT" :key="slot" class="gear-slot" :class="slotItem(slot) ? `rar-${slotItem(slot)!.rarity}` : 'empty'" @click="slotItem(slot) && (open = slotItem(slot)!.uid)">
           <template v-if="slotItem(slot)">
             <SpriteIcon :file="itemSprite(slotItem(slot)!.itemId)"><span class="cell-name">{{ ITEMS[slotItem(slot)!.itemId].name }}</span></SpriteIcon>
-            <span class="cell-level">Ур. {{ slotItem(slot)!.level }}</span>
+            <span class="cell-level">{{ t('Ур. {n}', { n: slotItem(slot)!.level }) }}</span>
           </template>
           <span v-else class="cell-name muted">{{ SLOT_NAMES[slot] }}</span>
         </button>
@@ -81,25 +82,25 @@ function slotItem(slot: GearSlot) {
       >
         <template v-if="meta.item(uid)">
           <SpriteIcon :file="itemSprite(meta.item(uid)!.itemId)"><span class="cell-name">{{ ITEMS[meta.item(uid)!.itemId].name }}</span></SpriteIcon>
-          <span class="cell-level">Ур. {{ meta.item(uid)!.level }}</span>
+          <span class="cell-level">{{ t('Ур. {n}', { n: meta.item(uid)!.level }) }}</span>
         </template>
-        <span v-else class="cell-name muted">Способность {{ i + 1 }}</span>
+        <span v-else class="cell-name muted">{{ t('Способность {n}', { n: i + 1 }) }}</span>
       </button>
     </div>
 
     <div class="inv-bar">
       <div class="filters">
         <button v-for="f in (['all', 'weapon', 'gear', 'ability'] as const)" :key="f" class="chip-btn" :class="{ on: filter === f }" @click="filter = f">
-          {{ { all: 'Все', weapon: 'Оружие', gear: 'Одежда', ability: 'Навыки' }[f] }}
+          {{ t({ all: 'Все', weapon: 'Оружие', gear: 'Одежда', ability: 'Навыки' }[f]) }}
         </button>
       </div>
-      <button class="btn small btn-green" :disabled="!mergeable" @click="meta.mergeAll()"><Icon name="up" :size="14" /> Объединить всё</button>
+      <button class="btn small btn-green" :disabled="!mergeable" @click="meta.mergeAll()"><Icon name="up" :size="14" /> {{ t('Объединить всё') }}</button>
     </div>
 
     <div class="inventory">
       <button v-for="it in inventory" :key="it.uid" class="inv-cell" :class="`rar-${it.rarity}`" @click="open = it.uid">
         <SpriteIcon :file="itemSprite(it.itemId)"><span class="cell-name">{{ ITEMS[it.itemId].name }}</span></SpriteIcon>
-        <span class="cell-level">Ур. {{ it.level }}</span>
+        <span class="cell-level">{{ t('Ур. {n}', { n: it.level }) }}</span>
         <span v-if="meta.isEquipped(it.uid)" class="cell-badge equipped"><Icon name="check" :size="10" /></span>
         <span v-else-if="meta.canMerge(it)" class="cell-badge merge"><Icon name="up" :size="10" /></span>
       </button>

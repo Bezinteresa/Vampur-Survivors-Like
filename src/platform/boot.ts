@@ -8,6 +8,7 @@
 import { reactive } from 'vue'
 import { bridge, initBridge, onRealPlatform, platformId } from './bridge'
 import { startLifecycle } from './lifecycle'
+import { setLanguage } from '../i18n'
 import { bridgeStorage, devStorage, type SaveStorage } from '../meta/storage'
 
 export const bootState = reactive({ error: '' as '' | 'bridge' | 'save', platform: 'none', language: 'en' })
@@ -35,7 +36,9 @@ export async function boot(): Promise<SaveStorage | null> {
       return null
     }
     bootState.platform = platformId()
-    bootState.language = bridge()?.platform.language || 'en'
+    // Dev only: ?lang=en / ?lang=ru to check a translation without a platform.
+    const devLang = import.meta.env.DEV ? new URLSearchParams(location.search).get('lang') : null
+    bootState.language = setLanguage(devLang || bridge()?.platform.language)
     startLifecycle()
   }
   const b = bridge()

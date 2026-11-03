@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t as tr } from '../../i18n'
 import { formatStat } from '../../game/stats'
 import { TALENTS, talentCost } from '../../meta/content'
 import type { Meta } from '../../meta/Meta'
@@ -10,7 +11,7 @@ const p = props.meta.p
 
 <template>
   <div class="talents">
-    <div class="sub">Таланты усиливают героя навсегда</div>
+    <div class="sub">{{ tr('Таланты усиливают героя навсегда') }}</div>
     <div class="talent-grid">
       <div v-for="t in TALENTS" :key="t.id" class="talent" :class="{ maxed: (p.talents[t.id] ?? 0) >= t.max }">
         <div class="talent-name">{{ t.name }}</div>
@@ -21,7 +22,7 @@ const p = props.meta.p
           :disabled="(p.talents[t.id] ?? 0) >= t.max || p.gold < talentCost(p.talents[t.id] ?? 0)"
           @click="meta.upgradeTalent(t.id)"
         >
-          <template v-if="(p.talents[t.id] ?? 0) >= t.max">Макс.</template>
+          <template v-if="(p.talents[t.id] ?? 0) >= t.max">{{ tr('Макс.') }}</template>
           <template v-else><Icon name="coin" :size="14" /> {{ talentCost(p.talents[t.id] ?? 0) }}</template>
         </button>
       </div>

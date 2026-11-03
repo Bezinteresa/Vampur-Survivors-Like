@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../../i18n'
 import { computed, ref } from 'vue'
 import { HERO_MAX_LEVEL, HEROES, heroDamage, heroHp, heroUpgradeGold, heroUpgradeWater } from '../../game/data/heroes'
 import { RARITY_NAMES } from '../../meta/content'
@@ -27,29 +28,29 @@ const shown = computed(() => level.value ?? 1)
           <div class="fill" :style="{ width: `${(100 * shown) / HERO_MAX_LEVEL}%` }"></div>
           <span>{{ shown }}/{{ HERO_MAX_LEVEL }}</span>
         </div>
-        <div class="hero-line">Урон +{{ Math.round(heroDamage(hero, shown) * 100) }}% <span class="plus">(+{{ Math.round(hero.damagePerLevel * 100) }}%)</span></div>
+        <div class="hero-line">{{ t('Урон +{n}%', { n: Math.round(heroDamage(hero, shown) * 100) }) }} <span class="plus">(+{{ Math.round(hero.damagePerLevel * 100) }}%)</span></div>
         <div class="hero-line"><Icon name="heart" :size="14" /> {{ heroHp(hero, shown) }} <span class="plus">(+{{ hero.hpPerLevel }})</span></div>
       </div>
     </div>
     <div class="panel">
-      <div class="panel-title">Особенность</div>
+      <div class="panel-title">{{ t('Особенность') }}</div>
       <div class="perk open">{{ hero.perkText }}</div>
-      <div class="hint left">Срабатывает от способности «Кувырок».</div>
+      <div class="hint left">{{ t('Срабатывает от способности «Кувырок».') }}</div>
     </div>
 
     <div class="modal-actions">
       <template v-if="owned">
-        <button class="btn btn-blue" :disabled="p.hero === hero.id" @click="meta.selectHero(hero.id)">{{ p.hero === hero.id ? 'Выбран' : 'Выбрать' }}</button>
+        <button class="btn btn-blue" :disabled="p.hero === hero.id" @click="meta.selectHero(hero.id)">{{ p.hero === hero.id ? t('Выбран') : t('Выбрать') }}</button>
         <button class="btn btn-green" :disabled="!meta.canUpgradeHero(hero.id)" @click="meta.upgradeHero(hero.id)">
-          <template v-if="(level ?? 0) >= HERO_MAX_LEVEL">Макс.</template>
+          <template v-if="(level ?? 0) >= HERO_MAX_LEVEL">{{ t('Макс.') }}</template>
           <template v-else><Icon name="coin" :size="14" /> {{ heroUpgradeGold(level!) }} · <Icon name="drop" :size="14" /> {{ heroUpgradeWater(level!) }}</template>
         </button>
       </template>
       <button v-else class="btn btn-green" :disabled="p.gems < hero.gems" @click="meta.unlockHero(hero.id)">
-        Открыть · <Icon name="gem" :size="14" /> {{ hero.gems }}
+        {{ t('Открыть') }} · <Icon name="gem" :size="14" /> {{ hero.gems }}
       </button>
     </div>
-    <div class="hint">Живая вода: {{ p.water }} — даётся за забеги и в сундуках</div>
+    <div class="hint">{{ t('Живая вода: {n} — даётся за забеги и в сундуках', { n: p.water }) }}</div>
 
     <div class="hero-grid">
       <button

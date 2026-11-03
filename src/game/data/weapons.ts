@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 // Damage type decides which flat bonus stat applies: meleeDmg, bulletDmg, magicDmg, mechDmg.
 export type WeaponKind = 'melee' | 'bullet' | 'magic' | 'mech'
 export type WeaponBehavior = 'shot' | 'swing' | 'chain' | 'drone' | 'turret'
@@ -98,12 +99,12 @@ export function weaponPrice(def: WeaponDef, tier: number, wave: number): number 
 
 // `damage` is the effective number with the hero's bonuses, so offers look stronger as the run grows.
 export function weaponDesc(def: WeaponDef, tier: number, damage: number): string[] {
-  const lines = [KIND_NAMES[def.kind], `Урон ${Math.round(damage)}${def.count > 1 ? ` ×${def.count}` : ''}`]
-  if (def.behavior === 'turret') lines.push(`Ставится раз в ${def.cooldown}с на ${def.duration}с`)
-  else lines.push(`Перезарядка ${def.cooldown}с`)
-  if (def.behavior === 'chain') lines.push(`Прыжков ${def.jumps + tier}`)
-  if (def.pierce > 0) lines.push(`Пробитие ${def.pierce}`)
+  const lines = [KIND_NAMES[def.kind], t('Урон {n}', { n: `${Math.round(damage)}${def.count > 1 ? ` ×${def.count}` : ''}` })]
+  if (def.behavior === 'turret') lines.push(t('Ставится раз в {cd}с на {time}с', { cd: def.cooldown, time: def.duration }))
+  else lines.push(t('Перезарядка {cd}с', { cd: def.cooldown }))
+  if (def.behavior === 'chain') lines.push(t('Прыжков {n}', { n: def.jumps + tier }))
+  if (def.pierce > 0) lines.push(t('Пробитие {n}', { n: def.pierce }))
   if (def.effect) lines.push(EFFECT_NAMES[def.effect])
-  lines.push(`Дальность ${def.range}`)
+  lines.push(t('Дальность {n}', { n: def.range }))
   return lines
 }

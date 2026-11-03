@@ -1,3 +1,4 @@
+import { t } from '../i18n'
 import { reactive } from 'vue'
 import { ABILITIES, type AbilityDef } from './data/abilities'
 import { LOCATIONS, locationRoster } from './data/bestiary'
@@ -199,7 +200,7 @@ export class Game {
     if (this.wave.boss) this.world.queueSpawn('boss', 0, 380, 1.5)
     this.ui.wave = n
     this.ui.bossWave = this.wave.boss
-    this.showBanner(this.wave.boss ? this.world.roster.boss.name : `Волна ${n}`)
+    this.showBanner(this.wave.boss ? this.world.roster.boss.name : t('Волна {n}', { n }))
     this.ui.screen = 'wave'
     this.acc = 0
   }
@@ -211,7 +212,7 @@ export class Game {
     // Coins nobody picked up go to the bank (medkits are lost).
     for (const pk of this.world.pickups) this.ui.bank += pk.value
     this.world.pickups = []
-    this.showBanner(this.victory ? 'Босс повержен!' : 'Волна завершена!')
+    this.showBanner(this.victory ? t('Босс повержен!') : t('Волна завершена!'))
   }
 
   private afterWave(): void {
@@ -513,7 +514,7 @@ export class Game {
       const y = Math.max(-HALF_H + 80, Math.min(HALF_H - 80, p.y + Math.sin(a) * d))
       if (Math.hypot(x - p.x, y - p.y) < 150) continue
       this.world.placeChest(x, y)
-      this.showBanner('Сундук снабжения!')
+      this.showBanner(t('Сундук снабжения!'))
       return
     }
   }
@@ -658,7 +659,7 @@ export class Game {
     const x = Math.max(-HALF_W + 40, Math.min(HALF_W - 40, p.x + Math.cos(a) * 260))
     const y = Math.max(-HALF_H + 40, Math.min(HALF_H - 40, p.y + Math.sin(a) * 260))
     this.world.queueSpawn('coin', x, y, 0.5)
-    this.showBanner('Воришка с монетами!')
+    this.showBanner(t('Воришка с монетами!'))
   }
 
   private spawnBatch(): void {

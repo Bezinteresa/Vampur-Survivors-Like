@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../i18n'
 import type { Game } from '../game/Game'
 import OfferCard from './OfferCard.vue'
 
@@ -8,8 +9,8 @@ const ui = props.game.ui
 
 <template>
   <div v-drag-scroll class="screen">
-    <div class="ribbon">Сундук снабжения</div>
-    <div class="sub">Выберите одно оружие бесплатно</div>
+    <div class="ribbon">{{ t('Сундук снабжения') }}</div>
+    <div class="sub">{{ t('Выберите одно оружие бесплатно') }}</div>
     <div class="offers">
       <OfferCard
         v-for="(o, i) in ui.chestOffers"
@@ -19,7 +20,7 @@ const ui = props.game.ui
         @take="game.pickChest(i)"
       />
     </div>
-    <div v-if="ui.chestOffers.every((o) => !game.canTakeChest(o))" class="hint">Все слоты оружия заняты, а пар для объединения нет.</div>
-    <button class="btn btn-blue" @click="game.closeChest()">Пропустить</button>
+    <div v-if="ui.chestOffers.every((o) => !game.canTakeChest(o))" class="hint">{{ t('Все слоты оружия заняты, а пар для объединения нет.') }}</div>
+    <button class="btn btn-blue" @click="game.closeChest()">{{ t('Пропустить') }}</button>
   </div>
 </template>

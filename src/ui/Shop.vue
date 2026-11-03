@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../i18n'
 import { ref } from 'vue'
 import type { Game } from '../game/Game'
 import { adState, rewardedSupported, showRewarded } from '../platform/ads'
@@ -15,7 +16,7 @@ const showStats = ref(false)
   <div v-drag-scroll class="screen shop">
     <div class="shop-head">
       <div class="chip"><Icon name="coin" :size="16" /> {{ ui.coins }}</div>
-      <div class="title">Приготовьтесь к волне {{ ui.wave + 1 }}</div>
+      <div class="title">{{ t('Приготовьтесь к волне {n}', { n: ui.wave + 1 }) }}</div>
     </div>
 
     <div class="offers">
@@ -31,7 +32,7 @@ const showStats = ref(false)
     </div>
 
     <button class="btn btn-blue" :disabled="ui.coins < ui.shopRerollCost" @click="game.rerollShop()">
-      <Icon name="reroll" :size="18" /> Обновить · <Icon name="coin" :size="16" /> {{ ui.shopRerollCost }}
+      <Icon name="reroll" :size="18" /> {{ t('Обновить') }} · <Icon name="coin" :size="16" /> {{ ui.shopRerollCost }}
     </button>
     <button
       v-if="ui.freeShopReroll && rewardedSupported()"
@@ -39,7 +40,7 @@ const showStats = ref(false)
       :disabled="adState.busy"
       @click="showRewarded('reroll_shop', () => game.rerollShop(true))"
     >
-      <Icon name="video" :size="18" /> Обновить бесплатно
+      <Icon name="video" :size="18" /> {{ t('Обновить бесплатно') }}
     </button>
 
     <Loadout :game="game" editable />

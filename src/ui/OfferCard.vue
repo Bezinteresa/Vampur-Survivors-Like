@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../i18n'
 import type { Offer } from '../game/Game'
 import { TIER_NAMES } from '../game/data/weapons'
 import { SPRITE } from '../sprites'
@@ -14,14 +15,14 @@ defineEmits<{ take: []; lock: [] }>()
   <div class="offer" :class="[`tier-${offer.tier}`, { sold: offer.sold }]">
     <div class="offer-pic"><SpriteIcon :file="offer.type === 'weapon' ? SPRITE.weapon(offer.id) : SPRITE.item(offer.id)" /></div>
     <div class="offer-name">{{ offer.name }}</div>
-    <div class="tier">{{ offer.type === 'weapon' ? `Оружие ${TIER_NAMES[offer.tier]}` : 'Предмет' }}</div>
+    <div class="tier">{{ offer.type === 'weapon' ? t('Оружие {tier}', { tier: TIER_NAMES[offer.tier] }) : t('Предмет') }}</div>
     <div class="offer-desc">
       <div v-for="line in offer.desc" :key="line.text" :class="{ bad: line.bad }">{{ line.text }}</div>
     </div>
     <div class="offer-actions">
       <button class="btn btn-green small" :disabled="!enabled" @click="$emit('take')">
-        <template v-if="offer.sold">Куплено</template>
-        <template v-else-if="!lockable">Взять</template>
+        <template v-if="offer.sold">{{ t('Куплено') }}</template>
+        <template v-else-if="!lockable">{{ t('Взять') }}</template>
         <template v-else><Icon name="coin" :size="14" /> {{ offer.price }}</template>
       </button>
       <button v-if="lockable" class="btn small lock" :class="{ on: offer.locked }" :disabled="offer.sold" @click="$emit('lock')">

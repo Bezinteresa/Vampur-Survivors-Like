@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../i18n'
 import { computed, ref } from 'vue'
 import type { Game } from '../game/Game'
 import { TIER_NAMES } from '../game/data/weapons'
@@ -32,7 +33,7 @@ function sell() {
 
 <template>
   <div class="loadout">
-    <div class="section-title">Оружие</div>
+    <div class="section-title">{{ t('Оружие') }}</div>
     <div class="slots">
       <button
         v-for="n in 6"
@@ -54,23 +55,23 @@ function sell() {
       <div class="weapon-title">{{ current.name }} {{ TIER_NAMES[current.tier] }}</div>
       <div class="panel-lines">
         <span v-for="line in current.desc" :key="line.text">{{ line.text }}</span>
-        <span>Урон за волну: {{ current.dmgWave }}</span>
-        <span>Урон за забег: {{ current.dmgTotal }}</span>
+        <span>{{ t('Урон за волну: {n}', { n: current.dmgWave }) }}</span>
+        <span>{{ t('Урон за забег: {n}', { n: current.dmgTotal }) }}</span>
       </div>
       <div v-if="editable" class="weapon-actions">
         <button class="btn btn-green small" :disabled="!current.canMerge" @click="game.mergeWeapon(selected)">
-          <Icon name="up" :size="16" /> Объединить
+          <Icon name="up" :size="16" /> {{ t('Объединить') }}
         </button>
         <button class="btn btn-blue small" :disabled="ui.weapons.length <= 1" @click="sell">
-          Продать · <Icon name="coin" :size="14" /> {{ current.sellPrice }}
+          {{ t('Продать') }} · <Icon name="coin" :size="14" /> {{ current.sellPrice }}
         </button>
       </div>
-      <div v-if="editable && !current.canMerge" class="hint">Для объединения нужно второе такое же оружие того же тира.</div>
+      <div v-if="editable && !current.canMerge" class="hint">{{ t('Для объединения нужно второе такое же оружие того же тира.') }}</div>
     </div>
-    <div v-else-if="editable && !currentItem" class="hint">Нажмите на оружие: два одинаковых одного тира объединяются в следующий тир.</div>
+    <div v-else-if="editable && !currentItem" class="hint">{{ t('Нажмите на оружие: два одинаковых одного тира объединяются в следующий тир.') }}</div>
 
     <template v-if="ui.items.length">
-      <div class="section-title">Предметы</div>
+      <div class="section-title">{{ t('Предметы') }}</div>
       <div class="shelf">
         <button
           v-for="it in ui.items"
@@ -80,7 +81,7 @@ function sell() {
           @click="pickItem(it.id)"
         >
           <SpriteIcon :file="SPRITE.item(it.id)"><span class="slot-name">{{ it.name }}</span></SpriteIcon>
-          <span class="stack">{{ it.count >= it.max ? 'Max' : `×${it.count}` }}</span>
+          <span class="stack">{{ it.count >= it.max ? t('Макс') : `×${it.count}` }}</span>
         </button>
       </div>
       <div v-if="currentItem" class="weapon-panel">

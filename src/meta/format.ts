@@ -1,3 +1,4 @@
+import { t } from '../i18n'
 import { STAT_LABELS, isPercentStat, type Stats } from '../game/stats'
 import {
   DAMAGE_SLOTS, MAIN_COOLDOWN_PER_LEVEL, MAIN_DAMAGE_PER_LEVEL, MAIN_HP_PER_LEVEL, PERK_NAMES, SLOT_NAMES, type Perk,
@@ -23,22 +24,22 @@ export function perkText(perk: Perk): string {
 
 export function mainBonusText(it: OwnedItem): string {
   const slot = ITEMS[it.itemId].slot
-  if (slot === 'ability') return `Перезарядка −${Math.round(MAIN_COOLDOWN_PER_LEVEL * it.level * 100)}%`
-  if (DAMAGE_SLOTS.includes(slot)) return `Урон +${Math.round(MAIN_DAMAGE_PER_LEVEL * it.level * 100)}%`
-  return `Здоровье +${MAIN_HP_PER_LEVEL * it.level}`
+  if (slot === 'ability') return t('Перезарядка −{n}%', { n: Math.round(MAIN_COOLDOWN_PER_LEVEL * it.level * 100) })
+  if (DAMAGE_SLOTS.includes(slot)) return t('Урон +{n}%', { n: Math.round(MAIN_DAMAGE_PER_LEVEL * it.level * 100) })
+  return t('Здоровье +{n}', { n: MAIN_HP_PER_LEVEL * it.level })
 }
 
 export function rewardText(r: Reward): string {
   switch (r.kind) {
     case 'gold':
-      return `Золото +${r.amount}`
+      return t('Золото +{n}', { n: r.amount })
     case 'gems':
-      return `Кристаллы +${r.amount}`
+      return t('Кристаллы +{n}', { n: r.amount })
     case 'blueprint':
-      return `Чертёж: ${SLOT_NAMES[r.slot!].toLowerCase()} ×${r.amount}`
+      return t('Чертёж: {slot} ×{n}', { slot: SLOT_NAMES[r.slot!].toLowerCase(), n: r.amount })
     case 'item':
       return ITEMS[r.item!.itemId].name
     case 'water':
-      return `Живая вода +${r.amount}`
+      return t('Живая вода +{n}', { n: r.amount })
   }
 }

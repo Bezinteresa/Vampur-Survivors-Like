@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../i18n'
 import { computed } from 'vue'
 import type { Game } from '../game/Game'
 import Icon from './Icon.vue'
@@ -31,7 +32,7 @@ function cdStyle(cd: number, max: number) {
         </div>
         <div class="bar bar-xp">
           <div class="fill" :style="{ width: xpPct }"></div>
-          <span>Ур. {{ ui.level }}</span>
+          <span>{{ t('Ур. {n}', { n: ui.level }) }}</span>
         </div>
       </div>
     </div>
@@ -39,10 +40,10 @@ function cdStyle(cd: number, max: number) {
     <div class="hud-row">
       <div class="money">
         <div class="chip"><Icon name="coin" :size="16" /> {{ ui.coins }}</div>
-        <div v-if="ui.bank > 0" class="chip bank" title="Копилка: каждая поднятая монета даёт ещё +1 отсюда"><Icon name="jar" :size="16" /> {{ ui.bank }}</div>
+        <div v-if="ui.bank > 0" class="chip bank" :title="t('Копилка: каждая поднятая монета даёт ещё +1 отсюда')"><Icon name="jar" :size="16" /> {{ ui.bank }}</div>
       </div>
       <div class="wave-box">
-        <div class="wave-label">Волна {{ ui.wave }}/{{ ui.waveCount }}</div>
+        <div class="wave-label">{{ t('Волна {n}/{total}', { n: ui.wave, total: ui.waveCount }) }}</div>
         <div v-if="!ui.bossWave" class="wave-time">{{ time }}</div>
       </div>
       <div class="chip levels" :class="{ hidden: !ui.pendingLevels }"><Icon name="up" :size="16" /> {{ ui.pendingLevels }}</div>
@@ -50,7 +51,7 @@ function cdStyle(cd: number, max: number) {
 
     <div v-if="ui.bossWave && ui.bossHp > 0" class="boss-bar">
       <div class="fill" :style="{ width: bossPct }"></div>
-      <span>{{ ui.bossName }}{{ ui.bossShield ? ' — бессмертен, разбейте яйцо!' : '' }}</span>
+      <span>{{ ui.bossName }}{{ ui.bossShield ? t(' — бессмертен, разбейте яйцо!') : '' }}</span>
     </div>
 
     <div v-if="ui.banner" :key="ui.banner" class="banner">{{ ui.banner }}</div>

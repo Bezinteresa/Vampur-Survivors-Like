@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from '../../i18n'
 import { ref } from 'vue'
 import type { Meta } from '../../meta/Meta'
 import Icon from '../Icon.vue'
@@ -19,11 +20,11 @@ function switchTab(d: number) {
   tab.value = TABS[Math.max(0, Math.min(TABS.length - 1, i + d))].id
 }
 const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
-  { id: 'shop', icon: 'shop', name: 'Магазин' },
-  { id: 'hero', icon: 'hero', name: 'Герой' },
-  { id: 'map', icon: 'map', name: 'Карта' },
-  { id: 'modes', icon: 'swords', name: 'Режимы', soon: true },
-  { id: 'rank', icon: 'trophy', name: 'Рейтинг', soon: true },
+  { id: 'shop', icon: 'shop', name: t('Магазин') },
+  { id: 'hero', icon: 'hero', name: t('Герой') },
+  { id: 'map', icon: 'map', name: t('Карта') },
+  { id: 'modes', icon: 'swords', name: t('Режимы'), soon: true },
+  { id: 'rank', icon: 'trophy', name: t('Рейтинг'), soon: true },
 ]
 </script>
 
@@ -39,9 +40,9 @@ const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
       <MapTab v-if="tab === 'map'" :meta="meta" @start="emit('start')" />
       <template v-else-if="tab === 'hero'">
         <div class="subtabs">
-          <button class="chip-btn" :class="{ on: heroTab === 'gear' }" @click="heroTab = 'gear'">Экипировка</button>
-          <button class="chip-btn" :class="{ on: heroTab === 'heroes' }" @click="heroTab = 'heroes'">Богатыри</button>
-          <button class="chip-btn" :class="{ on: heroTab === 'talents' }" @click="heroTab = 'talents'">Таланты</button>
+          <button class="chip-btn" :class="{ on: heroTab === 'gear' }" @click="heroTab = 'gear'">{{ t('Экипировка') }}</button>
+          <button class="chip-btn" :class="{ on: heroTab === 'heroes' }" @click="heroTab = 'heroes'">{{ t('Богатыри') }}</button>
+          <button class="chip-btn" :class="{ on: heroTab === 'talents' }" @click="heroTab = 'talents'">{{ t('Таланты') }}</button>
         </div>
         <EquipmentView v-if="heroTab === 'gear'" :meta="meta" />
         <HeroesView v-else-if="heroTab === 'heroes'" :meta="meta" />
@@ -50,7 +51,7 @@ const TABS: { id: Tab; icon: string; name: string; soon?: boolean }[] = [
       <ShopTab v-else-if="tab === 'shop'" :meta="meta" />
       <div v-else class="soon">
         <Icon :name="tab === 'modes' ? 'swords' : 'trophy'" :size="48" />
-        <div>Скоро</div>
+        <div>{{ t('Скоро') }}</div>
       </div>
     </div>
 

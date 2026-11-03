@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from './i18n'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { Game } from './game/Game'
 import { JOY_RADIUS } from './game/Input'
@@ -130,8 +131,8 @@ const knob = computed(() => {
     <div ref="host" class="canvas-host"></div>
 
     <div v-if="bootState.error" class="screen dim">
-      <div class="ribbon red">{{ bootState.error === 'bridge' ? 'Нет связи с площадкой' : 'Не удалось загрузить сохранение' }}</div>
-      <button class="btn btn-green big" :disabled="booting" @click="start">Повторить</button>
+      <div class="ribbon red">{{ bootState.error === 'bridge' ? t('Нет связи с площадкой') : t('Не удалось загрузить сохранение') }}</div>
+      <button class="btn btn-green big" :disabled="booting" @click="start">{{ t('Повторить') }}</button>
     </div>
 
     <template v-if="game && loaded">
@@ -150,26 +151,26 @@ const knob = computed(() => {
       <ChestPick v-if="screen === 'chest'" :game="game" />
 
       <div v-if="screen === 'paused'" v-drag-scroll class="screen pause">
-        <div class="ribbon">Пауза</div>
+        <div class="ribbon">{{ t('Пауза') }}</div>
         <Loadout :game="game" />
         <div v-if="showStats" class="stats-panel">
           <div v-for="s in game.ui.stats" :key="s.name" class="stat-row"><span>{{ s.name }}</span><b>{{ s.value }}</b></div>
         </div>
         <div class="shop-foot">
           <button class="btn btn-blue square" @click="showStats = !showStats"><Icon name="stats" /></button>
-          <button class="btn btn-green wide" @click="game.resume()"><Icon name="play" :size="24" /> Продолжить</button>
+          <button class="btn btn-green wide" @click="game.resume()"><Icon name="play" :size="24" /> {{ t('Продолжить') }}</button>
         </div>
-        <button class="btn" @click="game.surrender()">Сдаться</button>
+        <button class="btn" @click="game.surrender()">{{ t('Сдаться') }}</button>
       </div>
 
       <div v-if="screen === 'gameover' || screen === 'victory'" v-drag-scroll class="screen dim">
-        <div class="ribbon" :class="{ red: screen === 'gameover' }">{{ screen === 'victory' ? 'Победа!' : 'Поражение' }}</div>
+        <div class="ribbon" :class="{ red: screen === 'gameover' }">{{ screen === 'victory' ? t('Победа!') : t('Поражение') }}</div>
         <div class="result">
-          <div>Волна: <b>{{ game.ui.wave }}/{{ game.ui.waveCount }}</b></div>
-          <div>Уровень: <b>{{ game.ui.level }}</b></div>
-          <div>Убито: <b>{{ game.ui.kills }}</b></div>
+          <div>{{ t('Волна:') }} <b>{{ game.ui.wave }}/{{ game.ui.waveCount }}</b></div>
+          <div>{{ t('Уровень:') }} <b>{{ game.ui.level }}</b></div>
+          <div>{{ t('Убито:') }} <b>{{ game.ui.kills }}</b></div>
         </div>
-        <div class="section-title">Награды</div>
+        <div class="section-title">{{ t('Награды') }}</div>
         <RewardList :rewards="rewards" />
         <button
           v-if="!goldDoubled && rewards.some((r) => r.kind === 'gold') && rewardedSupported()"
@@ -177,10 +178,10 @@ const knob = computed(() => {
           :disabled="adState.busy"
           @click="doubleGold"
         >
-          <Icon name="video" :size="20" /> Золото ×2
+          <Icon name="video" :size="20" /> {{ t('Золото ×2') }}
         </button>
-        <button class="btn btn-green big" @click="startRun">Ещё раз</button>
-        <button class="btn btn-blue" @click="game.toMenu()">В лобби</button>
+        <button class="btn btn-green big" @click="startRun">{{ t('Ещё раз') }}</button>
+        <button class="btn btn-blue" @click="game.toMenu()">{{ t('В лобби') }}</button>
       </div>
     </template>
   </div>
