@@ -31,20 +31,6 @@ const goldDoubled = ref(false)
 const booting = ref(false)
 let autoPaused = false
 
-// Our own site while Bridge has not started (bootState.blocked): the lobby works, no battle starts.
-// The game keeps waiting for Bridge (platform/boot.ts); once it starts, battles open and the note goes away.
-const blockerShown = ref(false)
-watch(
-  () => bootState.blocked,
-  (on) => {
-    if (!on) blockerShown.value = false
-  },
-)
-
-function reload() {
-  location.reload()
-}
-
 // Bridge first, then the game engine and the profile; game_ready once the lobby takes input.
 async function start() {
   if (booting.value) return
@@ -107,10 +93,8 @@ const screen = computed(() => game.value?.ui.screen)
 const inBattle = computed(() => screen.value === 'wave' || screen.value === 'waveEnd' || screen.value === 'paused')
 
 function startRun() {
-  if (bootState.blocked) {
-    blockerShown.value = true
-    return
-  }
+  // Our own site while Bridge is still starting: no battle yet (the Start button shows it is loading).
+  if (bootState.blocked) return
   rewards.value = []
   goldDoubled.value = false
   game.value?.startRun(meta.loadout())
@@ -172,19 +156,10 @@ const knob = computed(() => {
 
     <div v-if="bootState.error" class="screen dim">
       <div class="ribbon red">{{ bootState.error === 'bridge' ? t('Нет связи с площадкой') : t('Не удалось загрузить сохранение') }}</div>
-      <div v-if="bootState.error === 'bridge'" class="hint">{{ t('Если включён блокировщик рекламы, отключите его для этого сайта и нажмите «Повторить».') }}</div>
       <button class="btn btn-green big" :disabled="booting" @click="start">{{ t('Повторить') }}</button>
     </div>
 
     <template v-if="game && loaded">
-      <div v-if="blockerShown" class="modal-back">
-        <div class="modal blocker-note">
-          <div class="ribbon red">{{ t('Отключите блокировщик рекламы') }}</div>
-          <div class="hint">{{ t('Игра работает только с рекламой. Отключите блокировщик рекламы для этого сайта и обновите страницу.') }}</div>
-          <button class="btn btn-green big" @click="reload">{{ t('Обновить страницу') }}</button>
-          <button class="btn" @click="blockerShown = false">{{ t('Закрыть') }}</button>
-        </div>
-      </div>
       <Hud v-if="inBattle" :game="game" />
       <ViewPanel v-if="viewTuning && (screen === 'wave' || screen === 'waveEnd')" :game="game" />
 

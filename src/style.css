@@ -1442,15 +1442,6 @@ button {
   pointer-events: none;
 }
 
-.blocker-note {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  max-width: 340px;
-  text-align: center;
-}
-
 /* ---------- wide and short windows (a monitor, a landscape phone, a square window) ---------- */
 /* Menus keep a readable column in the middle instead of stretching across a monitor. */
 .lobby-body > * {

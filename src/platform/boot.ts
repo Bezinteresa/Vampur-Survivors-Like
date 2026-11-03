@@ -11,8 +11,8 @@ import { attachPlatform, startLifecycle } from './lifecycle'
 import { setLanguage } from '../i18n'
 import { bridgeStorage, devStorage, type SaveStorage } from '../meta/storage'
 
-// blocked: on our own site Bridge did not start — most often an ad blocker cut off the site's ad script.
-// The lobby still opens there, but no battle starts: the game asks to turn the blocker off.
+// blocked: on our own site Bridge has not started yet (a slow server, or its scripts did not load).
+// The lobby opens there, and battles wait until Bridge starts.
 export const bootState = reactive({ error: '' as '' | 'bridge' | 'save', platform: 'none', language: 'en', blocked: false })
 
 const isDevHost = () => import.meta.env.DEV || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
@@ -32,7 +32,7 @@ export async function boot(): Promise<SaveStorage | null> {
       // Bridge's own loading picture stays up when it did not start; the lobby goes in front instead.
       if (isStandalone()) document.getElementById('loading-overlay')?.remove()
       bootState.blocked = isStandalone() && !isDevHost()
-      // Bridge may still finish starting (a slow server, the blocker turned off): then battles open at once.
+      // Bridge may still finish starting (a slow server): then battles open at once.
       if (bootState.blocked)
         void lateBridge()?.then(() => {
           bootState.platform = platformId()
