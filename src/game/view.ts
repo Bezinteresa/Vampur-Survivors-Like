@@ -7,10 +7,10 @@ import { reactive } from 'vue'
 
 export const VIEW_DEFAULTS = {
   start: 300,
-  final: 520,
+  final: 480,
   delay: 1.5, // seconds before the camera starts to pull back
   zoomTime: 3.5, // seconds the pull-back takes
-  heroSize: 52, // bogatyr picture size, world units
+  heroSize: 60, // bogatyr picture size, world units
 }
 
 const KEY = 'vampur.dev.view'
