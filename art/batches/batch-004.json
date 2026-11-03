@@ -1,0 +1,57 @@
+[
+  {
+    "asset": {
+      "file": "mob/forest_rocket.png",
+      "w": 256,
+      "h": 256,
+      "subject": "grey owl messenger diving, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+    },
+    "prompt": "Use case: stylized-concept. Asset: ONE game asset mob/forest_rocket.png, final 256x256.\nInput image: STYLE REFERENCE ONLY. Match painterly outlines, palette, rendering; create ONLY the NEW subject below, no Ivan, no copied human features or clothing.\nSubject: grey owl messenger diving, minion of the location \"Dark enchanted Russian forest\"\nStyle: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions.\nComposition and constraints: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.\nOne asset per image. Entire silhouette visible with clear padding. No text, watermark, frame or collage. Genuinely transparent alpha background, no ground tile or shadow plate. Clear shapes readable at final game resolution.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-9a2c3d5a-aa9d-43fc-bdcb-c037bb181a31.png"
+  },
+  {
+    "asset": {
+      "file": "mob/forest_poison.png",
+      "w": 256,
+      "h": 256,
+      "subject": "fly agaric mushroom man, red cap with white spots, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+    },
+    "prompt": "Use case: stylized-concept. Asset: ONE game asset mob/forest_poison.png, final 256x256.\nInput image: STYLE REFERENCE ONLY. Match painterly outlines, palette, rendering; create ONLY the NEW subject below, no Ivan, no copied human features or clothing.\nSubject: fly agaric mushroom man, red cap with white spots, minion of the location \"Dark enchanted Russian forest\"\nStyle: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions.\nComposition and constraints: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.\nOne asset per image. Entire silhouette visible with clear padding. No text, watermark, frame or collage. Genuinely transparent alpha background, no ground tile or shadow plate. Clear shapes readable at final game resolution.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-2fa8642c-f95d-4b60-93f7-d586130dffcc.png"
+  },
+  {
+    "asset": {
+      "file": "mob/forest_coin.png",
+      "w": 256,
+      "h": 256,
+      "subject": "thief squirrel carrying a bag of coins, minion of the location \"Dark enchanted Russian forest\"",
+      "extra": "Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+    },
+    "prompt": "Use case: stylized-concept. Asset: ONE game asset mob/forest_coin.png, final 256x256.\nInput image: STYLE REFERENCE ONLY. Match painterly outlines, palette, rendering; create ONLY the NEW subject below, no Ivan, no copied human features or clothing.\nSubject: thief squirrel carrying a bag of coins, minion of the location \"Dark enchanted Russian forest\"\nStyle: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions.\nComposition and constraints: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.\nOne asset per image. Entire silhouette visible with clear padding. No text, watermark, frame or collage. Genuinely transparent alpha background, no ground tile or shadow plate. Clear shapes readable at final game resolution.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-34df1428-849a-49d1-816d-9467ea5a4157.png"
+  },
+  {
+    "asset": {
+      "file": "boss/forest.png",
+      "w": 448,
+      "h": 448,
+      "subject": "Leshy, the forest master: a tall wild man of bark and moss with antler-like branches, glowing green eyes, leaf beard",
+      "extra": "Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate."
+    },
+    "prompt": "Use case: stylized-concept. Asset: ONE game asset boss/forest.png, final 448x448.\nInput image: STYLE REFERENCE ONLY. Match painterly outlines, palette, rendering; create ONLY the NEW subject below, no Ivan, no copied human features or clothing.\nSubject: Leshy, the forest master: a tall wild man of bark and moss with antler-like branches, glowing green eyes, leaf beard\nStyle: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions.\nComposition and constraints: Location boss, one large imposing figure, full body, top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.\nOne asset per image. Entire silhouette visible with clear padding. No text, watermark, frame or collage. Genuinely transparent alpha background, no ground tile or shadow plate. Clear shapes readable at final game resolution.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-5cafb852-7e10-408d-a18d-e8f7d77d7100.png"
+  },
+  {
+    "asset": {
+      "file": "terrain/forest.png",
+      "w": 256,
+      "h": 256,
+      "subject": "mossy green-brown forest floor with fallen needles, roots and small ferns",
+      "extra": "SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable."
+    },
+    "prompt": "Use case: stylized-concept. Asset: ONE game asset terrain/forest.png, final 256x256.\nInput image: STYLE REFERENCE ONLY. Match painterly outlines, palette, rendering; create ONLY the NEW subject below, no Ivan, no copied human features or clothing.\nSubject: mossy green-brown forest floor with fallen needles, roots and small ferns\nStyle: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions.\nComposition and constraints: SEAMLESS TILEABLE ground texture, flat overhead orthographic view, all opposite edges must join invisibly, no objects taller than grass, no shadows, no border, no perspective, opaque background, calm low-contrast so characters stay readable.\nOne asset per image. Entire silhouette visible with clear padding. No text, watermark, frame or collage. Opaque image filling the complete canvas. Clear shapes readable at final game resolution.",
+    "source": "C:\\Users\\Ivan\\.codex\\generated_images\\01a19cf9-2696-7300-9cc6-deef4872b895\\exec-eef8b4f6-9994-4acd-9abc-b1b5c709d141.png"
+  }
+]

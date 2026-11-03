@@ -1,6 +1,6 @@
 # Что сгенерировать сейчас
 
-Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 23:01:08). Генерируй **только** картинки из этого списка — остальные уже готовы.
+Файл создан скриптом `node art/art_todo.mjs` (02.11.2026, 23:01:14). Генерируй **только** картинки из этого списка — остальные уже готовы.
 
 Стиль: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouettes, warm earthy palette with saturated folk-ornament accents (red, gold, deep green, blue), soft cel shading, slightly cute proportions
 Референс: References/style.png (сделать первым: богатырь Иван — hero/ivan.png — и утвердить стиль)
@@ -11,42 +11,12 @@
 Потом сожми тяжёлые картинки: `python art/compress_sprites.py` (оригиналы останутся в art/originals).
 После этого снова запусти `node art/art_todo.mjs` — сделанное пропадёт из списка.
 
-Осталось: **348**
+Осталось: **343**
 
 ## mob/forest_shotgun.png — 256×256
 
 - Почему: переделать: гоблин не из нашей сказки: нужен ёж-колючник, стреляющий веером иголок
 - Что: angry forest hedgehog with its quills raised, shooting a fan of needles, minion of the location "Dark enchanted Russian forest"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## decor/pool_3.png — 128×128
-
-- Почему: новая картинка
-- Что: small tuft of sedge, location "Dark whirlpool by an old mill"
-- Дополнительно: One small ground decoration seen from a top-down 3/4 game camera, centered, small and simple, transparent background, no ground tile, no shadow plate, no text.
-
-## border/pool_1.png — 256×256
-
-- Почему: новая картинка
-- Что: weeping willow tree, location "Dark whirlpool by an old mill"
-- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
-
-## border/pool_2.png — 256×256
-
-- Почему: новая картинка
-- Что: tall reeds by the water, location "Dark whirlpool by an old mill"
-- Дополнительно: One tall map border object seen from a top-down 3/4 game camera, base near the bottom of the frame with a small margin, fills most of the frame, transparent background, no ground tile or backdrop, no text. Used many times side by side as the wall around the arena.
-
-## mob/road_shotgun.png — 256×256
-
-- Почему: новая картинка
-- Что: robber with an old matchlock gun, minion of the location "Robbers' high road among old oaks"
-- Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
-
-## mob/road_beam.png — 256×256
-
-- Почему: новая картинка
-- Что: robber archer drawing a bow, minion of the location "Robbers' high road among old oaks"
 - Дополнительно: Single character, full body, seen from a top-down 3/4 game camera, facing LEFT, centered, entire silhouette visible, transparent background, no ground or shadow plate.
 
 ## mob/road_twinBeam.png — 256×256

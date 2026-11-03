@@ -1,0 +1,7 @@
+Use case: stylized-concept
+Asset type: single transparent 2D game character sprite for hero/ivan.png, square canvas, to be downscaled to 256x256.
+Primary request: Ivan the peasant son, a young adult bogatyr from Russian folk tales, cheerful and brave, wearing a simple cream linen shirt with red folk embroidery at collar, cuffs and hem, a cloth belt, simple trousers, traditional woven bast shoes with leg wraps. EMPTY HANDS: holding nothing, no weapon, no shield, no tool; the game draws weapons separately over the hero.
+Style/medium: hand-painted cartoon game art in the style of old Russian folk fairy-tale book illustrations, bold dark outlines, chunky readable silhouette, warm earthy palette with saturated red folk-ornament accents, soft cel shading, slightly cute proportions. Simplified shapes and clear details that read well at 256 pixels.
+Composition/framing: ONE single hero only, full body, top-down 3/4 game camera looking down enough to see top of head and shoulders, facing RIGHT (face, torso and feet directed toward the right edge), centered, entire silhouette including hands and bast shoes fully visible, small clear padding on all sides. Confident relaxed ready stance, youthful friendly face, short light brown hair.
+Scene/backdrop: truly transparent alpha background. No ground, no floor, no cast shadow plate, no environment.
+Constraints: no text, no watermark, no frame, no collage, no second character, no weapons of any kind. Preserve transparency.
