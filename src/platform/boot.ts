@@ -28,7 +28,7 @@ export async function boot(): Promise<SaveStorage | null> {
     try {
       await initBridge()
     } catch (e) {
-      console.error('[platform] Bridge failed to start', e)
+      console.warn('[platform] Bridge did not start (its scripts were blocked or the network cut them off)', e)
       // Bridge's own loading picture stays up when it did not start; the lobby goes in front instead.
       if (isStandalone()) document.getElementById('loading-overlay')?.remove()
       bootState.blocked = isStandalone() && !isDevHost()
@@ -50,6 +50,7 @@ export async function boot(): Promise<SaveStorage | null> {
   }
   const b = bridge()
   const storage = b && onRealPlatform() ? bridgeStorage(b) : devStorage
-  if (!onRealPlatform()) console.info(`[platform] ${bootState.platform}: saves in localStorage, ads simulated by Bridge (dev only).`)
+  if (bootState.blocked) console.info('[platform] no Bridge on this site: the lobby opens, battles wait for Bridge.')
+  else if (!onRealPlatform()) console.info(`[platform] ${bootState.platform}: saves in localStorage, ads simulated by Bridge (dev only).`)
   return storage
 }

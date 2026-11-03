@@ -37,12 +37,11 @@ body,
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Portrait play column: full screen on phones, centred column on wide screens. */
+/* The game fills the whole window at any size (Playgama 1.6.1, 1.6.8); menus keep a readable column inside. */
 .stage {
   position: relative;
   height: 100%;
-  width: min(100%, calc(100vh * 0.5625));
-  margin: 0 auto;
+  width: 100%;
   overflow: hidden;
   touch-action: none;
 }
@@ -1450,4 +1449,52 @@ button {
   gap: 12px;
   max-width: 340px;
   text-align: center;
+}
+
+/* ---------- wide and short windows (a monitor, a landscape phone, a square window) ---------- */
+/* Menus keep a readable column in the middle instead of stretching across a monitor. */
+.lobby-body > * {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-aspect-ratio: 5/4) {
+  /* Map: location card on the left, the buttons and hints on the right — all in one screen, no scrolling. */
+  .map-tab {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-auto-rows: min-content;
+    align-content: center;
+    column-gap: 24px;
+    min-height: 100%;
+    padding-top: 0;
+  }
+  .map-tab > .level-carousel {
+    grid-column: 1;
+    grid-row: 1 / span 6;
+    align-self: center;
+  }
+  .map-tab > :not(.level-carousel) {
+    grid-column: 2;
+    justify-self: center;
+  }
+}
+@media (max-height: 640px) {
+  .sprite-icon.island-pic {
+    width: min(240px, 46vh);
+    height: min(180px, 34.5vh);
+  }
+  .level-carousel > .round-nav {
+    top: min(70px, 13vh);
+  }
+}
+/* Shop, cards, pause, results: the content stays a phone-wide column in the middle of a wide window. */
+.screen > * {
+  max-width: 640px;
+}
+.hud-top,
+.hud-row {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }

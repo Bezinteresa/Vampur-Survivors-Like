@@ -65,8 +65,11 @@ export class Renderer {
   private readonly gl: THREE.WebGLRenderer
   private readonly scene = new THREE.Scene()
   private readonly camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -10, 10)
-  private viewW = 520 // world units across the screen width; eases toward zoomTo
-  private viewH = 1000
+  // Camera distance: world units across the shorter side of the screen (the width on a phone held upright,
+  // the height on a wide monitor), so the hero looks the same size either way. Eases toward zoomTo.
+  private viewW = 520
+  private visW = 520 // what is actually visible, world units
+  private visH = 1000
   private aspect = 2 // height / width of the screen
   private zoomFrom = 520
   private zoomTo = 520
@@ -235,11 +238,13 @@ export class Renderer {
   }
 
   private applyView(): void {
-    this.viewH = this.viewW * this.aspect
-    this.camera.left = -this.viewW / 2
-    this.camera.right = this.viewW / 2
-    this.camera.top = this.viewH / 2
-    this.camera.bottom = -this.viewH / 2
+    const portrait = this.aspect >= 1
+    this.visW = portrait ? this.viewW : this.viewW / this.aspect
+    this.visH = portrait ? this.viewW * this.aspect : this.viewW
+    this.camera.left = -this.visW / 2
+    this.camera.right = this.visW / 2
+    this.camera.top = this.visH / 2
+    this.camera.bottom = -this.visH / 2
     this.camera.updateProjectionMatrix()
   }
 
@@ -262,8 +267,8 @@ export class Renderer {
       this.applyView()
     }
     this.camera.position.set(
-      followClamp(p.x, HALF_W, this.viewW / 2),
-      followClamp(p.y, HALF_H, this.viewH / 2),
+      followClamp(p.x, HALF_W, this.visW / 2),
+      followClamp(p.y, HALF_H, this.visH / 2),
       5,
     )
 
