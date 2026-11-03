@@ -36,7 +36,7 @@ function step(d: number) {
           <div class="fill" :style="{ width: `${(100 * p.best[i]) / WAVE_COUNT}%` }"></div>
           <span>{{ p.best[i] }}/{{ WAVE_COUNT }}</span>
         </div>
-        <div class="hint">{{ t('Враги сильнее ×{n}', { n: level.enemyMul }) }}{{ p.cleared[i] ? t(' · босс побеждён') : '' }}</div>
+        <div class="hint">{{ level.enemyMul > 1 ? t('Враги сильнее ×{n}', { n: level.enemyMul }) : '' }}{{ p.cleared[i] ? t(' · босс побеждён') : '' }}</div>
       </div>
       <button class="round-nav" :disabled="i >= MAP_LEVELS.length - 1 || !meta.levelOpen(i + 1)" @click="step(1)"><Icon name="right" /></button>
     </div>

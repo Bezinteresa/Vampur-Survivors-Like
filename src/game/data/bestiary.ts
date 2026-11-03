@@ -81,7 +81,7 @@ export interface LocationDef {
 
 export const LOCATIONS: LocationDef[] = [
   {
-    id: 'forest', name: 'Дремучий лес', enemyMul: 1, ground: '#6b7738',
+    id: 'forest', name: 'Дремучий лес', enemyMul: 0.85, ground: '#6b7738',
     roster: {
       chaser: ['Серый волк', 0x8a929a], roller: ['Дикий вепрь', 0x7a5a44], shotgun: ['Ёж-колючник', 0x8d7a4a],
       beam: ['Гнилушка-светляк', 0x9fc46a], twinBeam: ['Корневик', 0x6e5a3e], splitter: ['Пень-трухляк', 0x6b4f35],
