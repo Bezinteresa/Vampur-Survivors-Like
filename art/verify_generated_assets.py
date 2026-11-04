@@ -19,7 +19,7 @@ for spec in assets:
         if im.size != (spec['w'], spec['h']):
             errors.append(f'Wrong dimensions: {spec["file"]}: {im.size}')
         alpha = im.convert('RGBA').getchannel('A').getextrema()
-        opaque = spec['file'].startswith(('terrain/',))
+        opaque = spec['file'].startswith(('terrain/', 'cover/'))  # ground tiles and store covers have no transparency
         if opaque and alpha != (255, 255):
             errors.append(f'Unexpected transparency: {spec["file"]}')
         # Generated sprites can have near-opaque interiors (254) and valid alpha.
